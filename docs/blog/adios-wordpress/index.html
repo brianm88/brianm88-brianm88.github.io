@@ -487,9 +487,7 @@ h2 + .header-anchor {
 <pre class="language-bash" tabindex="0"><code class="language-bash">npx @11ty/eleventy <span class="token parameter variable">--serve</span></code></pre>
 <p>There I had a working skeleton!  But, I wanted a search bar.  So I found a solution with pagefind: <a href="https://pagefind.app/">pagefind</a></p>
 <p>Pretty much just need to insert this line into one of the pages to get it working.  In my case, inserted it in to /my-repo/_includes/layouts/home.njk</p>
-<pre class="language-http" tabindex="0"><code class="language-http">
-
-&lt;link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<pre class="language-http" tabindex="0"><code class="language-http">&lt;link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 &lt;script src="/pagefind/pagefind-ui.js">&lt;/script>
 &lt;div id="search">&lt;/div>
 &lt;script>
