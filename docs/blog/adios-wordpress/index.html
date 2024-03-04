@@ -509,7 +509,7 @@ npx @11ty/eleventy
 npx <span class="token parameter variable">-y</span> pagefind <span class="token parameter variable">--site</span> _site/
 
 <span class="token comment"># rsync to gitpages folder</span>
-<span class="token function">rsync</span> <span class="token parameter variable">-arui</span> _site/ docs
+<span class="token function">rsync</span> <span class="token parameter variable">-arui</span> <span class="token parameter variable">--delete</span> _site/ docs
 
 <span class="token comment"># Prompt for commit message</span>
 <span class="token builtin class-name">echo</span> <span class="token string">"Enter commit message:"</span>

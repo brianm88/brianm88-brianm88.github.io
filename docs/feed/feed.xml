@@ -49,7 +49,7 @@ npx @11ty/eleventy
 npx &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; pagefind &lt;span class=&quot;token parameter variable&quot;&gt;--site&lt;/span&gt; _site/
 
 &lt;span class=&quot;token comment&quot;&gt;# rsync to gitpages folder&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;rsync&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-arui&lt;/span&gt; _site/ docs
+&lt;span class=&quot;token function&quot;&gt;rsync&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-arui&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--delete&lt;/span&gt; _site/ docs
 
 &lt;span class=&quot;token comment&quot;&gt;# Prompt for commit message&lt;/span&gt;
 &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Enter commit message:&quot;&lt;/span&gt;
