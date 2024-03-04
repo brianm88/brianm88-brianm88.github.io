@@ -95,4 +95,9 @@
 		<loc>https://stinky.blog/tags/wireguard/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/test/</loc>
+		<lastmod>2024-03-04</lastmod>
+	</url>
 </urlset>

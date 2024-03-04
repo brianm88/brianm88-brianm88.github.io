@@ -4,12 +4,37 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-03-03T00:00:00Z</updated>
+	<updated>2024-03-04T21:04:41Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title></title>
+		<link href="https://stinky.blog/blog/test/"/>
+		<updated>2024-03-04T21:04:41Z</updated>
+		<id>https://stinky.blog/blog/test/</id>
+		<content type="html">&lt;p&gt;title: Test Page
+description: This is a test page to test deployment.
+date: 2024-03-04
+tags:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;test&lt;/li&gt;
+&lt;li&gt;eleventy&lt;/li&gt;
+&lt;li&gt;11ty&lt;/li&gt;
+&lt;li&gt;github pages&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;This is a test page!&lt;/p&gt;
+&lt;p&gt;These are some words!&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;these are some ** super ** words!!&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;this-is-a-heading&quot; tabindex=&quot;-1&quot;&gt;This is a heading! &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/test/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;This is some code&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Bye!&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Adios Wordpress?</title>
