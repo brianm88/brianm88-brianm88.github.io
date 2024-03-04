@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
+		<loc>https://stinky.blog/blog/pmx-qbit-wg-lxc/</loc>
+		<lastmod>2022-12-01</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/blog/adios-wordpress/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -28,6 +33,11 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/blog-eleventy-11ty-wordpress-github-pages/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/homelab-lxc-proxmox-qbittorrent-server-torrent-vpn-wireguard/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 </urlset>

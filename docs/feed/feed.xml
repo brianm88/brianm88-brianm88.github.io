@@ -63,4 +63,68 @@ npx &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; pagef
 &lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; push &lt;span class=&quot;token parameter variable&quot;&gt;-u&lt;/span&gt; origin main&lt;/code&gt;&lt;/pre&gt;
 </content>
 	</entry>
+	
+	<entry>
+		<title>Proxmox + Qbittorrent + Wireguard + Samba LXC</title>
+		<link href="https://stinky.blog/blog/pmx-qbit-wg-lxc/"/>
+		<updated>2022-12-01T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/pmx-qbit-wg-lxc/</id>
+		<content type="html">&lt;p&gt;A google search for how to create this type of container will bring up a bunch of malarkey. It doesn’t have to be that complicated. You can set this up in a few minutes super easily. The result is an extremely lightweight and effective torrent box that you can control remotely. It works great on very modest hardware even with lots of traffic flowing.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/0p3kt2JHsC-579.avif 579w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/0p3kt2JHsC-579.webp 579w&quot;&gt;&lt;img alt=&quot;container info&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/0p3kt2JHsC-579.jpeg&quot; width=&quot;579&quot; height=&quot;346&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;first-spin-up-a-container&quot; tabindex=&quot;-1&quot;&gt;First, spin up a container. &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-qbit-wg-lxc/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/RQSkXuO37I-791.avif 791w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/RQSkXuO37I-791.webp 791w&quot;&gt;&lt;img alt=&quot;container creation&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/RQSkXuO37I-791.jpeg&quot; width=&quot;791&quot; height=&quot;387&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Click on the local storage of one of your nodes, go to container templates, and click the Templates button. I am using the ubuntu 22.10-standard template, only 129mb.&lt;/p&gt;
+&lt;p&gt;After downloading the template, right click your node and create the container. On the first page, make sure to uncheck ‘unprivileged container’ so that we will have full write access to the samba share. If you are storing files some other way, you can leave it unprivileged. (You can also achieve write access to cifs shares with an unprivileged container through user mapping if you so choose.)&lt;/p&gt;
+&lt;p&gt;Select the ubuntu template on the next page. I went with the defaults for all the other options except 2 cpu cores and a static IP address.&lt;/p&gt;
+&lt;h2 id=&quot;start-the-container&quot; tabindex=&quot;-1&quot;&gt;Start the container! &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-qbit-wg-lxc/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Now we can start the container and do some stuff.&lt;/p&gt;
+&lt;p&gt;First, login with username root and the password you set during creation. Update everything with&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; update &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; upgrade &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, we need to install a few things&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; wireguard wireguard-tools &lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; qbittorrent-nox cifs-utils iftop&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since we installed cifs-utils in the last step, let’s go ahead and mount the network share. Edit your fstab file:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/fstab&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I have created a user on my NAS named qbit for this service and added it to the samba permissions. It only has access to a folder for downloads. My fstab looks kinda like this:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/oxosvwo3TL-875.avif 875w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/oxosvwo3TL-875.webp 875w&quot;&gt;&lt;img alt=&quot;fstab config&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/oxosvwo3TL-875.jpeg&quot; width=&quot;875&quot; height=&quot;79&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ctrl + X&lt;/strong&gt; to save, then type &lt;strong&gt;reboot&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The share should mount on reboot. If not, check for errors with &lt;strong&gt;journalctl -b&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;let-s-dig-a-wireguard-tunnel&quot; tabindex=&quot;-1&quot;&gt;Let’s dig a wireguard tunnel &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-qbit-wg-lxc/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Now you need to log into your VPN provider of choice and download your wireguard configuration. One easy way to do this would be to drop it on your NAS if you have connected one in the last step.&lt;/p&gt;
+&lt;p&gt;Navigate to wherever you put that config file so we can move it to its final resting place. Below, mine is named wireguard-vpn.conf:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;mv&lt;/span&gt; wireguard-vpn.conf /etc/wireguard/wireguard-vpn.conf &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; /etc/wireguard &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s see if that bad boy works:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;wg-quick up wireguard-vpn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/qBkKeZntks-836.avif 836w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/qBkKeZntks-836.webp 836w&quot;&gt;&lt;img alt=&quot;wireguard output&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/qBkKeZntks-836.jpeg&quot; width=&quot;836&quot; height=&quot;333&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;If you connected successfully, typing &lt;strong&gt;ip addr show&lt;/strong&gt; will list a new tunnel interface at the bottom with your VPN IP!&lt;/p&gt;
+&lt;p&gt;Now make it reconnect automatically on reboot:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; wg-quick@wireguard-vpn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Reboot and hit it with another &lt;strong&gt;ip addr show&lt;/strong&gt; to make sure we’re still connected to the tunnel!&lt;/p&gt;
+&lt;h2 id=&quot;enable-qbittorrent-nox&quot; tabindex=&quot;-1&quot;&gt;Enable qbittorrent-nox &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-qbit-wg-lxc/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We’re on the home stretch! Now make a service that will start qbittorrent-nox automatically on boot:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/systemd/system/qbittorrent-nox.service&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ll keep it super simple:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Unit&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;qBittorrent-nox &lt;span class=&quot;token function&quot;&gt;service&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Documentation&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;man:qbittorrent-nox&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Wants&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;network-online.target
+&lt;span class=&quot;token assign-left variable&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;network-online.target nss-lookup.target
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Service&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;exec
+&lt;span class=&quot;token assign-left variable&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/usr/bin/qbittorrent-nox
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Install&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;multi-user.target&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now enable it and reboot to see if it works:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; qbittorrent-nox &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; systemctl daemon-reload &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;reboot&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Did it work?? You can try it by opening your web browser and typing in the local IP of the machine followed by port 8080!&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/WX1esYhBMp-759.avif 759w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/WX1esYhBMp-759.webp 759w&quot;&gt;&lt;img alt=&quot;working qbit interface&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/WX1esYhBMp-759.jpeg&quot; width=&quot;759&quot; height=&quot;577&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;bind-qbt-nox-to-wireguard-interface&quot; tabindex=&quot;-1&quot;&gt;Bind Qbt-nox to wireguard interface &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-qbit-wg-lxc/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Last step! Go to &lt;strong&gt;Tools -&amp;gt; Options -&amp;gt; Advanced&lt;/strong&gt; and set the client to ONLY use the wireguard tunnel that we have created. If your VPN provides you a static IP, you can optionally set the client to ONLY use this IP as well.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/Ytfrprzav2-837.avif 837w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/Ytfrprzav2-837.webp 837w&quot;&gt;&lt;img alt=&quot;bind to wireguard&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/Ytfrprzav2-837.jpeg&quot; width=&quot;837&quot; height=&quot;969&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Now set your download folder to your samba share in the Downloads tab.&lt;/p&gt;
+&lt;p&gt;That’s it! Now you can log in through this web interface from now on. You never have to access the container directly again. Add torrents by copying and pasting the magnet links into the webui from your phone or any other device!&lt;/p&gt;
+&lt;p&gt;Ensure that traffic is flowing through the wireguard tunnel as expected by running the &lt;strong&gt;iftop&lt;/strong&gt; utility we downloaded earlier.&lt;/p&gt;
+</content>
+	</entry>
 </feed>
