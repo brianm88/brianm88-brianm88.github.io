@@ -4,12 +4,65 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2018-09-30T00:00:00Z</updated>
+	<updated>2024-03-03T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Adios Wordpress?</title>
+		<link href="https://stinky.blog/blog/adios-wordpress/"/>
+		<updated>2024-03-03T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/adios-wordpress/</id>
+		<content type="html">&lt;p&gt;Welcome to my first post on a static site.  Wordpress has been super cool, but I really wanted to try out something simpler and easier to deploy from the commandline.&lt;/p&gt;
+&lt;p&gt;It has been a blast hosting the blog on the VPS and learning the ins-and-outs of securing the server, managing the certificates, and general wordpress admin stuff.  Wordpress plugins have been very awesome and easy to use, even the free ones.  However, it&#39;s just a ton of functionality that I don&#39;t really need.&lt;/p&gt;
+&lt;p&gt;I watched a couple of youtube videos about hosting static sites on github pages with jekyll and other static site generators.  That led me to trying out a few of them before landing on this one, eleventy.&lt;/p&gt;
+&lt;p&gt;To get this running, I created a github repository: username.github.io&lt;/p&gt;
+&lt;p&gt;Then, I cloned the repo to my home folder&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; clone https://github.com/brianm88/brianm88.github.io&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I used this eleventy template: https://github.com/11ty/eleventy-base-blog
+Clone those files to my github folder and ran eleventy:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;npx @11ty/eleventy &lt;span class=&quot;token parameter variable&quot;&gt;--serve&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There I had a working skeleton!  But, I wanted a search bar.  So I found a solution with pagefind: https://pagefind.app/&lt;/p&gt;
+&lt;p&gt;Pretty much just need to insert this line into one of the pages to get it working.  In my case, inserted it in to /my-repo/_includes/layouts/home.jk&lt;/p&gt;
+&lt;pre class=&quot;language-http&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-http&quot;&gt;
+
+&amp;lt;link href=&quot;/pagefind/pagefind-ui.css&quot; rel=&quot;stylesheet&quot;&gt;
+&amp;lt;script src=&quot;/pagefind/pagefind-ui.js&quot;&gt;&amp;lt;/script&gt;
+&amp;lt;div id=&quot;search&quot;&gt;&amp;lt;/div&gt;
+&amp;lt;script&gt;
+    window.addEventListener(&#39;DOMContentLoaded&#39;, (event) =&gt; {
+        new PagefindUI({ element: &quot;#search&quot;, showSubResults: true });
+    });
+&amp;lt;/script&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, you need to run the indexer to let it build an index of your site files.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;npx &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; pagefind &lt;span class=&quot;token parameter variable&quot;&gt;--site&lt;/span&gt; _site&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then I had some weird issues getting github pages to let me select the right folder.  So, I created a /docs/ folder like they suggest, and I just rsynced the stuff into it.  I wrote this into a script so I can execute all this in one command.  The script also takes a commit comment and pushes to github:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 11ty build&lt;/span&gt;
+npx @11ty/eleventy
+
+&lt;span class=&quot;token comment&quot;&gt;# pagefind build index&lt;/span&gt;
+npx &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; pagefind &lt;span class=&quot;token parameter variable&quot;&gt;--site&lt;/span&gt; _site/
+
+&lt;span class=&quot;token comment&quot;&gt;# rsync to gitpages folder&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;rsync&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-arui&lt;/span&gt; _site/ docs
+
+&lt;span class=&quot;token comment&quot;&gt;# Prompt for commit message&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Enter commit message:&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;read&lt;/span&gt; commit_message
+
+&lt;span class=&quot;token comment&quot;&gt;# git operations&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; docs
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$commit_message&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; push &lt;span class=&quot;token parameter variable&quot;&gt;-u&lt;/span&gt; origin main&lt;/code&gt;&lt;/pre&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>This is my fourth post.</title>
