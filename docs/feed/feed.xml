@@ -22,8 +22,8 @@
 &lt;p&gt;To get this running, I created a github repository: username.github.io&lt;/p&gt;
 &lt;p&gt;Then, I cloned the repo to my home folder&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; clone https://github.com/brianm88/brianm88.github.io&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I used this eleventy template: &lt;a href=&quot;https://github.com/11ty/eleventy-base-blog&quot;&gt;eleventy-base-blog&lt;/a&gt;
-Clone those files to my github folder and ran eleventy:&lt;/p&gt;
+&lt;p&gt;I used this eleventy template: &lt;a href=&quot;https://github.com/11ty/eleventy-base-blog&quot;&gt;eleventy-base-blog&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Cloned those files to my github folder and ran eleventy:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;npx @11ty/eleventy &lt;span class=&quot;token parameter variable&quot;&gt;--serve&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;There I had a working skeleton!  But, I wanted a search bar.  So I found a solution with pagefind: &lt;a href=&quot;https://pagefind.app/&quot;&gt;pagefind&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Pretty much just need to insert this line into one of the pages to get it working.  In my case, inserted it in to /my-repo/_includes/layouts/home.jk&lt;/p&gt;
