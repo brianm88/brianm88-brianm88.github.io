@@ -2,8 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
+		<loc>https://stinky.blog/blog/e-waste/e-waste-resurrection/</loc>
+		<lastmod>2022-12-01</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/blog/pmx-qbit-wg-lxc/</loc>
 		<lastmod>2022-12-01</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/pmx-certificate-error/</loc>
+		<lastmod>2023-01-01</lastmod>
 	</url>
 	
 	<url>
@@ -57,17 +67,57 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/proxmox/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/ssl/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/tls/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/ssh/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/cluster-quorum/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/e-waste/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/flashrom/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/homelab/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
+		<loc>https://stinky.blog/tags/laptop/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/proxmox/</loc>
+		<loc>https://stinky.blog/tags/ch341a/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	

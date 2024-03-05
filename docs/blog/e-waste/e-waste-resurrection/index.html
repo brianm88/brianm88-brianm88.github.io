@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Test Page</title>
-		<meta name="description" content="This is a test page to test deployment.">
+		<title>e-waste resurrection</title>
+		<meta name="description" content="Resurrecting a dead laptop to use as a Proxmox server node.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,32 +465,37 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Test Page</h1>
+<h1>e-waste resurrection</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-03-04">04 March 2024</time></li>
-	<li><a href="/tags/test/" class="post-tag">test</a>, </li>
-	<li><a href="/tags/eleventy/" class="post-tag">eleventy</a>, </li>
-	<li><a href="/tags/11ty/" class="post-tag">11ty</a>, </li>
-	<li><a href="/tags/github-pages/" class="post-tag">github pages</a></li>
+	<li><time datetime="2022-12-01">01 December 2022</time></li>
+	<li><a href="/tags/e-waste/" class="post-tag">e-waste</a>, </li>
+	<li><a href="/tags/flashrom/" class="post-tag">flashrom</a>, </li>
+	<li><a href="/tags/homelab/" class="post-tag">homelab</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/laptop/" class="post-tag">laptop</a>, </li>
+	<li><a href="/tags/ch341a/" class="post-tag">ch341a</a></li>
 </ul>
 
-<p>This is a test page!</p>
-<p>These are some words!</p>
-<blockquote>
-<p>these are some <strong>super</strong> words!!</p>
-</blockquote>
-<h2 id="this-is-a-heading" tabindex="-1">This is a heading! <a class="header-anchor" href="#this-is-a-heading">#</a></h2>
-<pre class="language-bash" tabindex="0"><code class="language-bash">This is some code</code></pre>
-<p>Bye!</p>
+<p>Building a homelab on the cheap means using what you have laying around–even if what you have laying around is a dead Dell Inspiron 3521 from a decade ago. This laptop has already lived several lives. It got the wife through college. Before that, it traveled with the mother-in-law for business. It was pretty bad even back then, with a bendy plastic shell, mushy keyboard, and a screen like a gas pump. It does have an ivybridge i3, though! A 17-watt, 2 core, 4 thread behemoth locked at 1.9ghz with no turbo option. It has vt-d support and some usb ports, so it will be perfect as a node in my cluster for light containers and VMs like my NAS and Wireguard tunnels.</p>
+<p>The only problem: it doesn’t boot. It doesn’t even beep!</p>
+<p>Of course the cmos battery had died after all these years. Changing the battery got it to post! but only once. I accidentally knocked the cmos battery back out while it was running and corrupted the bios. It was SUPER dead this time, the cpu fan would only spin a partial turn before giving up.</p>
+<p>But never fear! Fixing a corrupted bios is pretty simple. The only two tools required are another working computer and a ch341a programmer (about $10 on Amazon) like this:</p>
+<p><picture><source type="image/avif" srcset="/img/EJWA0REtGb-600.avif 600w"><source type="image/webp" srcset="/img/EJWA0REtGb-600.webp 600w"><img alt="CH341a programmer" loading="lazy" decoding="async" src="/img/EJWA0REtGb-600.jpeg" width="600" height="595"></picture></p>
+<p>I found a dump of the original bios in a 2014 forum post on badcaps.net (thanks siddiq from ghana!).</p>
+<p>The ch341a comes with an 8-pin clip that connects directly to the pins on the bios chip. It is a little bit wobbly, and it will not read properly until it is making good contact with all 8 pins. You can make sure its working correctly by dumping the bios to a file, and then verifying the checksum against the file. The flashrom guide here was super easy to follow.</p>
+<p><picture><source type="image/avif" srcset="/img/NMj50i8V_A-600.avif 600w"><source type="image/webp" srcset="/img/NMj50i8V_A-600.webp 600w"><img alt="CH341a hooked up to bios chip and thinkpad" loading="lazy" decoding="async" src="/img/NMj50i8V_A-600.jpeg" width="600" height="450"></picture></p>
+<p>Flashrom autodetected the Winbond bios chip, I made a backup dump, and the checksum matched on the first try. I went ahead with flashrom -w on the dump I found online and… tadaaaa!</p>
+<p><picture><source type="image/avif" srcset="/img/77HSpyVhFc-600.avif 600w"><source type="image/webp" srcset="/img/77HSpyVhFc-600.webp 600w"><img alt="e-waste resurrected!  ready to begin a proxmox cluster." loading="lazy" decoding="async" src="/img/77HSpyVhFc-600.jpeg" width="600" height="450"></picture></p>
+<p>It works! Now it is a fully functioning node in my Proxmox cluster. On to rescuing more e-waste for the homelab.</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/adios-wordpress/">Adios Wordpress?</a></li>
+<ul class="links-nextprev"><li>Next: <a href="/blog/pmx-qbit-wg-lxc/">Proxmox + Qbittorrent + Wireguard + Samba LXC</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/test-page/ -->
+		<!-- Current page: /blog/e-waste/e-waste-resurrection/ -->
 	</body>
 </html>

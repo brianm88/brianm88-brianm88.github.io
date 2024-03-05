@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Test Page</title>
-		<meta name="description" content="This is a test page to test deployment.">
+		<title>Proxmox TLS, SSH, Certificate Errors</title>
+		<meta name="description" content="How to fix various ssh, ssl, certificate errors on a Proxmox cluster.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,32 +465,39 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Test Page</h1>
+<h1>Proxmox TLS, SSH, Certificate Errors</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-03-04">04 March 2024</time></li>
-	<li><a href="/tags/test/" class="post-tag">test</a>, </li>
-	<li><a href="/tags/eleventy/" class="post-tag">eleventy</a>, </li>
-	<li><a href="/tags/11ty/" class="post-tag">11ty</a>, </li>
-	<li><a href="/tags/github-pages/" class="post-tag">github pages</a></li>
+	<li><time datetime="2023-01-01">01 January 2023</time></li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/ssl/" class="post-tag">ssl</a>, </li>
+	<li><a href="/tags/tls/" class="post-tag">tls</a>, </li>
+	<li><a href="/tags/ssh/" class="post-tag">ssh</a>, </li>
+	<li><a href="/tags/cluster-quorum/" class="post-tag">cluster quorum</a></li>
 </ul>
 
-<p>This is a test page!</p>
-<p>These are some words!</p>
+<p>Occasionally while adding/removing a node or making other significant changes to your Proxmox cluster, you'll get some errors about unauthorized SSH keys or Certificates.  You might be unable to migrate VMs/containers, unable to use virtual consoles, or unable to access the web interface at all.</p>
+<p>One example error:</p>
 <blockquote>
-<p>these are some <strong>super</strong> words!!</p>
+<p>tls_process_server_certificate: certificate verify failed (596)</p>
 </blockquote>
-<h2 id="this-is-a-heading" tabindex="-1">This is a heading! <a class="header-anchor" href="#this-is-a-heading">#</a></h2>
-<pre class="language-bash" tabindex="0"><code class="language-bash">This is some code</code></pre>
-<p>Bye!</p>
+<p>Generally, executing the following command will fix it right up:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">pvecm updatecerts <span class="token parameter variable">-F</span> <span class="token operator">&amp;&amp;</span> systemctl restart pvedaemon pveproxy</code></pre>
+<p>Sometimes, the nuclear option is required.  That means deleting all instances of the problem node from SSH known_hosts, verifying /etc/hosts info is correct on each node, and then executing the following:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">pvecm updatecerts <span class="token parameter variable">-F</span>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/adios-wordpress/">Adios Wordpress?</a></li>
+<span class="token function">service</span> pve-cluster stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> corosync stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvestatd stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pveproxy stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvedaemon stop
+
+<span class="token function">service</span> pve-cluster start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> corosync start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvestatd start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pveproxy start</code></pre>
+<p>I have had these errors occur after reinstalling Proxmox on a node and attempting to rejoin the cluster with the same hostname/ip.  Performing the steps above usually gets me back in business pretty quickly.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/pmx-qbit-wg-lxc/">Proxmox + Qbittorrent + Wireguard + Samba LXC</a></li><li>Next: <a href="/blog/adios-wordpress/">Adios Wordpress?</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/test-page/ -->
+		<!-- Current page: /blog/pmx-certificate-error/ -->
 	</body>
 </html>
