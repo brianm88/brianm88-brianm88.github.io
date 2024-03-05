@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Proxmox TLS, SSH, Certificate Errors</title>
-		<meta name="description" content="How to fix various ssh, ssl, certificate errors on a Proxmox cluster.">
+		<title>easyengine: simple wordpress + ssl deployment</title>
+		<meta name="description" content="How to use the easyengine docker image to instantly deploy wordpress with ssl.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,39 +465,42 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Proxmox TLS, SSH, Certificate Errors</h1>
+<h1>easyengine: simple wordpress + ssl deployment</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2023-01-01">01 January 2023</time></li>
-	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
-	<li><a href="/tags/ssl/" class="post-tag">ssl</a>, </li>
-	<li><a href="/tags/tls/" class="post-tag">tls</a>, </li>
-	<li><a href="/tags/ssh/" class="post-tag">ssh</a>, </li>
-	<li><a href="/tags/cluster-quorum/" class="post-tag">cluster quorum</a></li>
+	<li><time datetime="2022-12-30">30 December 2022</time></li>
+	<li><a href="/tags/wordpress/" class="post-tag">wordpress</a>, </li>
+	<li><a href="/tags/easyengine/" class="post-tag">easyengine</a>, </li>
+	<li><a href="/tags/docker/" class="post-tag">docker</a>, </li>
+	<li><a href="/tags/vps/" class="post-tag">vps</a></li>
 </ul>
 
-<p>Occasionally while adding/removing a node or making other significant changes to your Proxmox cluster, you'll get some errors about unauthorized SSH keys or Certificates.  You might be unable to migrate VMs/containers, unable to use virtual consoles, or unable to access the web interface at all.</p>
-<p>One example error:</p>
-<blockquote>
-<p>tls_process_server_certificate: certificate verify failed (596)</p>
-</blockquote>
-<p>Generally, executing the following command will fix it right up:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">pvecm updatecerts <span class="token parameter variable">-F</span> <span class="token operator">&amp;&amp;</span> systemctl restart pvedaemon pveproxy</code></pre>
-<p>Sometimes, the nuclear option is required.  That means deleting all instances of the problem node from SSH known_hosts, verifying /etc/hosts info is correct on each node, and then executing the following:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">pvecm updatecerts <span class="token parameter variable">-F</span>
+<h2 id="baby-s-first-vps" tabindex="-1">Baby’s first VPS! <a class="header-anchor" href="#baby-s-first-vps">#</a></h2>
+<p>Now that the homelab cluster is running multiple external services, I’m starting to hit some speed bumps. Using my single domain name with tons of port numbers was working okay to keep services separated for personal use. But now with friends and family connecting and using some of these services, it’s time to switch to easy-to-remember subdomains. I will use a reverse proxy to intercept https requests and send them to the proper IPs and ports.</p>
+<p>That has been easier said than done, though! I have a lot more to learn about virtual hosts, ssl redirect loops, and how to format those dang config files!</p>
+<p>A VPS will allow me to keep some of my crap running externally while I figure all of that out.</p>
+<h2 id="let-s-begin-buy-a-vps-and-start-it" tabindex="-1">Let’s begin – Buy a vps and start it <a class="header-anchor" href="#let-s-begin-buy-a-vps-and-start-it">#</a></h2>
+<p>I was able to find a 1 core, 1.5gb KVM VPS with 3TB monthly bandwidth and 30gb ssd for $16/year from <a href="https://my.racknerd.com/aff.php?aff=6660">RackNerd!</a> Not a bad deal.
+In the RackNerd control panel, I chose Ubuntu 22.04 as the OS for this vps.</p>
+<p>Once you start it up, they will email you some credentials to log in via ssh.</p>
+<p>After logging in, let’s install the latest security updates:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt</span> upgrade <span class="token parameter variable">-y</span></code></pre>
+<p>Use wget to download the easyengine installation script:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">wget</span> <span class="token parameter variable">-qO</span> ee https://rt.cx/ee4 <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> ee</code></pre>
+<p>After the script finishes up, easyengine is ready to go.</p>
+<h2 id="create-a-site" tabindex="-1">Create a site <a class="header-anchor" href="#create-a-site">#</a></h2>
+<p>For most users, a single site with proxy caching on and SSL enabled through Let’s Encrypt is the best choice:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">ee site create stinky.blog –type<span class="token operator">=</span>wp –ssl<span class="token operator">=</span>le –proxy-cache<span class="token operator">=</span>on –proxy-cache-max-size<span class="token operator">=</span>1g –proxy-cache-max-time<span class="token operator">=</span>30s</code></pre>
+<p>Replace stinky.blog with your domain.</p>
+<p>That’s it– it’s online! Access your site at http://<em>your_url</em>.com/wp-admin/ and start creating pages.</p>
 
-<span class="token function">service</span> pve-cluster stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> corosync stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvestatd stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pveproxy stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvedaemon stop
-
-<span class="token function">service</span> pve-cluster start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> corosync start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvestatd start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pveproxy start</code></pre>
-<p>I have had these errors occur after reinstalling Proxmox on a node and attempting to rejoin the cluster with the same hostname/ip.  Performing the steps above usually gets me back in business pretty quickly.</p>
-
-<ul class="links-nextprev"><li>Previous: <a href="/blog/easyengine/">easyengine: simple wordpress + ssl deployment</a></li><li>Next: <a href="/blog/pmx-power-consumption/">Reducing power consumption of Proxmox nodes</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/pmx-qbit-wg-lxc/">Proxmox + Qbittorrent + Wireguard + Samba LXC</a></li><li>Next: <a href="/blog/pmx-certificate-error/">Proxmox TLS, SSH, Certificate Errors</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/pmx-certificate-error/ -->
+		<!-- Current page: /blog/easyengine/ -->
 	</body>
 </html>

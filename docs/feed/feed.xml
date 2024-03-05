@@ -63,6 +63,36 @@ npx &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; pagef
 	</entry>
 	
 	<entry>
+		<title>Reducing power consumption of Proxmox nodes</title>
+		<link href="https://stinky.blog/blog/pmx-power-consumption/"/>
+		<updated>2023-09-07T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/pmx-power-consumption/</id>
+		<content type="html">&lt;p&gt;I noticed the other day that my proxmox nodes are running at max turbo frequency all the time. Even when there is virtually zero activity, the 8700 and 7700k are sitting at 4.2ghz+ on all cores. The little x270 stays locked at 3.4ghz on its two cores. Since these servers idle a huge amount, they really don’t need to be at max turbo constantly. I saw it recommended on the Proxmox forum to change the cpu governor. Does it work?&lt;/p&gt;
+&lt;h2 id=&quot;let-s-measure-the-power-consumption&quot; tabindex=&quot;-1&quot;&gt;Let&#39;s measure the power consumption. &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-power-consumption/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;First, we need to install linux-cpupower&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; linux-cpupower&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then we can run turbostat to get a rough idea:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;turbostat –quiet –show Package,Busy%,Bzy_MHz,PkgTmp,PkgWatt,CoreTmp –interval &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With the default governor, my i7-8700 was idling at around ~8.2 watts according to &amp;quot;PkgWatt&amp;quot;.&lt;/p&gt;
+&lt;h2 id=&quot;let-s-change-the-cpu-governor&quot; tabindex=&quot;-1&quot;&gt;Let&#39;s change the cpu governor &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-power-consumption/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Changing the governor is pretty easy:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; “powersave” &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tee&lt;/span&gt; /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now run the turbostat command again to see how the cpu frequency and power consumption have changed.&lt;/p&gt;
+&lt;p&gt;My i7-8700 is now idling around ~2.9 watts according to &amp;quot;PkgWatt&amp;quot;.&lt;/p&gt;
+&lt;p&gt;Pretty nice reductions! Haven’t noticed any changes in performance for my normal services, since the turbo just ramps back up as expected when you apply a load.&lt;/p&gt;
+&lt;p&gt;You can revert the change back to default easily:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; “performance” &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tee&lt;/span&gt; /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;to-make-this-setting-persist-on-reboot&quot; tabindex=&quot;-1&quot;&gt;To make this setting persist on reboot: &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-power-consumption/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;You need to add a line to your crontab.  Open up the root user&#39;s crontab:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;crontab&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and add the following line at the bottom:&lt;/p&gt;
+&lt;p&gt;@reboot echo &amp;quot;powersave&amp;quot; | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor&lt;/p&gt;
+&lt;p&gt;Save and reboot to test it.  Happy homelabbing!&lt;/p&gt;
+&lt;p&gt;Happy homelabbing!&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
 		<title>Proxmox TLS, SSH, Certificate Errors</title>
 		<link href="https://stinky.blog/blog/pmx-certificate-error/"/>
 		<updated>2023-01-01T00:00:00Z</updated>
@@ -81,6 +111,32 @@ npx &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; pagef
 
 &lt;span class=&quot;token function&quot;&gt;service&lt;/span&gt; pve-cluster start &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;service&lt;/span&gt; corosync start &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;service&lt;/span&gt; pvestatd start &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;service&lt;/span&gt; pveproxy start&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;I have had these errors occur after reinstalling Proxmox on a node and attempting to rejoin the cluster with the same hostname/ip.  Performing the steps above usually gets me back in business pretty quickly.&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>easyengine: simple wordpress + ssl deployment</title>
+		<link href="https://stinky.blog/blog/easyengine/"/>
+		<updated>2022-12-30T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/easyengine/</id>
+		<content type="html">&lt;h2 id=&quot;baby-s-first-vps&quot; tabindex=&quot;-1&quot;&gt;Baby’s first VPS! &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/easyengine/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Now that the homelab cluster is running multiple external services, I’m starting to hit some speed bumps. Using my single domain name with tons of port numbers was working okay to keep services separated for personal use. But now with friends and family connecting and using some of these services, it’s time to switch to easy-to-remember subdomains. I will use a reverse proxy to intercept https requests and send them to the proper IPs and ports.&lt;/p&gt;
+&lt;p&gt;That has been easier said than done, though! I have a lot more to learn about virtual hosts, ssl redirect loops, and how to format those dang config files!&lt;/p&gt;
+&lt;p&gt;A VPS will allow me to keep some of my crap running externally while I figure all of that out.&lt;/p&gt;
+&lt;h2 id=&quot;let-s-begin-buy-a-vps-and-start-it&quot; tabindex=&quot;-1&quot;&gt;Let’s begin – Buy a vps and start it &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/easyengine/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I was able to find a 1 core, 1.5gb KVM VPS with 3TB monthly bandwidth and 30gb ssd for $16/year from &lt;a href=&quot;https://my.racknerd.com/aff.php?aff=6660&quot;&gt;RackNerd!&lt;/a&gt; Not a bad deal.
+In the RackNerd control panel, I chose Ubuntu 22.04 as the OS for this vps.&lt;/p&gt;
+&lt;p&gt;Once you start it up, they will email you some credentials to log in via ssh.&lt;/p&gt;
+&lt;p&gt;After logging in, let’s install the latest security updates:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; update &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; upgrade &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Use wget to download the easyengine installation script:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;wget&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-qO&lt;/span&gt; ee https://rt.cx/ee4 &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;bash&lt;/span&gt; ee&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After the script finishes up, easyengine is ready to go.&lt;/p&gt;
+&lt;h2 id=&quot;create-a-site&quot; tabindex=&quot;-1&quot;&gt;Create a site &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/easyengine/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;For most users, a single site with proxy caching on and SSL enabled through Let’s Encrypt is the best choice:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;ee site create stinky.blog –type&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;wp –ssl&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;le –proxy-cache&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;on –proxy-cache-max-size&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;1g –proxy-cache-max-time&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;30s&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Replace stinky.blog with your domain.&lt;/p&gt;
+&lt;p&gt;That’s it– it’s online! Access your site at http://&lt;em&gt;your_url&lt;/em&gt;.com/wp-admin/ and start creating pages.&lt;/p&gt;
 </content>
 	</entry>
 	

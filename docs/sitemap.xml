@@ -12,8 +12,18 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/blog/easyengine/</loc>
+		<lastmod>2022-12-30</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/blog/pmx-certificate-error/</loc>
 		<lastmod>2023-01-01</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/pmx-power-consumption/</loc>
+		<lastmod>2023-09-07</lastmod>
 	</url>
 	
 	<url>
@@ -67,6 +77,21 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/easyengine/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/docker/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vps/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/proxmox/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -88,6 +113,16 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/cluster-quorum/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/power-consumption/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/cpu-governor/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	

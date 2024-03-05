@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Proxmox TLS, SSH, Certificate Errors</title>
-		<meta name="description" content="How to fix various ssh, ssl, certificate errors on a Proxmox cluster.">
+		<title>Reducing power consumption of Proxmox nodes</title>
+		<meta name="description" content="How to change the cpu governor for Proxmox nodes, and make it persist on reboot.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,39 +465,45 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Proxmox TLS, SSH, Certificate Errors</h1>
+<h1>Reducing power consumption of Proxmox nodes</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2023-01-01">01 January 2023</time></li>
+	<li><time datetime="2023-09-07">07 September 2023</time></li>
 	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
-	<li><a href="/tags/ssl/" class="post-tag">ssl</a>, </li>
-	<li><a href="/tags/tls/" class="post-tag">tls</a>, </li>
-	<li><a href="/tags/ssh/" class="post-tag">ssh</a>, </li>
-	<li><a href="/tags/cluster-quorum/" class="post-tag">cluster quorum</a></li>
+	<li><a href="/tags/power-consumption/" class="post-tag">power consumption</a>, </li>
+	<li><a href="/tags/cpu-governor/" class="post-tag">cpu governor</a></li>
 </ul>
 
-<p>Occasionally while adding/removing a node or making other significant changes to your Proxmox cluster, you'll get some errors about unauthorized SSH keys or Certificates.  You might be unable to migrate VMs/containers, unable to use virtual consoles, or unable to access the web interface at all.</p>
-<p>One example error:</p>
-<blockquote>
-<p>tls_process_server_certificate: certificate verify failed (596)</p>
-</blockquote>
-<p>Generally, executing the following command will fix it right up:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">pvecm updatecerts <span class="token parameter variable">-F</span> <span class="token operator">&amp;&amp;</span> systemctl restart pvedaemon pveproxy</code></pre>
-<p>Sometimes, the nuclear option is required.  That means deleting all instances of the problem node from SSH known_hosts, verifying /etc/hosts info is correct on each node, and then executing the following:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">pvecm updatecerts <span class="token parameter variable">-F</span>
+<p>I noticed the other day that my proxmox nodes are running at max turbo frequency all the time. Even when there is virtually zero activity, the 8700 and 7700k are sitting at 4.2ghz+ on all cores. The little x270 stays locked at 3.4ghz on its two cores. Since these servers idle a huge amount, they really don’t need to be at max turbo constantly. I saw it recommended on the Proxmox forum to change the cpu governor. Does it work?</p>
+<h2 id="let-s-measure-the-power-consumption" tabindex="-1">Let's measure the power consumption. <a class="header-anchor" href="#let-s-measure-the-power-consumption">#</a></h2>
+<p>First, we need to install linux-cpupower</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> linux-cpupower</code></pre>
+<p>Then we can run turbostat to get a rough idea:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">turbostat –quiet –show Package,Busy%,Bzy_MHz,PkgTmp,PkgWatt,CoreTmp –interval <span class="token number">5</span></code></pre>
+<p>With the default governor, my i7-8700 was idling at around ~8.2 watts according to &quot;PkgWatt&quot;.</p>
+<h2 id="let-s-change-the-cpu-governor" tabindex="-1">Let's change the cpu governor <a class="header-anchor" href="#let-s-change-the-cpu-governor">#</a></h2>
+<p>Changing the governor is pretty easy:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">echo</span> “powersave” <span class="token operator">|</span> <span class="token function">tee</span> /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor</code></pre>
+<p>Now run the turbostat command again to see how the cpu frequency and power consumption have changed.</p>
+<p>My i7-8700 is now idling around ~2.9 watts according to &quot;PkgWatt&quot;.</p>
+<p>Pretty nice reductions! Haven’t noticed any changes in performance for my normal services, since the turbo just ramps back up as expected when you apply a load.</p>
+<p>You can revert the change back to default easily:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">echo</span> “performance” <span class="token operator">|</span> <span class="token function">tee</span> /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor</code></pre>
+<h2 id="to-make-this-setting-persist-on-reboot" tabindex="-1">To make this setting persist on reboot: <a class="header-anchor" href="#to-make-this-setting-persist-on-reboot">#</a></h2>
+<p>You need to add a line to your crontab.  Open up the root user's crontab:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">crontab</span> <span class="token parameter variable">-e</span></code></pre>
+<p>and add the following line at the bottom:</p>
+<p>@reboot echo &quot;powersave&quot; | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor</p>
+<p>Save and reboot to test it.  Happy homelabbing!</p>
+<p>Happy homelabbing!</p>
 
-<span class="token function">service</span> pve-cluster stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> corosync stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvestatd stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pveproxy stop <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvedaemon stop
-
-<span class="token function">service</span> pve-cluster start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> corosync start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pvestatd start <span class="token operator">&amp;&amp;</span> <span class="token function">service</span> pveproxy start</code></pre>
-<p>I have had these errors occur after reinstalling Proxmox on a node and attempting to rejoin the cluster with the same hostname/ip.  Performing the steps above usually gets me back in business pretty quickly.</p>
-
-<ul class="links-nextprev"><li>Previous: <a href="/blog/easyengine/">easyengine: simple wordpress + ssl deployment</a></li><li>Next: <a href="/blog/pmx-power-consumption/">Reducing power consumption of Proxmox nodes</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/pmx-certificate-error/">Proxmox TLS, SSH, Certificate Errors</a></li><li>Next: <a href="/blog/adios-wordpress/">Adios Wordpress?</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/pmx-certificate-error/ -->
+		<!-- Current page: /blog/pmx-power-consumption/ -->
 	</body>
 </html>
