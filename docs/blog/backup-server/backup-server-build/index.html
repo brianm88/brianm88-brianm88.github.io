@@ -553,7 +553,8 @@ h2 + .header-anchor {
 <p>Pretty simple, just slapped Proxmox on it, installed Proxmox Backup Server alongside it.</p>
 <p>The ZFS pool is setup as a striped mirror, with two drives in each vdev. Ashift=12, compression=LZ4, recordsize=1M.</p>
 <h2 id="first-impressions" tabindex="-1">First impressions <a class="header-anchor" href="#first-impressions">#</a></h2>
-<p>Backups and restores are roughly ~10x faster!  Live restores work great.  This node has 8 times as much memory as the old x270 has, so I'm able to run a lot more VMs on it as well.  Pretty good deal!</p>
+<p><picture><source type="image/avif" srcset="/img/mtuSOuIa1e-400.avif 400w"><source type="image/webp" srcset="/img/mtuSOuIa1e-400.webp 400w"><img alt="Backup speed" loading="lazy" decoding="async" src="/img/mtuSOuIa1e-400.jpeg" width="400" height="290"></picture></p>
+<p>Backups and restores are roughly ~10x faster!  Old backup server would write at about ~20MB/s.  Now backups are writing at 250MB/s+.  Live restores work great.  This node also has 8 times as much memory as the old x270 has, so I'm able to run a lot more VMs on it as well.  Pretty good deal!</p>
 <p>Very excited to delve deeper into ZFS and start testing my workload and optimizing the pool settings.</p>
 <p>I have been messing with recordsizes, volblocksizes, SLOG devices, and L2arc already!  The next post will contain some of my findings.</p>
 <p>Happy homelabbing!</p>

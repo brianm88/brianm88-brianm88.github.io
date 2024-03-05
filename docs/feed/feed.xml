@@ -93,7 +93,8 @@
 &lt;p&gt;Pretty simple, just slapped Proxmox on it, installed Proxmox Backup Server alongside it.&lt;/p&gt;
 &lt;p&gt;The ZFS pool is setup as a striped mirror, with two drives in each vdev. Ashift=12, compression=LZ4, recordsize=1M.&lt;/p&gt;
 &lt;h2 id=&quot;first-impressions&quot; tabindex=&quot;-1&quot;&gt;First impressions &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/backup-server/backup-server-build/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Backups and restores are roughly ~10x faster!  Live restores work great.  This node has 8 times as much memory as the old x270 has, so I&#39;m able to run a lot more VMs on it as well.  Pretty good deal!&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/mtuSOuIa1e-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/mtuSOuIa1e-400.webp 400w&quot;&gt;&lt;img alt=&quot;Backup speed&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/mtuSOuIa1e-400.jpeg&quot; width=&quot;400&quot; height=&quot;290&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Backups and restores are roughly ~10x faster!  Old backup server would write at about ~20MB/s.  Now backups are writing at 250MB/s+.  Live restores work great.  This node also has 8 times as much memory as the old x270 has, so I&#39;m able to run a lot more VMs on it as well.  Pretty good deal!&lt;/p&gt;
 &lt;p&gt;Very excited to delve deeper into ZFS and start testing my workload and optimizing the pool settings.&lt;/p&gt;
 &lt;p&gt;I have been messing with recordsizes, volblocksizes, SLOG devices, and L2arc already!  The next post will contain some of my findings.&lt;/p&gt;
 &lt;p&gt;Happy homelabbing!&lt;/p&gt;
