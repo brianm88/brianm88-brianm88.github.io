@@ -4,12 +4,101 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-03-03T00:00:00Z</updated>
+	<updated>2024-03-05T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Building a better backup server</title>
+		<link href="https://stinky.blog/blog/backup-server/backup-server-build/"/>
+		<updated>2024-03-05T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/backup-server/backup-server-build/</id>
+		<content type="html">&lt;p&gt;It&#39;s always exciting to get new homelab stuff!  Here&#39;s what I&#39;ve been up to.&lt;/p&gt;
+&lt;p&gt;My old Proxmox Backup Server has been running on a Thinkpad x270 with a 5TB external USB drive for a little over a year now.  It is installed alongside the hypervisor, with ZFS on the datastore.  It&#39;s been working great!  Backup times were not &lt;em&gt;that&lt;/em&gt; bad, but restore times were really slow.&lt;/p&gt;
+&lt;p&gt;I still use that node as a secondary backup server, which will clone the primary backup datastore daily.  I plan to move it to my mom&#39;s house and leave it connected via tailscale as part of my little &amp;quot;3-2-1&amp;quot; backup plan.&lt;/p&gt;
+&lt;p&gt;I wanted to build a better, faster PBS server that can also double as a robust Proxmox node for other tasks.  I also wanted to do it cheap!  So I started hunting on ebay...&lt;/p&gt;
+&lt;h2 id=&quot;the-new-server&quot; tabindex=&quot;-1&quot;&gt;The new server &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/backup-server/backup-server-build/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;You already know I bought another Thinkstation.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/zzH1bw69e7-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/zzH1bw69e7-400.webp 400w&quot;&gt;&lt;img alt=&quot;Thinkstation P320&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/zzH1bw69e7-400.jpeg&quot; width=&quot;400&quot; height=&quot;533&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;I bought a P320 Tower, little brother to the P330 SFF I already have. It came with an i7-7700k, 512gb nvme, and 32gb of ddr4.&lt;/p&gt;
+&lt;p&gt;Here are the parts I was able to get and the prices:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Quantity&lt;/th&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Price&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Thinkstation P320&lt;/td&gt;
+&lt;td&gt;$163&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;12TB Toshiba MG07ACA12TEY (new)&lt;/td&gt;
+&lt;td&gt;$100/each&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;12TB WD HUH721212AL (used)&lt;/td&gt;
+&lt;td&gt;$90/each&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;32GB Timetec ddr4 2600&lt;/td&gt;
+&lt;td&gt;$50&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;10gbe Intel X520 nic&lt;/td&gt;
+&lt;td&gt;$20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Orico hot swap bay adapter 5.25&amp;quot;&lt;/td&gt;
+&lt;td&gt;$18&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;---&lt;/td&gt;
+&lt;td&gt;---&lt;/td&gt;
+&lt;td&gt;---&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Total&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;$649&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;So for less than the cost of a decent NAS with no disks, I was able to get 48TBs, 10gbe, 64gb ram and a fairly strong kaby lake cpu.  One day when we reach a post-scarcity society, I&#39;ll swap to ECC memory and get more flash storage.&lt;/p&gt;
+&lt;h2 id=&quot;hardware&quot; tabindex=&quot;-1&quot;&gt;Hardware &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/backup-server/backup-server-build/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Both the &amp;quot;new&amp;quot; drives and the &amp;quot;used&amp;quot; drives came in Dell hotswap bays, which I had to remove.&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/u6qDAQKe0l-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/u6qDAQKe0l-400.webp 400w&quot;&gt;&lt;img alt=&quot;Dell drive caddy&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/u6qDAQKe0l-400.jpeg&quot; width=&quot;400&quot; height=&quot;533&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;This case only has 2 slots for 3.5&amp;quot; drives, so I slipped the little plastic Lenovo caddy on two of them.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/DOZ-EKQ58A-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/DOZ-EKQ58A-400.webp 400w&quot;&gt;&lt;img alt=&quot;Lenovo drive caddy&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/DOZ-EKQ58A-400.jpeg&quot; width=&quot;400&quot; height=&quot;300&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;For the other two drives, I used the two hotswap bays from Amazon.  Very cool little devices for $18!&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/6h_VGyvyih-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/6h_VGyvyih-400.webp 400w&quot;&gt;&lt;img alt=&quot;Hot swap bay&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/6h_VGyvyih-400.jpeg&quot; width=&quot;400&quot; height=&quot;300&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Pretty tidy!  There is a garbage SSD free-floating around in there.  We&#39;ll chat more about that in the ZFS optimization post. (Foreshadowing:  awful SSDs make awful SLOG/L2Arc devices)&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/6T6z6DWQvc-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/6T6z6DWQvc-400.webp 400w&quot;&gt;&lt;img alt=&quot;Server internals with drives hooked up&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/6T6z6DWQvc-400.jpeg&quot; width=&quot;400&quot; height=&quot;300&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;It looks pretty awesome with the drive bays now!  The lights are REALLY bright though, if that&#39;s not your thing.  Blue when powered on, red for activity.  It&#39;s like a police raid when the backups are running.&lt;/p&gt;
+&lt;p&gt;Excuse the wires, had to plug in a monitor to troubleshoot (network cable was plugged into wrong port):&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/8xnhi5QQGN-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/8xnhi5QQGN-400.webp 400w&quot;&gt;&lt;img alt=&quot;Server rack with backup server installed&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/8xnhi5QQGN-400.jpeg&quot; width=&quot;400&quot; height=&quot;533&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;initial-config&quot; tabindex=&quot;-1&quot;&gt;Initial config &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/backup-server/backup-server-build/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Pretty simple, just slapped Proxmox on it, installed Proxmox Backup Server alongside it.&lt;/p&gt;
+&lt;p&gt;The ZFS pool is setup as a striped mirror, with two drives in each vdev. Ashift=12, compression=LZ4, recordsize=1M.&lt;/p&gt;
+&lt;h2 id=&quot;first-impressions&quot; tabindex=&quot;-1&quot;&gt;First impressions &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/backup-server/backup-server-build/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Backups and restores are roughly ~10x faster!  Live restores work great.  This node has 8 times as much memory as the old x270 has, so I&#39;m able to run a lot more VMs on it as well.  Pretty good deal!&lt;/p&gt;
+&lt;p&gt;Very excited to delve deeper into ZFS and start testing my workload and optimizing the pool settings.&lt;/p&gt;
+&lt;p&gt;I have been messing with recordsizes, volblocksizes, SLOG devices, and L2arc already!  The next post will contain some of my findings.&lt;/p&gt;
+&lt;p&gt;Happy homelabbing!&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Adios Wordpress?</title>

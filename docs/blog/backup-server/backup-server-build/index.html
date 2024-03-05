@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Adios Wordpress?</title>
-		<meta name="description" content="This is my first post using eleventy and it&#39;s great so far.">
+		<title>Building a better backup server</title>
+		<meta name="description" content="Build log of my Proxmox Backup Server.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,68 +465,106 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Adios Wordpress?</h1>
+<h1>Building a better backup server</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-03-03">03 March 2024</time></li>
-	<li><a href="/tags/blog/" class="post-tag">blog</a>, </li>
-	<li><a href="/tags/eleventy/" class="post-tag">eleventy</a>, </li>
-	<li><a href="/tags/11ty/" class="post-tag">11ty</a>, </li>
-	<li><a href="/tags/wordpress/" class="post-tag">wordpress</a>, </li>
-	<li><a href="/tags/github-pages/" class="post-tag">github pages</a></li>
+	<li><time datetime="2024-03-05">05 March 2024</time></li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/proxmox-backup-server/" class="post-tag">proxmox backup server</a>, </li>
+	<li><a href="/tags/zfs/" class="post-tag">zfs</a>, </li>
+	<li><a href="/tags/homelab/" class="post-tag">homelab</a>, </li>
+	<li><a href="/tags/thinkstation/" class="post-tag">thinkstation</a></li>
 </ul>
 
-<p>Welcome to my first post on a static site.  Wordpress has been super cool, but I really wanted to try out something simpler and easier to deploy from the commandline.</p>
-<p>It has been a blast hosting the blog on the VPS and learning the ins-and-outs of securing the server, managing the certificates, and general wordpress admin stuff.  Wordpress plugins have been very awesome and easy to use, even the free ones.  However, it's just a ton of functionality that I don't really need.</p>
-<p>I watched a couple of youtube videos about hosting static sites on github pages with jekyll and other static site generators.  That led me to trying out a few of them before landing on this one, eleventy.</p>
-<p>To get this running, I created a github repository: username.github.io</p>
-<p>Then, I cloned the repo to my home folder</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">git</span> clone https://github.com/brianm88/brianm88.github.io</code></pre>
-<p>I used this eleventy template: <a href="https://github.com/11ty/eleventy-base-blog">eleventy-base-blog</a></p>
-<p>Cloned those files to my github folder and ran eleventy:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">npx @11ty/eleventy <span class="token parameter variable">--serve</span></code></pre>
-<p>There I had a working skeleton!  But, I wanted a search bar.  So I found a solution with pagefind: <a href="https://pagefind.app/">pagefind</a></p>
-<p>Pretty much just need to insert this line into one of the pages to get it working.  In my case, inserted it in to /my-repo/_includes/layouts/home.njk</p>
-<pre class="language-http" tabindex="0"><code class="language-http">&lt;link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-&lt;script src="/pagefind/pagefind-ui.js">&lt;/script>
-&lt;div id="search">&lt;/div>
-&lt;script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        new PagefindUI({ element: "#search", showSubResults: true });
-    });
-&lt;/script></code></pre>
-<p>Then, you need to run the indexer to let it build an index of your site files.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">npx <span class="token parameter variable">-y</span> pagefind <span class="token parameter variable">--site</span> _site</code></pre>
-<p>Then I had some weird issues getting github pages to let me select the right folder.  So, I created a /docs/ folder like they suggest, and I just rsynced the stuff into it.  I wrote this into a script so I can execute all this in one command.  The script also takes a commit comment and pushes to github:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+<p>It's always exciting to get new homelab stuff!  Here's what I've been up to.</p>
+<p>My old Proxmox Backup Server has been running on a Thinkpad x270 with a 5TB external USB drive for a little over a year now.  It is installed alongside the hypervisor, with ZFS on the datastore.  It's been working great!  Backup times were not <em>that</em> bad, but restore times were really slow.</p>
+<p>I still use that node as a secondary backup server, which will clone the primary backup datastore daily.  I plan to move it to my mom's house and leave it connected via tailscale as part of my little &quot;3-2-1&quot; backup plan.</p>
+<p>I wanted to build a better, faster PBS server that can also double as a robust Proxmox node for other tasks.  I also wanted to do it cheap!  So I started hunting on ebay...</p>
+<h2 id="the-new-server" tabindex="-1">The new server <a class="header-anchor" href="#the-new-server">#</a></h2>
+<p>You already know I bought another Thinkstation.</p>
+<p><picture><source type="image/avif" srcset="/img/zzH1bw69e7-400.avif 400w"><source type="image/webp" srcset="/img/zzH1bw69e7-400.webp 400w"><img alt="Thinkstation P320" loading="lazy" decoding="async" src="/img/zzH1bw69e7-400.jpeg" width="400" height="533"></picture></p>
+<p>I bought a P320 Tower, little brother to the P330 SFF I already have. It came with an i7-7700k, 512gb nvme, and 32gb of ddr4.</p>
+<p>Here are the parts I was able to get and the prices:</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Item</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Thinkstation P320</td>
+<td>$163</td>
+</tr>
+<tr>
+<td>2</td>
+<td>12TB Toshiba MG07ACA12TEY (new)</td>
+<td>$100/each</td>
+</tr>
+<tr>
+<td>2</td>
+<td>12TB WD HUH721212AL (used)</td>
+<td>$90/each</td>
+</tr>
+<tr>
+<td>1</td>
+<td>32GB Timetec ddr4 2600</td>
+<td>$50</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10gbe Intel X520 nic</td>
+<td>$20</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Orico hot swap bay adapter 5.25&quot;</td>
+<td>$18</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td>Total</td>
+<td></td>
+<td>$649</td>
+</tr>
+</tbody>
+</table>
+<p>So for less than the cost of a decent NAS with no disks, I was able to get 48TBs, 10gbe, 64gb ram and a fairly strong kaby lake cpu.  One day when we reach a post-scarcity society, I'll swap to ECC memory and get more flash storage.</p>
+<h2 id="hardware" tabindex="-1">Hardware <a class="header-anchor" href="#hardware">#</a></h2>
+<p>Both the &quot;new&quot; drives and the &quot;used&quot; drives came in Dell hotswap bays, which I had to remove.<br>
+<picture><source type="image/avif" srcset="/img/u6qDAQKe0l-400.avif 400w"><source type="image/webp" srcset="/img/u6qDAQKe0l-400.webp 400w"><img alt="Dell drive caddy" loading="lazy" decoding="async" src="/img/u6qDAQKe0l-400.jpeg" width="400" height="533"></picture></p>
+<p>This case only has 2 slots for 3.5&quot; drives, so I slipped the little plastic Lenovo caddy on two of them.</p>
+<p><picture><source type="image/avif" srcset="/img/DOZ-EKQ58A-400.avif 400w"><source type="image/webp" srcset="/img/DOZ-EKQ58A-400.webp 400w"><img alt="Lenovo drive caddy" loading="lazy" decoding="async" src="/img/DOZ-EKQ58A-400.jpeg" width="400" height="300"></picture></p>
+<p>For the other two drives, I used the two hotswap bays from Amazon.  Very cool little devices for $18!</p>
+<p><picture><source type="image/avif" srcset="/img/6h_VGyvyih-400.avif 400w"><source type="image/webp" srcset="/img/6h_VGyvyih-400.webp 400w"><img alt="Hot swap bay" loading="lazy" decoding="async" src="/img/6h_VGyvyih-400.jpeg" width="400" height="300"></picture></p>
+<p>Pretty tidy!  There is a garbage SSD free-floating around in there.  We'll chat more about that in the ZFS optimization post. (Foreshadowing:  awful SSDs make awful SLOG/L2Arc devices)</p>
+<p><picture><source type="image/avif" srcset="/img/6T6z6DWQvc-400.avif 400w"><source type="image/webp" srcset="/img/6T6z6DWQvc-400.webp 400w"><img alt="Server internals with drives hooked up" loading="lazy" decoding="async" src="/img/6T6z6DWQvc-400.jpeg" width="400" height="300"></picture></p>
+<p>It looks pretty awesome with the drive bays now!  The lights are REALLY bright though, if that's not your thing.  Blue when powered on, red for activity.  It's like a police raid when the backups are running.</p>
+<p>Excuse the wires, had to plug in a monitor to troubleshoot (network cable was plugged into wrong port):</p>
+<p><picture><source type="image/avif" srcset="/img/8xnhi5QQGN-400.avif 400w"><source type="image/webp" srcset="/img/8xnhi5QQGN-400.webp 400w"><img alt="Server rack with backup server installed" loading="lazy" decoding="async" src="/img/8xnhi5QQGN-400.jpeg" width="400" height="533"></picture></p>
+<h2 id="initial-config" tabindex="-1">Initial config <a class="header-anchor" href="#initial-config">#</a></h2>
+<p>Pretty simple, just slapped Proxmox on it, installed Proxmox Backup Server alongside it.</p>
+<p>The ZFS pool is setup as a striped mirror, with two drives in each vdev. Ashift=12, compression=LZ4, recordsize=1M.</p>
+<h2 id="first-impressions" tabindex="-1">First impressions <a class="header-anchor" href="#first-impressions">#</a></h2>
+<p>Backups and restores are roughly ~10x faster!  Live restores work great.  This node has 8 times as much memory as the old x270 has, so I'm able to run a lot more VMs on it as well.  Pretty good deal!</p>
+<p>Very excited to delve deeper into ZFS and start testing my workload and optimizing the pool settings.</p>
+<p>I have been messing with recordsizes, volblocksizes, SLOG devices, and L2arc already!  The next post will contain some of my findings.</p>
+<p>Happy homelabbing!</p>
 
-<span class="token builtin class-name">set</span> <span class="token parameter variable">-e</span>
-
-<span class="token comment"># 11ty build</span>
-npx @11ty/eleventy
-
-<span class="token comment"># pagefind build index</span>
-npx <span class="token parameter variable">-y</span> pagefind <span class="token parameter variable">--site</span> _site/
-
-<span class="token comment"># rsync to gitpages folder</span>
-<span class="token function">rsync</span> <span class="token parameter variable">-arui</span> <span class="token parameter variable">--delete</span> _site/ docs
-
-<span class="token comment"># Prompt for commit message</span>
-<span class="token builtin class-name">echo</span> <span class="token string">"Enter commit message:"</span>
-<span class="token builtin class-name">read</span> commit_message
-
-<span class="token comment"># git operations</span>
-<span class="token function">git</span> <span class="token function">add</span> docs
-<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"<span class="token variable">$commit_message</span>"</span>
-<span class="token function">git</span> push <span class="token parameter variable">-u</span> origin main</code></pre>
-
-<ul class="links-nextprev"><li>Previous: <a href="/blog/pmx-power-consumption/">Reducing power consumption of Proxmox nodes</a></li><li>Next: <a href="/blog/backup-server/backup-server-build/">Building a better backup server</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/adios-wordpress/">Adios Wordpress?</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/adios-wordpress/ -->
+		<!-- Current page: /blog/backup-server/backup-server-build/ -->
 	</body>
 </html>

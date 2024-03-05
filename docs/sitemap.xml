@@ -127,17 +127,32 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/zfs/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/homelab/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/thinkstation/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/e-waste/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://stinky.blog/tags/flashrom/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/homelab/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -179,5 +194,10 @@
 	<url>
 		<loc>https://stinky.blog/tags/wireguard/</loc>
 		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/backup-server/backup-server-build/</loc>
+		<lastmod>2024-03-05</lastmod>
 	</url>
 </urlset>
