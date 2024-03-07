@@ -546,7 +546,7 @@ random-write: <span class="token punctuation">(</span>g<span class="token operat
 </tbody>
 </table>
 <p>These results were surprising to me!  Switching from 8k to 64k volblocksize, we see a 60% increase in throughput and a huge drop in iowait.  There is a 60% increase in IOPs, as well.</p>
-<p>I will have to run some more detailed tests here, but I suspect these huge gains may come with huge penalties in other areas.  Namely, random reads that miss the ARC, or writes smaller than the blocksize that cause a read/modify/write.  Will have to figure out how to test that later.</p>
+<p>I will have to run some more detailed tests here, but I suspect these huge gains may come with huge penalties in other areas.  Namely, random reads that miss the ARC, or writes that require read/modify/write.  Will have to figure out how to test that later.</p>
 <br>  
 <h2 id="1m-random-writes" tabindex="-1">1M random writes: <a class="header-anchor" href="#1m-random-writes">#</a></h2>
 <table>

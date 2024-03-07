@@ -83,7 +83,7 @@ random-write: &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;g&lt
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;These results were surprising to me!  Switching from 8k to 64k volblocksize, we see a 60% increase in throughput and a huge drop in iowait.  There is a 60% increase in IOPs, as well.&lt;/p&gt;
-&lt;p&gt;I will have to run some more detailed tests here, but I suspect these huge gains may come with huge penalties in other areas.  Namely, random reads that miss the ARC, or writes smaller than the blocksize that cause a read/modify/write.  Will have to figure out how to test that later.&lt;/p&gt;
+&lt;p&gt;I will have to run some more detailed tests here, but I suspect these huge gains may come with huge penalties in other areas.  Namely, random reads that miss the ARC, or writes that require read/modify/write.  Will have to figure out how to test that later.&lt;/p&gt;
 &lt;br&gt;  
 &lt;h2 id=&quot;1m-random-writes&quot; tabindex=&quot;-1&quot;&gt;1M random writes: &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-bench/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;table&gt;
