@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>ZFS Volblocksize for VM Workloads</title>
+		<meta name="description" content="Some write benchmarks for different volblocksizes on zvols hosting virtual machines.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">stinky.blog</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>ZFS Volblocksize for VM Workloads</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2024-03-06">06 March 2024</time></li>
+	<li><a href="/tags/zfs/" class="post-tag">zfs</a>, </li>
+	<li><a href="/tags/zvol/" class="post-tag">zvol</a>, </li>
+	<li><a href="/tags/volblocksize/" class="post-tag">volblocksize</a>, </li>
+	<li><a href="/tags/block-size/" class="post-tag">block size</a>, </li>
+	<li><a href="/tags/linux/" class="post-tag">linux</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/homelab/" class="post-tag">homelab</a>, </li>
+	<li><a href="/tags/backup-server/" class="post-tag">backup server</a></li>
+</ul>
+
+<p>I store all of my VMs on ZFS pools.  On Proxmox, VMs stored on ZFS pools will use zvols by default, rather than a disk file in a dataset.Proxmox zvols use a default volblocksize of 8k.  What the heck is a zvol, and what is the impact on storage performance?</p>
+<p><strong>Zvols</strong> present a virtual block device to the VM, like a physical disk.  It sounds pretty cool, but it comes with some caveats.  Zvols use a <em>volblocksize</em> rather than a recordsize or a block size.  Selecting the wrong volblocksize for your workload can result in extreme write amplification, increased drive wear, and terrible performance.</p>
+<p><strong>Volblocksize</strong> represents the <em>minimum</em> amount of data that can be written to a zvol.  This is the opposite of recordsize, which refers to the maximum.  Writing a 1kb file to a zpool with a recordsize of 128k is no problem -- ZFS will simply write 1k. The same 1k write on a zvol with volblocksize of 128k, however, will cause 128k of data to be written.  That's a write amplification of <strong>128x</strong>.  No bueno!</p>
+<p>A similar situation occurs in reverse.  You have a 128k volblocksize and you need to read 1k.  ZFS must read the whole 128k block to return your 1k data.  This can greatly increase latency and reduce IOPs.</p>
+<p>It gets even worse if you're calculating parity -- arrays with certain drive configurations can lose 50% or more of their total usable space to metadata when block size is set too low.  Look for posts discussing &quot;padding overhead&quot; or <a href="https://www.delphix.com/blog/zfs-raidz-stripe-width-or-how-i-learned-stop-worrying-and-love-raidz">posts like this</a> for more info.</p>
+<p>I was hoping that the perfect volblocksize would be just a google search away... but it looks like it's gonna be more complicated than that!  The volblocksize should precisely match the workload, 16k for databases which perform 16k writes, for example.  I'm not sure exactly what that would be for my typical usage.  So, my goal here is to just to learn what I can about how ZFS interacts with zvols, starting with some simple tests.</p>
+<h2 id="testing-methodology-round-1" tabindex="-1">Testing Methodology - Round 1 <a class="header-anchor" href="#testing-methodology-round-1">#</a></h2>
+<p>I'll be using a striped mirror containing 4x 12TB drives.  The underlying pool has ashift=12, compression=LZ4, recordsize=128k.  I am testing inside a Debian VM with ext4 filesystem, 4k blocks, cache=none.</p>
+<p>To test each volblocksize, I am simply moving the virtual disk off of the pool, resetting the volblocksize, and then moving the virtual disk back to the pool.  (The data needs to be written again in order for the new volblocksize to take effect.)</p>
+<p>For round one, I would like to find the extremes -- just to get some idea of the relationship between these values.</p>
+<p>First, I used fio to test random writes of 4k and 1M blocks at queue depth 1.  I ran both tests on volblocksizes 8k, 16k, 32k, and 64k. sync=disabled</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">fio <span class="token parameter variable">--name</span><span class="token operator">=</span>random-write <span class="token parameter variable">--ioengine</span><span class="token operator">=</span>posixaio <span class="token parameter variable">--rw</span><span class="token operator">=</span>randwrite <span class="token parameter variable">--bs</span><span class="token operator">=</span>1M <span class="token parameter variable">--size</span><span class="token operator">=</span>4g <span class="token parameter variable">--numjobs</span><span class="token operator">=</span><span class="token number">1</span> <span class="token parameter variable">--iodepth</span><span class="token operator">=</span><span class="token number">1</span> <span class="token parameter variable">--runtime</span><span class="token operator">=</span><span class="token number">60</span> <span class="token parameter variable">--time_based</span> <span class="token parameter variable">--end_fsync</span><span class="token operator">=</span><span class="token number">1</span>
+random-write: <span class="token punctuation">(</span>g<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>: <span class="token assign-left variable">rw</span><span class="token operator">=</span>randwrite, <span class="token assign-left variable">bs</span><span class="token operator">=</span><span class="token punctuation">(</span>R<span class="token punctuation">)</span> 1024KiB-1024KiB, <span class="token punctuation">(</span>W<span class="token punctuation">)</span> 1024KiB-1024KiB, <span class="token punctuation">(</span>T<span class="token punctuation">)</span> 1024KiB-1024KiB, <span class="token assign-left variable">ioengine</span><span class="token operator">=</span>posixaio, <span class="token assign-left variable">iodepth</span><span class="token operator">=</span><span class="token number">1</span></code></pre>
+<br>
+<h2 id="4k-random-writes" tabindex="-1">4k random writes: <a class="header-anchor" href="#4k-random-writes">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Volblocksize</th>
+<th>Block Size</th>
+<th>IOPS</th>
+<th>Bandwidth (MiB/s)</th>
+<th>Average Latency (μs)</th>
+<th>99th Percentile Latency (μs)</th>
+<th>Disk Utilization (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8K</td>
+<td>4K</td>
+<td>15.7k</td>
+<td>61.2</td>
+<td>41.74</td>
+<td>99</td>
+<td>86.15</td>
+</tr>
+<tr>
+<td>16K</td>
+<td>4K</td>
+<td>18.1k</td>
+<td>70.8</td>
+<td>32.89</td>
+<td>93</td>
+<td>78.41</td>
+</tr>
+<tr>
+<td>32K</td>
+<td>4K</td>
+<td>19.7k</td>
+<td>76.8</td>
+<td>33.55</td>
+<td>105</td>
+<td>79.44</td>
+</tr>
+<tr>
+<td>64K</td>
+<td>4K</td>
+<td>25.1k</td>
+<td>97.9</td>
+<td>35.81</td>
+<td>126</td>
+<td>55.38</td>
+</tr>
+</tbody>
+</table>
+<p>These results were surprising to me!  Switching from 8k to 64k volblocksize, we see a 60% increase in throughput and a huge drop in iowait.  There is a 60% increase in IOPs, as well.</p>
+<p>I will have to run some more detailed tests here, but I suspect these huge gains may come with huge penalties in other areas.  Namely, random reads that miss the ARC, or writes smaller than the blocksize that cause a read/modify/write.  Will have to figure out how to test that later.</p>
+<br>  
+<h2 id="1m-random-writes" tabindex="-1">1M random writes: <a class="header-anchor" href="#1m-random-writes">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Volblocksize</th>
+<th>Block Size</th>
+<th>IOPS</th>
+<th>Bandwidth (MiB/s)</th>
+<th>Average Latency (μs)</th>
+<th>99th Percentile Latency (μs)</th>
+<th>Disk Utilization (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8K</td>
+<td>1M</td>
+<td>163</td>
+<td>164</td>
+<td>3136.59</td>
+<td>217056</td>
+<td>93.79</td>
+</tr>
+<tr>
+<td>16K</td>
+<td>1M</td>
+<td>177</td>
+<td>178</td>
+<td>3638.31</td>
+<td>125305</td>
+<td>90.54</td>
+</tr>
+<tr>
+<td>32K</td>
+<td>1M</td>
+<td>311</td>
+<td>312</td>
+<td>2207.24</td>
+<td>143655</td>
+<td>89.67</td>
+</tr>
+<tr>
+<td>64K</td>
+<td>1M</td>
+<td>338</td>
+<td>339</td>
+<td>1933.32</td>
+<td>43779</td>
+<td>93.11</td>
+</tr>
+</tbody>
+</table>
+<p>Same story here!  106% increase in random write speed switching from 8k volblocksize to 64k.   107% increase in IOPs.  Much larger reduction in disk latency here than in the 4k tests.</p>
+<p>I would bet we get the same trade-off here, issues with small random reads and modifying files in place.  Someone give me a trail of breadcrumbs for how to test that!</p>
+<p><picture><source type="image/avif" srcset="/img/--ZIwtoPWW-594.avif 594w"><source type="image/webp" srcset="/img/--ZIwtoPWW-594.webp 594w"><img alt="line graph" loading="lazy" decoding="async" src="/img/--ZIwtoPWW-594.jpeg" width="594" height="319"></picture></p>
+<p>Looking forward to round 2.  Next time, I'd like to find a way to see how much amplification is going on here, as well as how badly this is affecting reads outside of ARC.</p>
+<p>Would love some feedback on my methodology and some pointers!  More fun to learn with friends.  brianm88 @ gmail.com or /dev/goat on Steam.</p>
+<p>Thanks for reading.  Happy homelabbing!</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/backup-server/backup-server-build/">Building a better backup server</a></li>
+</ul>
+
+		</main>
+
+		<footer></footer>
+
+		<!-- Current page: /blog/zfs-bench/ -->
+	</body>
+</html>
