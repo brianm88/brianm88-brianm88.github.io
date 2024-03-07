@@ -57,27 +57,7 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/blog/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/eleventy/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/11ty/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/wordpress/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/github-pages/</loc>
 		<lastmod>2024-03-07</lastmod>
 	</url>
 	
@@ -93,6 +73,26 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/vps/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/blog/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/eleventy/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/11ty/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/github-pages/</loc>
 		<lastmod>2024-03-07</lastmod>
 	</url>
 	
@@ -172,6 +172,31 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/zvol/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/volblocksize/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/block-size/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/linux/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/backup-server/</loc>
+		<lastmod>2024-03-07</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/lxc/</loc>
 		<lastmod>2024-03-07</lastmod>
 	</url>
@@ -198,31 +223,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/wireguard/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/zvol/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/volblocksize/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/block-size/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/linux/</loc>
-		<lastmod>2024-03-07</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/backup-server/</loc>
 		<lastmod>2024-03-07</lastmod>
 	</url>
 	
