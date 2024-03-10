@@ -12,11 +12,52 @@
 	</author>
 	
 	<entry>
-		<title>man</title>
-		<link href="https://stinky.blog/blog/man/"/>
+		<title>vim</title>
+		<link href="https://stinky.blog/blog/rhcsa/vim/"/>
 		<updated>2024-03-10T00:00:00Z</updated>
-		<id>https://stinky.blog/blog/man/</id>
-		<content type="html">&lt;h2 id=&quot;sections&quot; tabindex=&quot;-1&quot;&gt;Sections &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+		<id>https://stinky.blog/blog/rhcsa/vim/</id>
+		<content type="html">&lt;h2 id=&quot;general&quot; tabindex=&quot;-1&quot;&gt;general &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;launch tutorial with &lt;strong&gt;vimtutor&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Starts in &lt;strong&gt;command mode&lt;/strong&gt;, press &lt;strong&gt;i&lt;/strong&gt; for &lt;strong&gt;insert mode&lt;/strong&gt; or &lt;strong&gt;a&lt;/strong&gt; for &lt;strong&gt;append mode&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Escape to re-enter command mode&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;:w&lt;/strong&gt; --  Save file&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;:q&lt;/strong&gt; -- Quit&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;:wq&lt;/strong&gt; -- Save and quit&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;:q!&lt;/strong&gt; --  Quit without saving&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;o&lt;/strong&gt; -- enters insert mode on a new line&lt;/p&gt;
+&lt;h2 id=&quot;text-ops&quot; tabindex=&quot;-1&quot;&gt;text ops &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;dd&lt;/strong&gt; -- delete current line&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;yy&lt;/strong&gt; -- copy current line&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;p&lt;/strong&gt; -- paste current line&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;u&lt;/strong&gt; -- undo&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ctrl+r&lt;/strong&gt; -- redo&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;:%s/oldword/newword/g&lt;/strong&gt; -- substitute phrase -- /g = all instances&lt;/p&gt;
+&lt;h2 id=&quot;visual-mode&quot; tabindex=&quot;-1&quot;&gt;visual mode &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;v&lt;/strong&gt; --  enter visual mode&lt;/p&gt;
+&lt;p&gt;highlight text starting from current cursor position then copy/paste/delete/etc&lt;/p&gt;
+&lt;h2 id=&quot;navigate&quot; tabindex=&quot;-1&quot;&gt;navigate &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;gg&lt;/strong&gt; -- top of document&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;G&lt;/strong&gt; -- end of document&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;/word&lt;/strong&gt; -- search for &amp;quot;word&amp;quot;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;?word&lt;/strong&gt; -- search backwards for &amp;quot;word&amp;quot;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;^&lt;/strong&gt; -- move to beginning of line&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;$&lt;/strong&gt; -- move to end of line&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;w&lt;/strong&gt; -- move to next word&lt;/p&gt;
+&lt;h2 id=&quot;display&quot; tabindex=&quot;-1&quot;&gt;display &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;:se numbers&lt;/strong&gt; -- show line numbers&lt;/p&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;this page written proudly in nano&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>man</title>
+		<link href="https://stinky.blog/blog/rhcsa/man/"/>
+		<updated>2024-03-10T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/rhcsa/man/</id>
+		<content type="html">&lt;h2 id=&quot;sections&quot; tabindex=&quot;-1&quot;&gt;Sections &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;executables / shell cmds&lt;/li&gt;
 &lt;li&gt;system calls&lt;/li&gt;
@@ -32,15 +73,15 @@
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;passwd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;man returns the first section number for a given command.  to see all sections:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;passwd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;navigation&quot; tabindex=&quot;-1&quot;&gt;Navigation &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;navigation&quot; tabindex=&quot;-1&quot;&gt;Navigation &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Use / to search&lt;/p&gt;
 &lt;p&gt;spacebar / pgdown / pgup to scroll&lt;/p&gt;
-&lt;h2 id=&quot;searching&quot; tabindex=&quot;-1&quot;&gt;Searching &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;searching&quot; tabindex=&quot;-1&quot;&gt;Searching &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-k&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;keyword&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;or&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apropos&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;keyword&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;n for next result, p for previous&lt;/p&gt;
-&lt;h2 id=&quot;mandb&quot; tabindex=&quot;-1&quot;&gt;mandb &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;mandb&quot; tabindex=&quot;-1&quot;&gt;mandb &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Search index needs to be built  with &lt;strong&gt;mandb&lt;/strong&gt; command (cronjob or manually)&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; mandb&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;search returns &amp;quot;nothing appropriate&amp;quot; ? run &lt;strong&gt;mandb&lt;/strong&gt;&lt;/p&gt;

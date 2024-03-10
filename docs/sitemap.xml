@@ -92,21 +92,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/man/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/mandb/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rhcsa/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/proxmox/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -132,16 +117,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/power-consumption/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/cpu-governor/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -162,6 +137,16 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/power-consumption/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/cpu-governor/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/e-waste/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -178,6 +163,21 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/ch341a/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/man/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/mandb/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rhcsa/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -208,6 +208,16 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/wireguard/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vim/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/text-editor/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -247,7 +257,12 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/blog/man/</loc>
+		<loc>https://stinky.blog/blog/rhcsa/man/</loc>
+		<lastmod>2024-03-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/rhcsa/vim/</loc>
 		<lastmod>2024-03-10</lastmod>
 	</url>
 </urlset>
