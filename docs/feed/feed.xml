@@ -4,12 +4,48 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-03-06T00:00:00Z</updated>
+	<updated>2024-03-10T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>man</title>
+		<link href="https://stinky.blog/blog/man/"/>
+		<updated>2024-03-10T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/man/</id>
+		<content type="html">&lt;h2 id=&quot;sections&quot; tabindex=&quot;-1&quot;&gt;Sections &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;executables / shell cmds&lt;/li&gt;
+&lt;li&gt;system calls&lt;/li&gt;
+&lt;li&gt;library calls&lt;/li&gt;
+&lt;li&gt;special files (/dev)&lt;/li&gt;
+&lt;li&gt;file formats / conventions&lt;/li&gt;
+&lt;li&gt;games&lt;/li&gt;
+&lt;li&gt;misc&lt;/li&gt;
+&lt;li&gt;sys admin / root&lt;/li&gt;
+&lt;li&gt;kernel routines&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To search for a command in a particular section, &lt;strong&gt;man # command&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;passwd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;man returns the first section number for a given command.  to see all sections:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;passwd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;navigation&quot; tabindex=&quot;-1&quot;&gt;Navigation &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Use / to search&lt;/p&gt;
+&lt;p&gt;spacebar / pgdown / pgup to scroll&lt;/p&gt;
+&lt;h2 id=&quot;searching&quot; tabindex=&quot;-1&quot;&gt;Searching &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-k&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;keyword&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apropos&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;keyword&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;n for next result, p for previous&lt;/p&gt;
+&lt;h2 id=&quot;mandb&quot; tabindex=&quot;-1&quot;&gt;mandb &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Search index needs to be built  with &lt;strong&gt;mandb&lt;/strong&gt; command (cronjob or manually)&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; mandb&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;search returns &amp;quot;nothing appropriate&amp;quot; ? run &lt;strong&gt;mandb&lt;/strong&gt;&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>ZFS Volblocksize for VM Workloads</title>
@@ -371,9 +407,9 @@ In the RackNerd control panel, I chose Ubuntu 22.04 as the OS for this vps.&lt;/
 		<updated>2022-12-01T00:00:00Z</updated>
 		<id>https://stinky.blog/blog/pmx-qbit-wg-lxc/</id>
 		<content type="html">&lt;p&gt;A google search for how to create this type of container will bring up a bunch of malarkey. It doesn’t have to be that complicated. You can set this up in a few minutes super easily. The result is an extremely lightweight and effective torrent box that you can control remotely. It works great on very modest hardware even with lots of traffic flowing.&lt;/p&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/XRdxOCteGa-400.avif 400w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/XRdxOCteGa-400.webp 400w&quot;&gt;&lt;img alt=&quot;container info&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/XRdxOCteGa-400.jpeg&quot; width=&quot;400&quot; height=&quot;239&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/0p3kt2JHsC-579.avif 579w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/0p3kt2JHsC-579.webp 579w&quot;&gt;&lt;img alt=&quot;container info&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/0p3kt2JHsC-579.jpeg&quot; width=&quot;579&quot; height=&quot;346&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;h2 id=&quot;first-spin-up-a-container&quot; tabindex=&quot;-1&quot;&gt;First, spin up a container. &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-qbit-wg-lxc/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/4valIwowxu-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/4valIwowxu-600.webp 600w&quot;&gt;&lt;img alt=&quot;container creation&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/4valIwowxu-600.jpeg&quot; width=&quot;600&quot; height=&quot;294&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/RQSkXuO37I-791.avif 791w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/RQSkXuO37I-791.webp 791w&quot;&gt;&lt;img alt=&quot;container creation&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/RQSkXuO37I-791.jpeg&quot; width=&quot;791&quot; height=&quot;387&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;p&gt;Click on the local storage of one of your nodes, go to container templates, and click the Templates button. I am using the ubuntu 22.10-standard template, only 129mb.&lt;/p&gt;
 &lt;p&gt;After downloading the template, right click your node and create the container. On the first page, make sure to uncheck ‘unprivileged container’ so that we will have full write access to the samba share. If you are storing files some other way, you can leave it unprivileged. (You can also achieve write access to cifs shares with an unprivileged container through user mapping if you so choose.)&lt;/p&gt;
 &lt;p&gt;Select the ubuntu template on the next page. I went with the defaults for all the other options except 2 cpu cores and a static IP address.&lt;/p&gt;
@@ -395,7 +431,7 @@ In the RackNerd control panel, I chose Ubuntu 22.04 as the OS for this vps.&lt;/
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;mv&lt;/span&gt; wireguard-vpn.conf /etc/wireguard/wireguard-vpn.conf &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; /etc/wireguard &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Let’s see if that bad boy works:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;wg-quick up wireguard-vpn&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/3SNcXBYnzU-541.avif 541w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/3SNcXBYnzU-541.webp 541w&quot;&gt;&lt;img alt=&quot;wireguard output&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/3SNcXBYnzU-541.jpeg&quot; width=&quot;541&quot; height=&quot;308&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/qBkKeZntks-836.avif 836w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/qBkKeZntks-836.webp 836w&quot;&gt;&lt;img alt=&quot;wireguard output&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/qBkKeZntks-836.jpeg&quot; width=&quot;836&quot; height=&quot;333&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;p&gt;If you connected successfully, typing &lt;strong&gt;ip addr show&lt;/strong&gt; will list a new tunnel interface at the bottom with your VPN IP!&lt;/p&gt;
 &lt;p&gt;Now make it reconnect automatically on reboot:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; wg-quick@wireguard-vpn&lt;/code&gt;&lt;/pre&gt;
@@ -419,10 +455,10 @@ In the RackNerd control panel, I chose Ubuntu 22.04 as the OS for this vps.&lt;/
 &lt;p&gt;Now enable it and reboot to see if it works:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; qbittorrent-nox &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; systemctl daemon-reload &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;reboot&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Did it work?? You can try it by opening your web browser and typing in the local IP of the machine followed by port 8080!&lt;/p&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/FTVN1cQyCs-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/FTVN1cQyCs-600.webp 600w&quot;&gt;&lt;img alt=&quot;working qbit interface&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/FTVN1cQyCs-600.jpeg&quot; width=&quot;600&quot; height=&quot;456&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/WX1esYhBMp-759.avif 759w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/WX1esYhBMp-759.webp 759w&quot;&gt;&lt;img alt=&quot;working qbit interface&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/WX1esYhBMp-759.jpeg&quot; width=&quot;759&quot; height=&quot;577&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;h2 id=&quot;bind-qbt-nox-to-wireguard-interface&quot; tabindex=&quot;-1&quot;&gt;Bind Qbt-nox to wireguard interface &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/pmx-qbit-wg-lxc/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Last step! Go to &lt;strong&gt;Tools -&amp;gt; Options -&amp;gt; Advanced&lt;/strong&gt; and set the client to ONLY use the wireguard tunnel that we have created. If your VPN provides you a static IP, you can optionally set the client to ONLY use this IP as well.&lt;/p&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/2iX5ka34qP-544.avif 544w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/2iX5ka34qP-544.webp 544w&quot;&gt;&lt;img alt=&quot;bind to wireguard&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/2iX5ka34qP-544.jpeg&quot; width=&quot;544&quot; height=&quot;630&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/Ytfrprzav2-837.avif 837w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/Ytfrprzav2-837.webp 837w&quot;&gt;&lt;img alt=&quot;bind to wireguard&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/Ytfrprzav2-837.jpeg&quot; width=&quot;837&quot; height=&quot;969&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;p&gt;Now set your download folder to your samba share in the Downloads tab.&lt;/p&gt;
 &lt;p&gt;That’s it! Now you can log in through this web interface from now on. You never have to access the container directly again. Add torrents by copying and pasting the magnet links into the webui from your phone or any other device!&lt;/p&gt;
 &lt;p&gt;Ensure that traffic is flowing through the wireguard tunnel as expected by running the &lt;strong&gt;iftop&lt;/strong&gt; utility we downloaded earlier.&lt;/p&gt;

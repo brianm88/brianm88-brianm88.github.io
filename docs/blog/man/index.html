@@ -3,12 +3,180 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>stinky.blog</title>
-		<meta name="description" content="brain of brian. notes about fun things i&#39;m learning">
+		<title>man</title>
+		<meta name="description" content="Notes on the man command">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
-		<style>* { box-sizing: border-box; }
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
 /* Defaults */
 :root {
 	--font-family: -apple-system, system-ui, sans-serif;
@@ -297,137 +465,51 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-<script src="/pagefind/pagefind-ui.js"></script>
-<div id="search"></div>
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        new PagefindUI({ element: "#search", showSubResults: true });
-    });
-</script>
+<h1>man</h1>
 
-<h1>Tags</h1>
-
-<ul>
-
-	
-	<li><a href="/tags/e-waste/" class="post-tag">e-waste</a></li>
-
-	
-	<li><a href="/tags/flashrom/" class="post-tag">flashrom</a></li>
-
-	
-	<li><a href="/tags/homelab/" class="post-tag">homelab</a></li>
-
-	
-	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a></li>
-
-	
-	<li><a href="/tags/laptop/" class="post-tag">laptop</a></li>
-
-	
-	<li><a href="/tags/ch341a/" class="post-tag">ch341a</a></li>
-
-	
-	<li><a href="/tags/lxc/" class="post-tag">lxc</a></li>
-
-	
-	<li><a href="/tags/qbittorrent/" class="post-tag">qbittorrent</a></li>
-
-	
-	<li><a href="/tags/server/" class="post-tag">server</a></li>
-
-	
-	<li><a href="/tags/torrent/" class="post-tag">torrent</a></li>
-
-	
-	<li><a href="/tags/vpn/" class="post-tag">vpn</a></li>
-
-	
-	<li><a href="/tags/wireguard/" class="post-tag">wireguard</a></li>
-
-	
-	<li><a href="/tags/wordpress/" class="post-tag">wordpress</a></li>
-
-	
-	<li><a href="/tags/easyengine/" class="post-tag">easyengine</a></li>
-
-	
-	<li><a href="/tags/docker/" class="post-tag">docker</a></li>
-
-	
-	<li><a href="/tags/vps/" class="post-tag">vps</a></li>
-
-	
-	<li><a href="/tags/ssl/" class="post-tag">ssl</a></li>
-
-	
-	<li><a href="/tags/tls/" class="post-tag">tls</a></li>
-
-	
-	<li><a href="/tags/ssh/" class="post-tag">ssh</a></li>
-
-	
-	<li><a href="/tags/cluster-quorum/" class="post-tag">cluster quorum</a></li>
-
-	
-	<li><a href="/tags/power-consumption/" class="post-tag">power consumption</a></li>
-
-	
-	<li><a href="/tags/cpu-governor/" class="post-tag">cpu governor</a></li>
-
-	
-	<li><a href="/tags/blog/" class="post-tag">blog</a></li>
-
-	
-	<li><a href="/tags/eleventy/" class="post-tag">eleventy</a></li>
-
-	
-	<li><a href="/tags/11ty/" class="post-tag">11ty</a></li>
-
-	
-	<li><a href="/tags/github-pages/" class="post-tag">github pages</a></li>
-
-	
-	<li><a href="/tags/proxmox-backup-server/" class="post-tag">proxmox backup server</a></li>
-
-	
-	<li><a href="/tags/zfs/" class="post-tag">zfs</a></li>
-
-	
-	<li><a href="/tags/thinkstation/" class="post-tag">thinkstation</a></li>
-
-	
-	<li><a href="/tags/zvol/" class="post-tag">zvol</a></li>
-
-	
-	<li><a href="/tags/volblocksize/" class="post-tag">volblocksize</a></li>
-
-	
-	<li><a href="/tags/block-size/" class="post-tag">block size</a></li>
-
-	
-	<li><a href="/tags/linux/" class="post-tag">linux</a></li>
-
-	
-	<li><a href="/tags/backup-server/" class="post-tag">backup server</a></li>
-
-	
-	<li><a href="/tags/man/" class="post-tag">man</a></li>
-
-	
-	<li><a href="/tags/mandb/" class="post-tag">mandb</a></li>
-
-	
+<ul class="post-metadata">
+	<li><time datetime="2024-03-10">10 March 2024</time></li>
+	<li><a href="/tags/man/" class="post-tag">man</a>, </li>
+	<li><a href="/tags/mandb/" class="post-tag">mandb</a>, </li>
 	<li><a href="/tags/rhcsa/" class="post-tag">rhcsa</a></li>
-
 </ul>
 
+<h2 id="sections" tabindex="-1">Sections <a class="header-anchor" href="#sections">#</a></h2>
+<ol>
+<li>executables / shell cmds</li>
+<li>system calls</li>
+<li>library calls</li>
+<li>special files (/dev)</li>
+<li>file formats / conventions</li>
+<li>games</li>
+<li>misc</li>
+<li>sys admin / root</li>
+<li>kernel routines</li>
+</ol>
+<p>To search for a command in a particular section, <strong>man # command</strong></p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">man</span> <span class="token number">5</span> <span class="token function">passwd</span></code></pre>
+<p>man returns the first section number for a given command.  to see all sections:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">man</span> <span class="token parameter variable">-a</span> <span class="token function">passwd</span></code></pre>
+<h2 id="navigation" tabindex="-1">Navigation <a class="header-anchor" href="#navigation">#</a></h2>
+<p>Use / to search</p>
+<p>spacebar / pgdown / pgup to scroll</p>
+<h2 id="searching" tabindex="-1">Searching <a class="header-anchor" href="#searching">#</a></h2>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">man</span> <span class="token parameter variable">-k</span> <span class="token punctuation">[</span>keyword<span class="token punctuation">]</span></code></pre>
+<p>or</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">apropos</span> <span class="token punctuation">[</span>keyword<span class="token punctuation">]</span></code></pre>
+<p>n for next result, p for previous</p>
+<h2 id="mandb" tabindex="-1">mandb <a class="header-anchor" href="#mandb">#</a></h2>
+<p>Search index needs to be built  with <strong>mandb</strong> command (cronjob or manually)</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> mandb</code></pre>
+<p>search returns &quot;nothing appropriate&quot; ? run <strong>mandb</strong></p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/zfs-bench/">ZFS Volblocksize for VM Workloads</a></li>
+</ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /tags/ -->
+		<!-- Current page: /blog/man/ -->
 	</body>
 </html>
