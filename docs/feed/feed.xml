@@ -16,8 +16,8 @@
 		<link href="https://stinky.blog/blog/rhcsa/vim/"/>
 		<updated>2024-03-10T00:00:00Z</updated>
 		<id>https://stinky.blog/blog/rhcsa/vim/</id>
-		<content type="html">&lt;h2 id=&quot;general&quot; tabindex=&quot;-1&quot;&gt;general &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;launch tutorial with &lt;strong&gt;vimtutor&lt;/strong&gt;&lt;/p&gt;
+		<content type="html">&lt;p&gt;&lt;strong&gt;vimtutor&lt;/strong&gt; to launch tutorial&lt;/p&gt;
+&lt;h2 id=&quot;general&quot; tabindex=&quot;-1&quot;&gt;General &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Starts in &lt;strong&gt;command mode&lt;/strong&gt;, press &lt;strong&gt;i&lt;/strong&gt; for &lt;strong&gt;insert mode&lt;/strong&gt; or &lt;strong&gt;a&lt;/strong&gt; for &lt;strong&gt;append mode&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Escape to re-enter command mode&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;:w&lt;/strong&gt; --  Save file&lt;/p&gt;
@@ -25,17 +25,17 @@
 &lt;p&gt;&lt;strong&gt;:wq&lt;/strong&gt; -- Save and quit&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;:q!&lt;/strong&gt; --  Quit without saving&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;o&lt;/strong&gt; -- enters insert mode on a new line&lt;/p&gt;
-&lt;h2 id=&quot;text-ops&quot; tabindex=&quot;-1&quot;&gt;text ops &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;text-operations&quot; tabindex=&quot;-1&quot;&gt;Text Operations &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;dd&lt;/strong&gt; -- delete current line&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;yy&lt;/strong&gt; -- copy current line&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;p&lt;/strong&gt; -- paste current line&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;u&lt;/strong&gt; -- undo&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;ctrl+r&lt;/strong&gt; -- redo&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;:%s/oldword/newword/g&lt;/strong&gt; -- substitute phrase -- /g = all instances&lt;/p&gt;
-&lt;h2 id=&quot;visual-mode&quot; tabindex=&quot;-1&quot;&gt;visual mode &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;visual-mode&quot; tabindex=&quot;-1&quot;&gt;Visual mode &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;v&lt;/strong&gt; --  enter visual mode&lt;/p&gt;
 &lt;p&gt;highlight text starting from current cursor position then copy/paste/delete/etc&lt;/p&gt;
-&lt;h2 id=&quot;navigate&quot; tabindex=&quot;-1&quot;&gt;navigate &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;navigate&quot; tabindex=&quot;-1&quot;&gt;Navigate &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;gg&lt;/strong&gt; -- top of document&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;G&lt;/strong&gt; -- end of document&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;/word&lt;/strong&gt; -- search for &amp;quot;word&amp;quot;&lt;/p&gt;
@@ -43,12 +43,27 @@
 &lt;p&gt;&lt;strong&gt;^&lt;/strong&gt; -- move to beginning of line&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;$&lt;/strong&gt; -- move to end of line&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;w&lt;/strong&gt; -- move to next word&lt;/p&gt;
-&lt;h2 id=&quot;display&quot; tabindex=&quot;-1&quot;&gt;display &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;display&quot; tabindex=&quot;-1&quot;&gt;Display &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/vim/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;:se numbers&lt;/strong&gt; -- show line numbers&lt;/p&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;this page written proudly in nano&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>stdin, stdout, stderr</title>
+		<link href="https://stinky.blog/blog/rhcsa/stds/"/>
+		<updated>2024-03-10T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/rhcsa/stds/</id>
+		<content type="html">&lt;h2 id=&quot;redirection&quot; tabindex=&quot;-1&quot;&gt;Redirection &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/stds/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Write (or overwrite) stdout to file:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;thing &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; place&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Append stdout to file:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;thing &lt;span class=&quot;token operator&quot;&gt;&gt;&gt;&lt;/span&gt; place&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Write/append errors to a file:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;thing &lt;span class=&quot;token operator&quot;&gt;&lt;span class=&quot;token file-descriptor important&quot;&gt;2&lt;/span&gt;&gt;&lt;/span&gt; or &lt;span class=&quot;token operator&quot;&gt;&lt;span class=&quot;token file-descriptor important&quot;&gt;2&lt;/span&gt;&gt;&gt;&lt;/span&gt; place&lt;/code&gt;&lt;/pre&gt;
 </content>
 	</entry>
 	
@@ -77,6 +92,7 @@
 &lt;p&gt;Use / to search&lt;/p&gt;
 &lt;p&gt;spacebar / pgdown / pgup to scroll&lt;/p&gt;
 &lt;h2 id=&quot;searching&quot; tabindex=&quot;-1&quot;&gt;Searching &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/man/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Search the NAME field:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-k&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;keyword&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;or&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apropos&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;keyword&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -85,6 +101,152 @@
 &lt;p&gt;Search index needs to be built  with &lt;strong&gt;mandb&lt;/strong&gt; command (cronjob or manually)&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; mandb&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;search returns &amp;quot;nothing appropriate&amp;quot; ? run &lt;strong&gt;mandb&lt;/strong&gt;&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>bash shortcuts</title>
+		<link href="https://stinky.blog/blog/rhcsa/bash-shortcuts/"/>
+		<updated>2024-03-10T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/rhcsa/bash-shortcuts/</id>
+		<content type="html">&lt;h2 id=&quot;ctrl&quot; tabindex=&quot;-1&quot;&gt;Ctrl &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/bash-shortcuts/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Shortcut&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + D&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;End of file&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + C&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Interrupt a command&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + Z&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Suspend a command&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + A&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Move to start of line&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + E&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Move to end of line&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + K&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Cut text to end of line&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + U&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Cut text to start of line&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + Y&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Paste the last cut text&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + R&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Search history backwards&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ctrl + L&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Clear the screen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&quot;alt&quot; tabindex=&quot;-1&quot;&gt;Alt &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/bash-shortcuts/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Shortcut&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + b&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Move back one word&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + f&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Move forward one word&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + d&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Delete word right of the cursor&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + Backspace&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Delete word left of the cursor&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + &amp;lt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Move to the beginning of the history&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + &amp;gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Move to the end of the history&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + t&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Swap the current word with the previous&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + u&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Uppercase word from cursor to end of word&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + l&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Lowercase word from cursor to end of word&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + c&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Capitalize the word&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Alt + r&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Revert any changes to a command you&#39;ve pulled from history&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>bash history</title>
+		<link href="https://stinky.blog/blog/rhcsa/bash-history/"/>
+		<updated>2024-03-10T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/rhcsa/bash-history/</id>
+		<content type="html">&lt;h2 id=&quot;history&quot; tabindex=&quot;-1&quot;&gt;History &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/bash-history/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;bash keeps all recently used commands in ~./bash_history&lt;/p&gt;
+&lt;p&gt;To see all recently used bash commands:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;history&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Ctrl + r&lt;/strong&gt; To search history&lt;/p&gt;
+&lt;p&gt;To repeat a command by its line # on &#39;history&#39;:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;nn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Repeat last command that starts with letter a:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;a&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Repeat last command with sudo:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;history-settings&quot; tabindex=&quot;-1&quot;&gt;History settings &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/rhcsa/bash-history/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Set two environment variables $HISTSIZE and $HISTFILESIZE&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;token environment constant&quot;&gt;$HISTSIZE&lt;/span&gt; or &lt;span class=&quot;token environment constant&quot;&gt;$HISTFILESIZE&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;to make permanent, add to ~/.bashrc&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;&lt;span class=&quot;token environment constant&quot;&gt;HISTFILESIZE&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;&lt;span class=&quot;token environment constant&quot;&gt;HISTSIZE&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Write current history to history file:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-w&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Clear current history:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Clear specific line:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt; nn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;History file is not merged until terminal exit&lt;/p&gt;
 </content>
 	</entry>
 	

@@ -127,26 +127,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/zfs/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/homelab/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/thinkstation/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/e-waste/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -157,12 +137,32 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/homelab/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/laptop/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://stinky.blog/tags/ch341a/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/zfs/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/thinkstation/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -197,6 +197,31 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/bash/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shell/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/bash-history/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rhcsa/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shortcuts/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/man/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -207,7 +232,22 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/rhcsa/</loc>
+		<loc>https://stinky.blog/tags/stdin/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/stdout/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/stderr/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/pipe/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -257,7 +297,22 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/blog/rhcsa/bash-history/</loc>
+		<lastmod>2024-03-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/rhcsa/bash-shortcuts/</loc>
+		<lastmod>2024-03-10</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/blog/rhcsa/man/</loc>
+		<lastmod>2024-03-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/rhcsa/stds/</loc>
 		<lastmod>2024-03-10</lastmod>
 	</url>
 	
