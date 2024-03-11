@@ -127,27 +127,12 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/e-waste/</loc>
+		<loc>https://stinky.blog/tags/denzel/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/flashrom/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/homelab/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/laptop/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/ch341a/</loc>
+		<loc>https://stinky.blog/tags/training-day/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -162,7 +147,32 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/homelab/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/thinkstation/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/e-waste/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/flashrom/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/laptop/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/ch341a/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -319,5 +329,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/rhcsa/vim/</loc>
 		<lastmod>2024-03-10</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/training-day/</loc>
+		<lastmod>2024-03-11</lastmod>
 	</url>
 </urlset>
