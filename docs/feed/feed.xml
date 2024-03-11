@@ -4,12 +4,60 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-03-10T00:00:00Z</updated>
+	<updated>2024-03-11T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Create New Post script</title>
+		<link href="https://stinky.blog/blog/create-new-post-script/"/>
+		<updated>2024-03-11T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/create-new-post-script/</id>
+		<content type="html">&lt;h2 id=&quot;quickly-create-new-posts&quot; tabindex=&quot;-1&quot;&gt;Quickly create new posts &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/create-new-post-script/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Made this little script to generate the front matter for new blog posts and open them in the editor.  Estimated to save dozens of seconds over the course of my lifetime&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;#gather post info&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Post title?&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;read&lt;/span&gt; title
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Post description?&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;read&lt;/span&gt; description
+
+&lt;span class=&quot;token assign-left variable&quot;&gt;current_date&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;date&lt;/span&gt; +%Y-%m-%d&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Post tags? (one or more, separate with space&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;read&lt;/span&gt; tags
+
+&lt;span class=&quot;token comment&quot;&gt;#clean up tags&lt;/span&gt;
+
+&lt;span class=&quot;token assign-left variable&quot;&gt;tidytags&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; $tags &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;s/, /&lt;span class=&quot;token entity&quot; title=&quot;&#92;&#92;&quot;&gt;&#92;&#92;&lt;/span&gt;n  - /g&quot;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;#generate post metadata&lt;/span&gt;
+
+&lt;span class=&quot;token assign-left variable&quot;&gt;fmatter&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;---
+title: &lt;span class=&quot;token entity&quot; title=&quot;&#92;&amp;quot;&quot;&gt;&#92;&quot;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$title&lt;/span&gt;&lt;span class=&quot;token entity&quot; title=&quot;&#92;&amp;quot;&quot;&gt;&#92;&quot;&lt;/span&gt;
+description: &lt;span class=&quot;token entity&quot; title=&quot;&#92;&amp;quot;&quot;&gt;&#92;&quot;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$description&lt;/span&gt;&lt;span class=&quot;token entity&quot; title=&quot;&#92;&amp;quot;&quot;&gt;&#92;&quot;&lt;/span&gt;
+date: &lt;span class=&quot;token variable&quot;&gt;$current_date&lt;/span&gt;
+tags:
+  - &lt;span class=&quot;token variable&quot;&gt;$tidytags&lt;/span&gt;
+---
+&quot;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;#convert title to filename&lt;/span&gt;
+
+&lt;span class=&quot;token assign-left variable&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; $title &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tr&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;[:upper:]&#39;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;[:lower:]&#39;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tr&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39; &#39;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;-&#39;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;.md
+
+&lt;span class=&quot;token comment&quot;&gt;#write metadata to filename&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$fmatter&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./content/blog/&lt;span class=&quot;token variable&quot;&gt;$filename&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;#open vim @ filename&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;vim&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./content/blog/&lt;span class=&quot;token variable&quot;&gt;$filename&lt;/span&gt;&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>vim</title>
