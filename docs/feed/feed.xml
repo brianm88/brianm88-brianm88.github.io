@@ -89,6 +89,33 @@
 	</entry>
 	
 	<entry>
+		<title>find</title>
+		<link href="https://stinky.blog/blog/find/"/>
+		<updated>2024-03-17T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/find/</id>
+		<content type="html">&lt;h2 id=&quot;basic-usage&quot; tabindex=&quot;-1&quot;&gt;Basic usage &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/find/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;where&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;options&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;what&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;find all mp3 files in /mnt/media:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;find&lt;/span&gt; /mnt/media &lt;span class=&quot;token parameter variable&quot;&gt;-name&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;*.mp3&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;-type f = files,  d = directories&lt;/p&gt;
+&lt;h2 id=&quot;extra-options&quot; tabindex=&quot;-1&quot;&gt;Extra options &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/find/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;find files modified within the last X days:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;find&lt;/span&gt; /var/log &lt;span class=&quot;token parameter variable&quot;&gt;-type&lt;/span&gt; f &lt;span class=&quot;token parameter variable&quot;&gt;-mtime&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;find files modified more than X days ago:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;find&lt;/span&gt; /var/log &lt;span class=&quot;token parameter variable&quot;&gt;-type&lt;/span&gt; f &lt;span class=&quot;token parameter variable&quot;&gt;-mtime&lt;/span&gt; +30&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;find files of a certain size:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;find&lt;/span&gt; /mnt/media &lt;span class=&quot;token parameter variable&quot;&gt;-type&lt;/span&gt; f &lt;span class=&quot;token parameter variable&quot;&gt;-size&lt;/span&gt; +1G&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;find files by permissions:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;find&lt;/span&gt; /home &lt;span class=&quot;token parameter variable&quot;&gt;-type&lt;/span&gt; f &lt;span class=&quot;token parameter variable&quot;&gt;-perm&lt;/span&gt; 0777&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;executing-commands-on-files&quot; tabindex=&quot;-1&quot;&gt;Executing commands on files &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/find/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;find files and move them somewhere:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-type&lt;/span&gt; f &lt;span class=&quot;token parameter variable&quot;&gt;-name&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;*.md&quot;&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-exec&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; ~/notes/ &lt;span class=&quot;token punctuation&quot;&gt;&#92;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;{} = placeholder for what find is finding
+; = ; ends the command, needs escape character&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
 		<title>Bash config</title>
 		<link href="https://stinky.blog/blog/bash-config/"/>
 		<updated>2024-03-17T00:00:00Z</updated>

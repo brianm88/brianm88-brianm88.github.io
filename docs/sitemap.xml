@@ -117,6 +117,16 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/find/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/linux/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/proxmox/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -232,36 +242,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/qbittorrent/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/server/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/torrent/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/vpn/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/wireguard/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/shell/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -317,6 +297,36 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/qbittorrent/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/server/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/torrent/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vpn/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/wireguard/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/zvol/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -328,11 +338,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/block-size/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/linux/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -393,6 +398,11 @@
 	
 	<url>
 		<loc>https://stinky.blog/blog/bash-config/</loc>
+		<lastmod>2024-03-17</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/find/</loc>
 		<lastmod>2024-03-17</lastmod>
 	</url>
 	
