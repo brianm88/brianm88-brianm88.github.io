@@ -11,6 +11,22 @@
 	},
 	"items": [
 		{
+			"id": "https://stinky.blog/blog/shell-expansion/",
+			"url": "https://stinky.blog/blog/shell-expansion/",
+			"title": "Shell expansion",
+			"content_html": "<h2 id=\"globbing\" tabindex=\"-1\">Globbing <a class=\"header-anchor\" href=\"https://stinky.blog/blog/shell-expansion/\">#</a></h2>\n<p>Expand filenames with wildcards.  * represents any pattern.  ? represents any single character.</p>\n<p>list everything:</p>\n<pre class=\"language-bash\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"token function\">ls</span> *</code></pre>\n<p>list things that start with &quot;a&quot; and are at least 2 characters long:</p>\n<pre class=\"language-bash\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"token function\">ls</span> a?*</code></pre>\n<p>list things that begin with lowercase a - e:</p>\n<pre class=\"language-bash\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"token function\">ls</span> <span class=\"token punctuation\">[</span>a-e<span class=\"token punctuation\">]</span>*</code></pre>\n<h2 id=\"braces\" tabindex=\"-1\">Braces <a class=\"header-anchor\" href=\"https://stinky.blog/blog/shell-expansion/\">#</a></h2>\n<p>Perform this action on 1 through 9:</p>\n<pre class=\"language-bash\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"token function\">touch</span> file<span class=\"token punctuation\">{</span><span class=\"token number\">1</span><span class=\"token punctuation\">..</span><span class=\"token number\">9</span><span class=\"token punctuation\">}</span> </code></pre>\n<p>Perform this action on all these terms:</p>\n<pre class=\"language-bash\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"token function\">useradd</span> <span class=\"token punctuation\">{</span>lisa,linda,anna<span class=\"token punctuation\">}</span></code></pre>\n<h2 id=\"substitution\" tabindex=\"-1\">Substitution <a class=\"header-anchor\" href=\"https://stinky.blog/blog/shell-expansion/\">#</a></h2>\n<p>Search for the output of the command:</p>\n<pre class=\"language-bash\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"token function\">ls</span> <span class=\"token parameter variable\">-l</span> <span class=\"token variable\"><span class=\"token variable\">$(</span><span class=\"token function\">which</span> <span class=\"token function\">ls</span><span class=\"token variable\">)</span></span></code></pre>\n<p>Use variable contents in command:</p>\n<pre class=\"language-bash\" tabindex=\"0\"><code class=\"language-bash\"><span class=\"token builtin class-name\">echo</span> <span class=\"token environment constant\">$PATH</span></code></pre>\n",
+			"date_published": "2024-03-16T00:00:00Z"
+		}
+		,
+		{
+			"id": "https://stinky.blog/blog/shell-escaping/",
+			"url": "https://stinky.blog/blog/shell-escaping/",
+			"title": "Shell escaping",
+			"content_html": "<p>Special characters must be escaped to prevent the shell from interpreting them as part of the script/command.</p>\n<p><strong>Double quotes</strong> &quot;...&quot; suppress globbing and shell expansion but still allow command and variable substitutions.</p>\n<p><strong>Single quotes</strong> '...' suppress all special characters.</p>\n<p><strong>Backslashes</strong> &quot; \\ &quot; suppress only the character following the slash.</p>\n",
+			"date_published": "2024-03-16T00:00:00Z"
+		}
+		,
+		{
 			"id": "https://stinky.blog/blog/create-new-post-script/",
 			"url": "https://stinky.blog/blog/create-new-post-script/",
 			"title": "Create New Post script",

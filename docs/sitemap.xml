@@ -82,7 +82,7 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/script/</loc>
+		<loc>https://stinky.blog/tags/scripts/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -133,6 +133,26 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/cpu-governor/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/escaping/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rhcsa/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shell-expansion/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/globbing/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -213,11 +233,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/bash-history/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rhcsa/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -329,5 +344,15 @@
 	<url>
 		<loc>https://stinky.blog/blog/create-new-post-script/</loc>
 		<lastmod>2024-03-11</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/shell-escaping/</loc>
+		<lastmod>2024-03-16</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/shell-expansion/</loc>
+		<lastmod>2024-03-16</lastmod>
 	</url>
 </urlset>
