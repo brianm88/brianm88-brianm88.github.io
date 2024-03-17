@@ -68,7 +68,7 @@
 
 &lt;span class=&quot;token assign-left variable&quot;&gt;current_date&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;date&lt;/span&gt; +%Y-%m-%d&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
 
-&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Post tags? (one or more, separate with space&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Post tags? (one or more, comma separated, like, this)&quot;&lt;/span&gt;
 &lt;span class=&quot;token builtin class-name&quot;&gt;read&lt;/span&gt; tags
 
 &lt;span class=&quot;token comment&quot;&gt;#clean up tags&lt;/span&gt;
