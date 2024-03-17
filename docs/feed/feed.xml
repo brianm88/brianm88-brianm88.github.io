@@ -12,6 +12,83 @@
 	</author>
 	
 	<entry>
+		<title>Second Brain activated</title>
+		<link href="https://stinky.blog/blog/second-brain-activated/"/>
+		<updated>2024-03-17T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/second-brain-activated/</id>
+		<content type="html">&lt;h2 id=&quot;second-brain&quot; tabindex=&quot;-1&quot;&gt;Second Brain &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/second-brain-activated/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I took calculus in &#39;22.  Today, I wouldn&#39;t be able to find the derivative of a constant.  It&#39;s the same story with many things that I have learned over the years.  New info comes into the brain, old info gets dumped out.  That is something that I would like to change!  I want to remember stuff.&lt;/p&gt;
+&lt;p&gt;Since embarking on this career change, information is coming at me at light speed.  Learning new things at work, studying for certifications, taking college classes, and homelabbing has my brain hitting its storage quota.  I would like a way to quickly document things and reference them later.  The method needs to be easy and fun, or else I won&#39;t stick with it.  Enter the second brain.&lt;/p&gt;
+&lt;p&gt;After watching &lt;a href=&quot;https://www.youtube.com/watch?v=zIGJ8NTHF4k&amp;amp;t=3731s&quot;&gt;this guy&#39;s video&lt;/a&gt; and looking at &lt;a href=&quot;https://mischavandenburg.com/&quot;&gt;his site&lt;/a&gt;, I decided I want to do something similar.  I don&#39;t need to take it as far as him, but I think it is an awesome idea.&lt;/p&gt;
+&lt;h2 id=&quot;markdown&quot; tabindex=&quot;-1&quot;&gt;Markdown &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/second-brain-activated/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The idea is to simply take notes in markdown format and associate them with tags.  Then, you can search through them instantly using a fuzzy finder.&lt;/p&gt;
+&lt;p&gt;Writing the notes in markdown serves a couple of key functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;can take notes from the terminal extremely quickly - no excuse not to&lt;/li&gt;
+&lt;li&gt;still easy to insert media&lt;/li&gt;
+&lt;li&gt;files are tiny&lt;/li&gt;
+&lt;li&gt;allows instant conversion to static web pages for my blog&lt;/li&gt;
+&lt;li&gt;easily convertible to another format if I stop doing this second brain thing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;fuzzy-finder&quot; tabindex=&quot;-1&quot;&gt;Fuzzy finder &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/second-brain-activated/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;To quickly recall my notes in the terminal, I will use &lt;a href=&quot;https://github.com/junegunn/fzf&quot;&gt;fuzzy finder&lt;/a&gt;.  I am still a beginner, but the following shortcuts are useful for me.&lt;/p&gt;
+&lt;p&gt;Search for and open a note with vim:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;vim&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;fzf&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;fzf arguments:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Token&lt;/th&gt;
+&lt;th&gt;Match type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;sbtrkt&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;fuzzy-match&lt;/td&gt;
+&lt;td&gt;Items that match &lt;code&gt;sbtrkt&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&#39;wild&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;exact-match (quoted)&lt;/td&gt;
+&lt;td&gt;Items that include &lt;code&gt;wild&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;^music&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;prefix-exact-match&lt;/td&gt;
+&lt;td&gt;Items that start with &lt;code&gt;music&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.mp3$&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;suffix-exact-match&lt;/td&gt;
+&lt;td&gt;Items that end with &lt;code&gt;.mp3&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;!fire&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;inverse-exact-match&lt;/td&gt;
+&lt;td&gt;Items that do not include &lt;code&gt;fire&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;!^music&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;inverse-prefix-exact-match&lt;/td&gt;
+&lt;td&gt;Items that do not start with &lt;code&gt;music&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;!.mp3$&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;inverse-suffix-exact-match&lt;/td&gt;
+&lt;td&gt;Items that do not end with &lt;code&gt;.mp3&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&quot;the-blog&quot; tabindex=&quot;-1&quot;&gt;The blog &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/second-brain-activated/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;In addition to using the fuzzy finder to search my notes locally, I want them to be available to me anywhere.  I found my old wordpress blog very handy for looking at my own tutorials to remember how I configured something or linking them to a friend.&lt;/p&gt;
+&lt;p&gt;To make that super easy, I just store all the notes in a local github repo on my machine and use eleventy to generate static pages from them, which I explain in &lt;a href=&quot;https://stinky.blog/blog/second-brain-activated/adios-wordpress/&quot;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Having to write all the front matter for each new post and then generate the static pages, generate the search index, and then push that to github is a lot of steps for simple note-taking.  So I automated creating a new post &lt;a href=&quot;https://stinky.blog/blog/second-brain-activated/create-new-post-script/&quot;&gt;with this script&lt;/a&gt; and the page/index generation and github pushing with the script at the &lt;a href=&quot;https://stinky.blog/blog/second-brain-activated/adios-wordpress/&quot;&gt;bottom of this page&lt;/a&gt;.&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
 		<title>Bash config</title>
 		<link href="https://stinky.blog/blog/bash-config/"/>
 		<updated>2024-03-17T00:00:00Z</updated>

@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>easyengine: simple wordpress + ssl deployment</title>
-		<meta name="description" content="How to use the easyengine docker image to instantly deploy wordpress with ssl.">
+		<title>Second Brain activated</title>
+		<meta name="description" content="Notes about my intended use for these pages and fuzzyfinder shortcuts.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,43 +465,96 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>easyengine: simple wordpress + ssl deployment</h1>
+<h1>Second Brain activated</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2022-12-30">30 December 2022</time></li>
-	<li><a href="/tags/wordpress/" class="post-tag">wordpress</a>, </li>
-	<li><a href="/tags/easyengine/" class="post-tag">easyengine</a>, </li>
-	<li><a href="/tags/docker/" class="post-tag">docker</a>, </li>
-	<li><a href="/tags/vps/" class="post-tag">vps</a>, </li>
+	<li><time datetime="2024-03-17">17 March 2024</time></li>
+	<li><a href="/tags/fuzzy-finder/" class="post-tag">fuzzy finder</a>, </li>
+	<li><a href="/tags/fzf/" class="post-tag">fzf</a>, </li>
+	<li><a href="/tags/second-brain/" class="post-tag">second brain</a>, </li>
+	<li><a href="/tags/markdown/" class="post-tag">markdown</a>, </li>
+	<li><a href="/tags/eleventy/" class="post-tag">eleventy</a>, </li>
+	<li><a href="/tags/notes/" class="post-tag">notes</a>, </li>
 	<li><a href="/tags/article/" class="post-tag">article</a></li>
 </ul>
 
-<h2 id="baby-s-first-vps" tabindex="-1">Baby’s first VPS! <a class="header-anchor" href="#baby-s-first-vps">#</a></h2>
-<p>Now that the homelab cluster is running multiple external services, I’m starting to hit some speed bumps. Using my single domain name with tons of port numbers was working okay to keep services separated for personal use. But now with friends and family connecting and using some of these services, it’s time to switch to easy-to-remember subdomains. I will use a reverse proxy to intercept https requests and send them to the proper IPs and ports.</p>
-<p>That has been easier said than done, though! I have a lot more to learn about virtual hosts, ssl redirect loops, and how to format those dang config files!</p>
-<p>A VPS will allow me to keep some of my crap running externally while I figure all of that out.</p>
-<h2 id="let-s-begin-buy-a-vps-and-start-it" tabindex="-1">Let’s begin – Buy a vps and start it <a class="header-anchor" href="#let-s-begin-buy-a-vps-and-start-it">#</a></h2>
-<p>I was able to find a 1 core, 1.5gb KVM VPS with 3TB monthly bandwidth and 30gb ssd for $16/year from <a href="https://my.racknerd.com/aff.php?aff=6660">RackNerd!</a> Not a bad deal.
-In the RackNerd control panel, I chose Ubuntu 22.04 as the OS for this vps.</p>
-<p>Once you start it up, they will email you some credentials to log in via ssh.</p>
-<p>After logging in, let’s install the latest security updates:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt</span> upgrade <span class="token parameter variable">-y</span></code></pre>
-<p>Use wget to download the easyengine installation script:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">wget</span> <span class="token parameter variable">-qO</span> ee https://rt.cx/ee4 <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> ee</code></pre>
-<p>After the script finishes up, easyengine is ready to go.</p>
-<h2 id="create-a-site" tabindex="-1">Create a site <a class="header-anchor" href="#create-a-site">#</a></h2>
-<p>For most users, a single site with proxy caching on and SSL enabled through Let’s Encrypt is the best choice:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">ee site create stinky.blog –type<span class="token operator">=</span>wp –ssl<span class="token operator">=</span>le –proxy-cache<span class="token operator">=</span>on –proxy-cache-max-size<span class="token operator">=</span>1g –proxy-cache-max-time<span class="token operator">=</span>30s</code></pre>
-<p>Replace stinky.blog with your domain.</p>
-<p>That’s it– it’s online! Access your site at http://<em>your_url</em>.com/wp-admin/ and start creating pages.</p>
+<h2 id="second-brain" tabindex="-1">Second Brain <a class="header-anchor" href="#second-brain">#</a></h2>
+<p>I took calculus in '22.  Today, I wouldn't be able to find the derivative of a constant.  It's the same story with many things that I have learned over the years.  New info comes into the brain, old info gets dumped out.  That is something that I would like to change!  I want to remember stuff.</p>
+<p>Since embarking on this career change, information is coming at me at light speed.  Learning new things at work, studying for certifications, taking college classes, and homelabbing has my brain hitting its storage quota.  I would like a way to quickly document things and reference them later.  The method needs to be easy and fun, or else I won't stick with it.  Enter the second brain.</p>
+<p>After watching <a href="https://www.youtube.com/watch?v=zIGJ8NTHF4k&amp;t=3731s">this guy's video</a> and looking at <a href="https://mischavandenburg.com/">his site</a>, I decided I want to do something similar.  I don't need to take it as far as him, but I think it is an awesome idea.</p>
+<h2 id="markdown" tabindex="-1">Markdown <a class="header-anchor" href="#markdown">#</a></h2>
+<p>The idea is to simply take notes in markdown format and associate them with tags.  Then, you can search through them instantly using a fuzzy finder.</p>
+<p>Writing the notes in markdown serves a couple of key functions:</p>
+<ul>
+<li>can take notes from the terminal extremely quickly - no excuse not to</li>
+<li>still easy to insert media</li>
+<li>files are tiny</li>
+<li>allows instant conversion to static web pages for my blog</li>
+<li>easily convertible to another format if I stop doing this second brain thing</li>
+</ul>
+<h2 id="fuzzy-finder" tabindex="-1">Fuzzy finder <a class="header-anchor" href="#fuzzy-finder">#</a></h2>
+<p>To quickly recall my notes in the terminal, I will use <a href="https://github.com/junegunn/fzf">fuzzy finder</a>.  I am still a beginner, but the following shortcuts are useful for me.</p>
+<p>Search for and open a note with vim:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">vim</span> <span class="token variable"><span class="token variable">$(</span>fzf<span class="token variable">)</span></span></code></pre>
+<p>fzf arguments:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Match type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sbtrkt</code></td>
+<td>fuzzy-match</td>
+<td>Items that match <code>sbtrkt</code></td>
+</tr>
+<tr>
+<td><code>'wild</code></td>
+<td>exact-match (quoted)</td>
+<td>Items that include <code>wild</code></td>
+</tr>
+<tr>
+<td><code>^music</code></td>
+<td>prefix-exact-match</td>
+<td>Items that start with <code>music</code></td>
+</tr>
+<tr>
+<td><code>.mp3$</code></td>
+<td>suffix-exact-match</td>
+<td>Items that end with <code>.mp3</code></td>
+</tr>
+<tr>
+<td><code>!fire</code></td>
+<td>inverse-exact-match</td>
+<td>Items that do not include <code>fire</code></td>
+</tr>
+<tr>
+<td><code>!^music</code></td>
+<td>inverse-prefix-exact-match</td>
+<td>Items that do not start with <code>music</code></td>
+</tr>
+<tr>
+<td><code>!.mp3$</code></td>
+<td>inverse-suffix-exact-match</td>
+<td>Items that do not end with <code>.mp3</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-blog" tabindex="-1">The blog <a class="header-anchor" href="#the-blog">#</a></h2>
+<p>In addition to using the fuzzy finder to search my notes locally, I want them to be available to me anywhere.  I found my old wordpress blog very handy for looking at my own tutorials to remember how I configured something or linking them to a friend.</p>
+<p>To make that super easy, I just store all the notes in a local github repo on my machine and use eleventy to generate static pages from them, which I explain in <a href="./adios-wordpress/">this post</a>.</p>
+<p>Having to write all the front matter for each new post and then generate the static pages, generate the search index, and then push that to github is a lot of steps for simple note-taking.  So I automated creating a new post <a href="./create-new-post-script/">with this script</a> and the page/index generation and github pushing with the script at the <a href="./adios-wordpress/">bottom of this page</a>.</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/pmx-qbit-wg-lxc/">Proxmox + Qbittorrent + Wireguard + Samba LXC</a></li><li>Next: <a href="/blog/pmx-certificate-error/">Proxmox TLS, SSH, Certificate Errors</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/bash-config/">Bash config</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/easyengine/ -->
+		<!-- Current page: /blog/second-brain-activated/ -->
 	</body>
 </html>

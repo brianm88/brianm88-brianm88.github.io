@@ -77,6 +77,11 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/article/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/bash/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -143,6 +148,31 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/cpu-governor/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/fuzzy-finder/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/fzf/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/second-brain/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/markdown/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/notes/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -363,6 +393,11 @@
 	
 	<url>
 		<loc>https://stinky.blog/blog/bash-config/</loc>
+		<lastmod>2024-03-17</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/second-brain-activated/</loc>
 		<lastmod>2024-03-17</lastmod>
 	</url>
 </urlset>
