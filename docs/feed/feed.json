@@ -11,6 +11,14 @@
 	},
 	"items": [
 		{
+			"id": "https://stinky.blog/blog/bash-config/",
+			"url": "https://stinky.blog/blog/bash-config/",
+			"title": "Bash config",
+			"content_html": "<h2 id=\"global-vs-user\" tabindex=\"-1\">Global vs user <a class=\"header-anchor\" href=\"https://stinky.blog/blog/bash-config/\">#</a></h2>\n<p>Global configs in /etc affect all users.  Includes /etc/profile and /etc/bash.bashrc</p>\n<p>/etc/profile is not bash specific -- contains system-wide environment variables and startup config for login shells</p>\n<p>/etc/bash.bashrc is the global config for non-login bash shells.</p>\n<p>User-specific configs are located in the users home folder -- .bashrc and .bash_profile</p>\n<p>These are copied from /etc/skel upon user creation</p>\n",
+			"date_published": "2024-03-17T00:00:00Z"
+		}
+		,
+		{
 			"id": "https://stinky.blog/blog/shell-expansion/",
 			"url": "https://stinky.blog/blog/shell-expansion/",
 			"title": "Shell expansion",

@@ -4,12 +4,26 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-03-16T00:00:00Z</updated>
+	<updated>2024-03-17T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Bash config</title>
+		<link href="https://stinky.blog/blog/bash-config/"/>
+		<updated>2024-03-17T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/bash-config/</id>
+		<content type="html">&lt;h2 id=&quot;global-vs-user&quot; tabindex=&quot;-1&quot;&gt;Global vs user &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/bash-config/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Global configs in /etc affect all users.  Includes /etc/profile and /etc/bash.bashrc&lt;/p&gt;
+&lt;p&gt;/etc/profile is not bash specific -- contains system-wide environment variables and startup config for login shells&lt;/p&gt;
+&lt;p&gt;/etc/bash.bashrc is the global config for non-login bash shells.&lt;/p&gt;
+&lt;p&gt;User-specific configs are located in the users home folder -- .bashrc and .bash_profile&lt;/p&gt;
+&lt;p&gt;These are copied from /etc/skel upon user creation&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Shell expansion</title>

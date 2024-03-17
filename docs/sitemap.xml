@@ -82,6 +82,16 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/config/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rhcsa/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/scripts/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -138,11 +148,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/escaping/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rhcsa/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -354,5 +359,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/shell-expansion/</loc>
 		<lastmod>2024-03-16</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/bash-config/</loc>
+		<lastmod>2024-03-17</lastmod>
 	</url>
 </urlset>
