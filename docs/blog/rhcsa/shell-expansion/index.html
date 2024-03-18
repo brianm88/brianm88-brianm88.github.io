@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Bash config</title>
-		<meta name="description" content="Notes about bash config files.">
+		<title>Shell expansion</title>
+		<meta name="description" content="Notes about shell expansion and globbing">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,30 +465,42 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Bash config</h1>
+<h1>Shell expansion</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-03-17">17 March 2024</time></li>
+	<li><time datetime="2024-03-16">16 March 2024</time></li>
 	<li><a href="/tags/bash/" class="post-tag">bash</a>, </li>
-	<li><a href="/tags/config/" class="post-tag">config</a>, </li>
-	<li><a href="/tags/rhcsa/" class="post-tag">rhcsa</a>, </li>
-	<li><a href="/tags/scripts/" class="post-tag">scripts</a></li>
+	<li><a href="/tags/shell-expansion/" class="post-tag">shell expansion</a>, </li>
+	<li><a href="/tags/globbing/" class="post-tag">globbing</a>, </li>
+	<li><a href="/tags/rhcsa/" class="post-tag">rhcsa</a></li>
 </ul>
 
-<h2 id="global-vs-user" tabindex="-1">Global vs user <a class="header-anchor" href="#global-vs-user">#</a></h2>
-<p>Global configs in /etc affect all users.  Includes /etc/profile and /etc/bash.bashrc</p>
-<p>/etc/profile is not bash specific -- contains system-wide environment variables and startup config for login shells</p>
-<p>/etc/bash.bashrc is the global config for non-login bash shells.</p>
-<p>User-specific configs are located in the users home folder -- .bashrc and .bash_profile</p>
-<p>These are copied from /etc/skel upon user creation</p>
+<h2 id="globbing" tabindex="-1">Globbing <a class="header-anchor" href="#globbing">#</a></h2>
+<p>Expand filenames with wildcards.  * represents any pattern.  ? represents any single character.</p>
+<p>list everything:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">ls</span> *</code></pre>
+<p>list things that start with &quot;a&quot; and are at least 2 characters long:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">ls</span> a?*</code></pre>
+<p>list things that begin with lowercase a - e:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">ls</span> <span class="token punctuation">[</span>a-e<span class="token punctuation">]</span>*</code></pre>
+<h2 id="braces" tabindex="-1">Braces <a class="header-anchor" href="#braces">#</a></h2>
+<p>Perform this action on 1 through 9:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">touch</span> file<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">..</span><span class="token number">9</span><span class="token punctuation">}</span> </code></pre>
+<p>Perform this action on all these terms:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">useradd</span> <span class="token punctuation">{</span>lisa,linda,anna<span class="token punctuation">}</span></code></pre>
+<h2 id="substitution" tabindex="-1">Substitution <a class="header-anchor" href="#substitution">#</a></h2>
+<p>Search for the output of the command:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">ls</span> <span class="token parameter variable">-l</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">which</span> <span class="token function">ls</span><span class="token variable">)</span></span></code></pre>
+<p>Use variable contents in command:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token environment constant">$PATH</span></code></pre>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/rhcsa/shell-expansion/">Shell expansion</a></li><li>Next: <a href="/blog/rhcsa/find/">find</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/rhcsa/shell-escaping/">Shell escaping</a></li><li>Next: <a href="/blog/bash-config/">Bash config</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/bash-config/ -->
+		<!-- Current page: /blog/rhcsa/shell-expansion/ -->
 	</body>
 </html>

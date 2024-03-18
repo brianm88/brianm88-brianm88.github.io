@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Bash config</title>
-		<meta name="description" content="Notes about bash config files.">
+		<title>find</title>
+		<meta name="description" content="Notes about the find command.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,30 +465,47 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Bash config</h1>
+<h1>find</h1>
 
 <ul class="post-metadata">
 	<li><time datetime="2024-03-17">17 March 2024</time></li>
-	<li><a href="/tags/bash/" class="post-tag">bash</a>, </li>
-	<li><a href="/tags/config/" class="post-tag">config</a>, </li>
-	<li><a href="/tags/rhcsa/" class="post-tag">rhcsa</a>, </li>
-	<li><a href="/tags/scripts/" class="post-tag">scripts</a></li>
+	<li><a href="/tags/find/" class="post-tag">find</a>, </li>
+	<li><a href="/tags/linux/" class="post-tag">linux</a>, </li>
+	<li><a href="/tags/rhcsa/" class="post-tag">rhcsa</a></li>
 </ul>
 
-<h2 id="global-vs-user" tabindex="-1">Global vs user <a class="header-anchor" href="#global-vs-user">#</a></h2>
-<p>Global configs in /etc affect all users.  Includes /etc/profile and /etc/bash.bashrc</p>
-<p>/etc/profile is not bash specific -- contains system-wide environment variables and startup config for login shells</p>
-<p>/etc/bash.bashrc is the global config for non-login bash shells.</p>
-<p>User-specific configs are located in the users home folder -- .bashrc and .bash_profile</p>
-<p>These are copied from /etc/skel upon user creation</p>
+<h2 id="basic-usage" tabindex="-1">Basic usage <a class="header-anchor" href="#basic-usage">#</a></h2>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> <span class="token punctuation">[</span>where<span class="token punctuation">]</span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span> <span class="token punctuation">[</span>what<span class="token punctuation">]</span></code></pre>
+<p>find all mp3 files in /mnt/media:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> /mnt/media <span class="token parameter variable">-name</span> <span class="token string">"*.mp3"</span></code></pre>
+<p>-type f = files,  d = directories</p>
+<p>mute errors for searching /:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> / <span class="token parameter variable">-name</span> <span class="token string">"hosts"</span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null</code></pre>
+<h2 id="extra-options" tabindex="-1">Extra options <a class="header-anchor" href="#extra-options">#</a></h2>
+<p>find files modified within the last X days:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> /var/log <span class="token parameter variable">-type</span> f <span class="token parameter variable">-mtime</span> <span class="token parameter variable">-1</span></code></pre>
+<p>find files modified more than X days ago:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> /var/log <span class="token parameter variable">-type</span> f <span class="token parameter variable">-mtime</span> +30</code></pre>
+<p>find files of a certain size (+/-):</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> /mnt/media <span class="token parameter variable">-type</span> f <span class="token parameter variable">-size</span> +1G</code></pre>
+<p>find files by permissions:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> /home <span class="token parameter variable">-type</span> f <span class="token parameter variable">-perm</span> 0777</code></pre>
+<h2 id="executing-commands-on-files" tabindex="-1">Executing commands on files <a class="header-anchor" href="#executing-commands-on-files">#</a></h2>
+<p>find files and move them somewhere:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> <span class="token builtin class-name">.</span> <span class="token parameter variable">-type</span> f <span class="token parameter variable">-name</span> <span class="token string">"*.md"</span> <span class="token parameter variable">-exec</span> <span class="token function">cp</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> ~/notes/ <span class="token punctuation">\</span><span class="token punctuation">;</span></code></pre>
+<p>{} = placeholder for what find is finding
+; = ; ends the command, needs escape character</p>
+<p>use xargs instead of exec:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">find</span> /etc <span class="token parameter variable">-type</span> f <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token function">grep</span> <span class="token string">"127.0.0.1"</span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null</code></pre>
+<p>xargs will batch the input before executing, -exec will run the command once for each input item</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/rhcsa/shell-expansion/">Shell expansion</a></li><li>Next: <a href="/blog/rhcsa/find/">find</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/bash-config/">Bash config</a></li><li>Next: <a href="/blog/second-brain-activated/">Second Brain activated</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/bash-config/ -->
+		<!-- Current page: /blog/rhcsa/find/ -->
 	</body>
 </html>

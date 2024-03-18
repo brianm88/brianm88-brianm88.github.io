@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Bash config</title>
-		<meta name="description" content="Notes about bash config files.">
+		<title>Shell escaping</title>
+		<meta name="description" content="Notes on escaping special characters in shell scripts and commands.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,30 +465,28 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Bash config</h1>
+<h1>Shell escaping</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-03-17">17 March 2024</time></li>
+	<li><time datetime="2024-03-16">16 March 2024</time></li>
 	<li><a href="/tags/bash/" class="post-tag">bash</a>, </li>
-	<li><a href="/tags/config/" class="post-tag">config</a>, </li>
+	<li><a href="/tags/escaping/" class="post-tag">escaping</a>, </li>
 	<li><a href="/tags/rhcsa/" class="post-tag">rhcsa</a>, </li>
 	<li><a href="/tags/scripts/" class="post-tag">scripts</a></li>
 </ul>
 
-<h2 id="global-vs-user" tabindex="-1">Global vs user <a class="header-anchor" href="#global-vs-user">#</a></h2>
-<p>Global configs in /etc affect all users.  Includes /etc/profile and /etc/bash.bashrc</p>
-<p>/etc/profile is not bash specific -- contains system-wide environment variables and startup config for login shells</p>
-<p>/etc/bash.bashrc is the global config for non-login bash shells.</p>
-<p>User-specific configs are located in the users home folder -- .bashrc and .bash_profile</p>
-<p>These are copied from /etc/skel upon user creation</p>
+<p>Special characters must be escaped to prevent the shell from interpreting them as part of the script/command.</p>
+<p><strong>Double quotes</strong> &quot;...&quot; suppress globbing and shell expansion but still allow command and variable substitutions.</p>
+<p><strong>Single quotes</strong> '...' suppress all special characters.</p>
+<p><strong>Backslashes</strong> &quot; \ &quot; suppress only the character following the slash.</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/rhcsa/shell-expansion/">Shell expansion</a></li><li>Next: <a href="/blog/rhcsa/find/">find</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/create-new-post-script/">Create New Post script</a></li><li>Next: <a href="/blog/rhcsa/shell-expansion/">Shell expansion</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/bash-config/ -->
+		<!-- Current page: /blog/rhcsa/shell-escaping/ -->
 	</body>
 </html>
