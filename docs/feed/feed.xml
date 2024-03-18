@@ -83,7 +83,7 @@
 &lt;/table&gt;
 &lt;h2 id=&quot;the-blog&quot; tabindex=&quot;-1&quot;&gt;The blog &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/second-brain-activated/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;In addition to using the fuzzy finder to search my notes locally, I want them to be available to me anywhere.  I found my old wordpress blog very handy for looking at my own tutorials to remember how I configured something or linking them to a friend.&lt;/p&gt;
-&lt;p&gt;To make that super easy, I just store all the notes in a local github repo on my machine and use eleventy to generate static pages from them, which I explain in &lt;a href=&quot;https://stinky.blog/blog/second-brain-activated/adios-wordpress/&quot;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To make that super easy, I just store all the notes in a local github repo on my machine and use eleventy to generate static pages from them, which I explain in &lt;a href=&quot;https://stinky.blog/blog/adios-wordpress/&quot;&gt;this post&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Having to write all the front matter for each new post and then generate the static pages, generate the search index, and then push that to github is a lot of steps for simple note-taking.  So I automated creating a new post &lt;a href=&quot;https://stinky.blog/blog/blog/blog/blog/blog/blog/blog/blog/create-new-post-script/&quot;&gt;with this script&lt;/a&gt; and the page/index generation and github pushing with the script at the &lt;a href=&quot;https://stinky.blog/blog/adios-wordpress/&quot;&gt;bottom of this page&lt;/a&gt;.&lt;/p&gt;
 </content>
 	</entry>
