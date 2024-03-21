@@ -476,14 +476,13 @@ h2 + .header-anchor {
 	<li><a href="/tags/server/" class="post-tag">server</a>, </li>
 	<li><a href="/tags/torrent/" class="post-tag">torrent</a>, </li>
 	<li><a href="/tags/vpn/" class="post-tag">vpn</a>, </li>
-	<li><a href="/tags/wireguard/" class="post-tag">wireguard</a>, </li>
-	<li><a href="/tags/article/" class="post-tag">article</a></li>
+	<li><a href="/tags/wireguard/" class="post-tag">wireguard</a></li>
 </ul>
 
 <p>A google search for how to create this type of container will bring up a bunch of malarkey. It doesn’t have to be that complicated. You can set this up in a few minutes super easily. The result is an extremely lightweight and effective torrent box that you can control remotely. It works great on very modest hardware even with lots of traffic flowing.</p>
-<p><picture><source type="image/avif" srcset="/img/0p3kt2JHsC-579.avif 579w"><source type="image/webp" srcset="/img/0p3kt2JHsC-579.webp 579w"><img alt="container info" loading="lazy" decoding="async" src="/img/0p3kt2JHsC-579.jpeg" width="579" height="346"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/XRdxOCteGa-400.avif 400w"><source type="image/webp" srcset="/img/XRdxOCteGa-400.webp 400w"><img alt="container info" loading="lazy" decoding="async" src="/img/XRdxOCteGa-400.jpeg" width="400" height="239"></picture></p>
 <h2 id="first-spin-up-a-container" tabindex="-1">First, spin up a container. <a class="header-anchor" href="#first-spin-up-a-container">#</a></h2>
-<p><picture><source type="image/avif" srcset="/img/RQSkXuO37I-791.avif 791w"><source type="image/webp" srcset="/img/RQSkXuO37I-791.webp 791w"><img alt="container creation" loading="lazy" decoding="async" src="/img/RQSkXuO37I-791.jpeg" width="791" height="387"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/4valIwowxu-600.avif 600w"><source type="image/webp" srcset="/img/4valIwowxu-600.webp 600w"><img alt="container creation" loading="lazy" decoding="async" src="/img/4valIwowxu-600.jpeg" width="600" height="294"></picture></p>
 <p>Click on the local storage of one of your nodes, go to container templates, and click the Templates button. I am using the ubuntu 22.10-standard template, only 129mb.</p>
 <p>After downloading the template, right click your node and create the container. On the first page, make sure to uncheck ‘unprivileged container’ so that we will have full write access to the samba share. If you are storing files some other way, you can leave it unprivileged. (You can also achieve write access to cifs shares with an unprivileged container through user mapping if you so choose.)</p>
 <p>Select the ubuntu template on the next page. I went with the defaults for all the other options except 2 cpu cores and a static IP address.</p>
@@ -505,7 +504,7 @@ h2 + .header-anchor {
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">mv</span> wireguard-vpn.conf /etc/wireguard/wireguard-vpn.conf <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> /etc/wireguard <span class="token operator">&amp;&amp;</span> <span class="token function">ls</span></code></pre>
 <p>Let’s see if that bad boy works:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash">wg-quick up wireguard-vpn</code></pre>
-<p><picture><source type="image/avif" srcset="/img/qBkKeZntks-836.avif 836w"><source type="image/webp" srcset="/img/qBkKeZntks-836.webp 836w"><img alt="wireguard output" loading="lazy" decoding="async" src="/img/qBkKeZntks-836.jpeg" width="836" height="333"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/3SNcXBYnzU-541.avif 541w"><source type="image/webp" srcset="/img/3SNcXBYnzU-541.webp 541w"><img alt="wireguard output" loading="lazy" decoding="async" src="/img/3SNcXBYnzU-541.jpeg" width="541" height="308"></picture></p>
 <p>If you connected successfully, typing <strong>ip addr show</strong> will list a new tunnel interface at the bottom with your VPN IP!</p>
 <p>Now make it reconnect automatically on reboot:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash">systemctl <span class="token builtin class-name">enable</span> wg-quick@wireguard-vpn</code></pre>
@@ -529,10 +528,10 @@ h2 + .header-anchor {
 <p>Now enable it and reboot to see if it works:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash">systemctl <span class="token builtin class-name">enable</span> qbittorrent-nox <span class="token operator">&amp;&amp;</span> systemctl daemon-reload <span class="token operator">&amp;&amp;</span> <span class="token function">reboot</span></code></pre>
 <p>Did it work?? You can try it by opening your web browser and typing in the local IP of the machine followed by port 8080!</p>
-<p><picture><source type="image/avif" srcset="/img/WX1esYhBMp-759.avif 759w"><source type="image/webp" srcset="/img/WX1esYhBMp-759.webp 759w"><img alt="working qbit interface" loading="lazy" decoding="async" src="/img/WX1esYhBMp-759.jpeg" width="759" height="577"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/FTVN1cQyCs-600.avif 600w"><source type="image/webp" srcset="/img/FTVN1cQyCs-600.webp 600w"><img alt="working qbit interface" loading="lazy" decoding="async" src="/img/FTVN1cQyCs-600.jpeg" width="600" height="456"></picture></p>
 <h2 id="bind-qbt-nox-to-wireguard-interface" tabindex="-1">Bind Qbt-nox to wireguard interface <a class="header-anchor" href="#bind-qbt-nox-to-wireguard-interface">#</a></h2>
 <p>Last step! Go to <strong>Tools -&gt; Options -&gt; Advanced</strong> and set the client to ONLY use the wireguard tunnel that we have created. If your VPN provides you a static IP, you can optionally set the client to ONLY use this IP as well.</p>
-<p><picture><source type="image/avif" srcset="/img/Ytfrprzav2-837.avif 837w"><source type="image/webp" srcset="/img/Ytfrprzav2-837.webp 837w"><img alt="bind to wireguard" loading="lazy" decoding="async" src="/img/Ytfrprzav2-837.jpeg" width="837" height="969"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/2iX5ka34qP-544.avif 544w"><source type="image/webp" srcset="/img/2iX5ka34qP-544.webp 544w"><img alt="bind to wireguard" loading="lazy" decoding="async" src="/img/2iX5ka34qP-544.jpeg" width="544" height="630"></picture></p>
 <p>Now set your download folder to your samba share in the Downloads tab.</p>
 <p>That’s it! Now you can log in through this web interface from now on. You never have to access the container directly again. Add torrents by copying and pasting the magnet links into the webui from your phone or any other device!</p>
 <p>Ensure that traffic is flowing through the wireguard tunnel as expected by running the <strong>iftop</strong> utility we downloaded earlier.</p>
