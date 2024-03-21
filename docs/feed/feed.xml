@@ -4,12 +4,110 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-03-17T00:00:00Z</updated>
+	<updated>2024-03-21T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>ZFS Volblocksize Round 2</title>
+		<link href="https://stinky.blog/blog/zfs-bench2/zfs-volblocksize-round-2/"/>
+		<updated>2024-03-21T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/zfs-bench2/zfs-volblocksize-round-2/</id>
+		<content type="html">&lt;h2 id=&quot;round-2&quot; tabindex=&quot;-1&quot;&gt;Round 2! &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-bench2/zfs-volblocksize-round-2/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I did a little bit more testing on volblocksizes.  This time I discovered a faster way to switch between each size.  I just added a new disk to my existing fileserver VM after changing the pool-wide volblocksize in the Proxmox GUI.  Run the test, delete the disk, change the size again, repeat.&lt;/p&gt;
+&lt;p&gt;The fileserver VM is stored on a stripe of 2x 4TB ssd.&lt;/p&gt;
+&lt;p&gt;I simulated some different fileserver workloads by copying various types of files from my Windows 11 desktop to the share.  The desktop is connected via 10GbE and has a fast nvme.&lt;/p&gt;
+&lt;p&gt;Here are the transfer times for each run:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Transfer Time&lt;/th&gt;
+&lt;th&gt;Size and Type&lt;/th&gt;
+&lt;th&gt;Volblocksize&lt;/th&gt;
+&lt;th&gt;Number of Files&lt;/th&gt;
+&lt;th&gt;Average File Size&lt;/th&gt;
+&lt;th&gt;Average Speed (MB/s)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0:13&lt;/td&gt;
+&lt;td&gt;6.2 GB zip file&lt;/td&gt;
+&lt;td&gt;64k&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;6.2 GB&lt;/td&gt;
+&lt;td&gt;477.54&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0:13&lt;/td&gt;
+&lt;td&gt;6.2 GB zip file&lt;/td&gt;
+&lt;td&gt;8k&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;6.2 GB&lt;/td&gt;
+&lt;td&gt;477.54&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1:38&lt;/td&gt;
+&lt;td&gt;6.3 GB EverQuest folder&lt;/td&gt;
+&lt;td&gt;64k&lt;/td&gt;
+&lt;td&gt;18535&lt;/td&gt;
+&lt;td&gt;~350 KB&lt;/td&gt;
+&lt;td&gt;64.29&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1:55&lt;/td&gt;
+&lt;td&gt;6.3 GB EverQuest folder&lt;/td&gt;
+&lt;td&gt;8k&lt;/td&gt;
+&lt;td&gt;18535&lt;/td&gt;
+&lt;td&gt;~350 KB&lt;/td&gt;
+&lt;td&gt;54.74&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1:24&lt;/td&gt;
+&lt;td&gt;8.5 GB Resident Evil 5&lt;/td&gt;
+&lt;td&gt;64k&lt;/td&gt;
+&lt;td&gt;13692&lt;/td&gt;
+&lt;td&gt;~640 KB&lt;/td&gt;
+&lt;td&gt;101.19&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1:37&lt;/td&gt;
+&lt;td&gt;8.5 GB Resident Evil 5&lt;/td&gt;
+&lt;td&gt;8k&lt;/td&gt;
+&lt;td&gt;13692&lt;/td&gt;
+&lt;td&gt;~640 KB&lt;/td&gt;
+&lt;td&gt;87.63&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2:18&lt;/td&gt;
+&lt;td&gt;29.1 GB raw videos&lt;/td&gt;
+&lt;td&gt;64k&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;14.55 GB&lt;/td&gt;
+&lt;td&gt;210.76&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2:31&lt;/td&gt;
+&lt;td&gt;29.1 GB raw videos&lt;/td&gt;
+&lt;td&gt;8k&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;14.55 GB&lt;/td&gt;
+&lt;td&gt;193.69&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;These results were the opposite of what I expected.  I would have expected 8k volblocksize to be faster for the 2 game folders, which contain a ridiculous number of tiny files.  I would also expect the difference to be larger in the raw video transfers.  Let&#39;s test more.&lt;/p&gt;
+&lt;p&gt;Crystaldiskmark works on network shares, so I tried that.&lt;/p&gt;
+&lt;p&gt;8k:&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/T-LJg0XmsS-482.avif 482w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/T-LJg0XmsS-482.webp 482w&quot;&gt;&lt;img alt=&quot;8k crystalbenchmark&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/T-LJg0XmsS-482.png&quot; width=&quot;482&quot; height=&quot;352&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;64k:&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/qzUq7bzt-Z-482.avif 482w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/qzUq7bzt-Z-482.webp 482w&quot;&gt;&lt;img alt=&quot;64k crystalbenchmark&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/qzUq7bzt-Z-482.png&quot; width=&quot;482&quot; height=&quot;352&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;The speed increase for 1M operations makes sense to me when switching to 64k volblocksize.  The &lt;strong&gt;54%&lt;/strong&gt; speed increase in 4k operations makes less sense to me.  These results align with the benchmarks on the 4 spinning disks in the last post, but they are still surprising to me!&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Second Brain activated</title>

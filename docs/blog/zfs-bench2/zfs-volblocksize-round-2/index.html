@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Second Brain activated</title>
-		<meta name="description" content="Notes about my intended use for these pages and fuzzyfinder shortcuts.">
+		<title>ZFS Volblocksize Round 2</title>
+		<meta name="description" content="Second set of zfs volblocksize benchmarks.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,50 +465,118 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Second Brain activated</h1>
+<h1>ZFS Volblocksize Round 2</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-03-17">17 March 2024</time></li>
-	<li><a href="/tags/fuzzy-finder/" class="post-tag">fuzzy finder</a>, </li>
-	<li><a href="/tags/fzf/" class="post-tag">fzf</a>, </li>
-	<li><a href="/tags/second-brain/" class="post-tag">second brain</a>, </li>
-	<li><a href="/tags/markdown/" class="post-tag">markdown</a>, </li>
-	<li><a href="/tags/eleventy/" class="post-tag">eleventy</a>, </li>
-	<li><a href="/tags/notes/" class="post-tag">notes</a>, </li>
-	<li><a href="/tags/article/" class="post-tag">article</a></li>
+	<li><time datetime="2024-03-21">21 March 2024</time></li>
+	<li><a href="/tags/zfs/" class="post-tag">zfs</a>, </li>
+	<li><a href="/tags/zvol/" class="post-tag">zvol</a>, </li>
+	<li><a href="/tags/volblocksize/" class="post-tag">volblocksize</a>, </li>
+	<li><a href="/tags/block-size/" class="post-tag">block size</a>, </li>
+	<li><a href="/tags/linux/" class="post-tag">linux</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/homelab/" class="post-tag">homelab</a>, </li>
+	<li><a href="/tags/backup-server/" class="post-tag">backup server</a></li>
 </ul>
 
-<h2 id="second-brain" tabindex="-1">Second Brain <a class="header-anchor" href="#second-brain">#</a></h2>
-<p>I took calculus in '22.  Today, I wouldn't be able to find the derivative of a constant.  It's the same story with many things that I have learned over the years.  New info comes into the brain, old info gets dumped out.  That is something that I would like to change!  I want to remember stuff.</p>
-<p>Since embarking on this career change, information is coming at me at light speed.  Learning new things at work, studying for certifications, taking college classes, and homelabbing has my brain hitting its storage quota.  I would like a way to quickly document things and reference them later.  The method needs to be easy and fun, or else I won't stick with it.  Enter the second brain.</p>
-<p>After watching <a href="https://www.youtube.com/watch?v=zIGJ8NTHF4k&amp;t=3731s">this guy's video</a> and looking at <a href="https://mischavandenburg.com/">his site</a>, I decided I want to do something similar.  I don't need to take it as far as him, but I think it is an awesome idea.</p>
-<h2 id="markdown" tabindex="-1">Markdown <a class="header-anchor" href="#markdown">#</a></h2>
-<p>The idea is to simply take notes in markdown format and associate them with tags.  Then, you can search through them instantly using a fuzzy finder.</p>
-<p>Writing the notes in markdown serves a couple of key functions:</p>
-<ul>
-<li>can take notes from the terminal extremely quickly - no excuse not to</li>
-<li>still easy to insert media</li>
-<li>files are tiny</li>
-<li>allows instant conversion to static web pages for my blog</li>
-<li>easily convertible to another format if I stop doing this second brain thing</li>
-</ul>
-<h2 id="fuzzy-finder" tabindex="-1">Fuzzy finder <a class="header-anchor" href="#fuzzy-finder">#</a></h2>
-<p>To search my notes, <a href="https://github.com/Magnushhoie/fuz">I will be using fuz</a>.</p>
-<p>launch fuz</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">fuz</code></pre>
-<p>enter search terms, CTRL+L to view in <strong>less</strong>, CTRL +O to view in <strong>vim</strong></p>
-<h2 id="the-blog" tabindex="-1">The blog <a class="header-anchor" href="#the-blog">#</a></h2>
-<p>In addition to using the fuzzy finder to search my notes locally, I want them to be available to me anywhere.  I found my old wordpress blog very handy for looking at my own tutorials to remember how I configured something or linking them to a friend.</p>
-<p>To make that super easy, I just store all the notes in a local github repo on my machine and use eleventy to generate static pages from them, which I explain in <a href="/blog/adios-wordpress/">this post</a>.</p>
-<p>Having to write all the front matter for each new post and then generate the static pages, generate the search index, and then push that to github is a lot of steps for simple note-taking.  So I automated creating a new post <a href="/blog/blog/blog/blog/blog/blog/blog/blog/create-new-post-script/">with this script</a> and the page/index generation and github pushing with the script at the <a href="/blog/adios-wordpress/">bottom of this page</a>.</p>
+<h2 id="round-2" tabindex="-1">Round 2! <a class="header-anchor" href="#round-2">#</a></h2>
+<p>I did a little bit more testing on volblocksizes.  This time I discovered a faster way to switch between each size.  I just added a new disk to my existing fileserver VM after changing the pool-wide volblocksize in the Proxmox GUI.  Run the test, delete the disk, change the size again, repeat.</p>
+<p>The fileserver VM is stored on a stripe of 2x 4TB ssd.</p>
+<p>I simulated some different fileserver workloads by copying various types of files from my Windows 11 desktop to the share.  The desktop is connected via 10GbE and has a fast nvme.</p>
+<p>Here are the transfer times for each run:</p>
+<table>
+<thead>
+<tr>
+<th>Transfer Time</th>
+<th>Size and Type</th>
+<th>Volblocksize</th>
+<th>Number of Files</th>
+<th>Average File Size</th>
+<th>Average Speed (MB/s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:13</td>
+<td>6.2 GB zip file</td>
+<td>64k</td>
+<td>1</td>
+<td>6.2 GB</td>
+<td>477.54</td>
+</tr>
+<tr>
+<td>0:13</td>
+<td>6.2 GB zip file</td>
+<td>8k</td>
+<td>1</td>
+<td>6.2 GB</td>
+<td>477.54</td>
+</tr>
+<tr>
+<td>1:38</td>
+<td>6.3 GB EverQuest folder</td>
+<td>64k</td>
+<td>18535</td>
+<td>~350 KB</td>
+<td>64.29</td>
+</tr>
+<tr>
+<td>1:55</td>
+<td>6.3 GB EverQuest folder</td>
+<td>8k</td>
+<td>18535</td>
+<td>~350 KB</td>
+<td>54.74</td>
+</tr>
+<tr>
+<td>1:24</td>
+<td>8.5 GB Resident Evil 5</td>
+<td>64k</td>
+<td>13692</td>
+<td>~640 KB</td>
+<td>101.19</td>
+</tr>
+<tr>
+<td>1:37</td>
+<td>8.5 GB Resident Evil 5</td>
+<td>8k</td>
+<td>13692</td>
+<td>~640 KB</td>
+<td>87.63</td>
+</tr>
+<tr>
+<td>2:18</td>
+<td>29.1 GB raw videos</td>
+<td>64k</td>
+<td>2</td>
+<td>14.55 GB</td>
+<td>210.76</td>
+</tr>
+<tr>
+<td>2:31</td>
+<td>29.1 GB raw videos</td>
+<td>8k</td>
+<td>2</td>
+<td>14.55 GB</td>
+<td>193.69</td>
+</tr>
+</tbody>
+</table>
+<p>These results were the opposite of what I expected.  I would have expected 8k volblocksize to be faster for the 2 game folders, which contain a ridiculous number of tiny files.  I would also expect the difference to be larger in the raw video transfers.  Let's test more.</p>
+<p>Crystaldiskmark works on network shares, so I tried that.</p>
+<p>8k:<br>
+<picture><source type="image/avif" srcset="/img/T-LJg0XmsS-482.avif 482w"><source type="image/webp" srcset="/img/T-LJg0XmsS-482.webp 482w"><img alt="8k crystalbenchmark" loading="lazy" decoding="async" src="/img/T-LJg0XmsS-482.png" width="482" height="352"></picture></p>
+<p>64k:<br>
+<picture><source type="image/avif" srcset="/img/qzUq7bzt-Z-482.avif 482w"><source type="image/webp" srcset="/img/qzUq7bzt-Z-482.webp 482w"><img alt="64k crystalbenchmark" loading="lazy" decoding="async" src="/img/qzUq7bzt-Z-482.png" width="482" height="352"></picture></p>
+<p>The speed increase for 1M operations makes sense to me when switching to 64k volblocksize.  The <strong>54%</strong> speed increase in 4k operations makes less sense to me.  These results align with the benchmarks on the 4 spinning disks in the last post, but they are still surprising to me!</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/rhcsa/find/">find</a></li><li>Next: <a href="/blog/zfs-bench2/zfs-volblocksize-round-2/">ZFS Volblocksize Round 2</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/second-brain-activated/">Second Brain activated</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/second-brain-activated/ -->
+		<!-- Current page: /blog/zfs-bench2/zfs-volblocksize-round-2/ -->
 	</body>
 </html>
