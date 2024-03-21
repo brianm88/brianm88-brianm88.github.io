@@ -476,14 +476,16 @@ h2 + .header-anchor {
 	<li><a href="/tags/linux/" class="post-tag">linux</a>, </li>
 	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
 	<li><a href="/tags/homelab/" class="post-tag">homelab</a>, </li>
-	<li><a href="/tags/backup-server/" class="post-tag">backup server</a></li>
+	<li><a href="/tags/backup-server/" class="post-tag">backup server</a>, </li>
+	<li><a href="/tags/article/" class="post-tag">article</a></li>
 </ul>
 
 <p>I store all of my VMs on ZFS pools.  On Proxmox, VMs stored on ZFS pools will use zvols by default, rather than a disk file in a dataset. Proxmox zvols use a default volblocksize of 8k.  What the heck is a zvol, and what is the impact on storage performance?</p>
 <p><strong>Zvols</strong> present a virtual block device to the VM, like a physical disk.  It sounds pretty cool, but it comes with some caveats.  Zvols use a <em>volblocksize</em> rather than a recordsize or a block size.  Selecting the wrong volblocksize for your workload can result in extreme write amplification, increased drive wear, and terrible performance.</p>
-<p><strong>Volblocksize</strong> represents the <em>minimum</em> amount of data that can be written to a zvol.  This is the opposite of recordsize, which refers to the maximum.  A random 4kb write to a zpool with a recordsize of 128k is no problem -- ZFS will simply write 4k. The same 4k random write on a zvol with volblocksize of 128k requires reading a 128k block, modifying it, and writing a 128k block.  This is <strong>write amplification.</strong></p>
+<p><strong>Volblocksize</strong> represents the <em>minimum</em> amount of data that can be written to a zvol.  This is the opposite of recordsize, which refers to the maximum.  Writing a 1kb file to a zpool with a recordsize of 128k is no problem -- ZFS will simply write 1k. The same 1k write on a zvol with volblocksize of 128k will cause 128k of data to be written.  That's a write amplification of <strong>128x</strong>.  No bueno!</p>
+<p>A similar situation occurs in reverse.  You have a 128k volblocksize and you need to read 1k.  ZFS must read the whole 128k block to return your 1k data.  This can greatly increase latency and reduce IOPs.</p>
 <p>It gets even worse if you're calculating parity -- arrays with certain drive configurations can lose 50% or more of their total usable space to metadata when block size is set too low.  Look for posts discussing &quot;padding overhead&quot; or <a href="https://www.delphix.com/blog/zfs-raidz-stripe-width-or-how-i-learned-stop-worrying-and-love-raidz">posts like this</a> for more info.</p>
-<p>I was hoping that the perfect volblocksize would be just a google search away... but it looks like it's gonna be more complicated than that!  Some advice suggests that volblocksize should precisely match the workload, 16k for databases which perform 16k writes, for example.  Other advice suggests that the volblocksize should be higher in order for compression to work.  So, my goal here is to just to learn what I can about how ZFS interacts with zvols, starting with some simple tests.</p>
+<p>I was hoping that the perfect volblocksize would be just a google search away... but it looks like it's gonna be more complicated than that!  The volblocksize should precisely match the workload, 16k for databases which perform 16k writes, for example.  I'm not sure exactly what that would be for my typical usage.  So, my goal here is to just to learn what I can about how ZFS interacts with zvols, starting with some simple tests.</p>
 <h2 id="testing-methodology-round-1" tabindex="-1">Testing Methodology - Round 1 <a class="header-anchor" href="#testing-methodology-round-1">#</a></h2>
 <p>I'll be using a striped mirror containing 4x 12TB drives.  The underlying pool has ashift=12, compression=LZ4, recordsize=128k.  I am testing inside a Debian VM with ext4 filesystem, 4k blocks, cache=none.</p>
 <p>To test each volblocksize, I am simply moving the virtual disk off of the pool, resetting the volblocksize, and then moving the virtual disk back to the pool.  (The data needs to be written again in order for the new volblocksize to take effect.)</p>
@@ -606,7 +608,7 @@ random-write: <span class="token punctuation">(</span>g<span class="token operat
 <p>Would love some feedback on my methodology and some pointers!  More fun to learn with friends.  brianm88 @ gmail.com or /dev/goat on Steam.</p>
 <p>Thanks for reading.  Happy homelabbing!</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/blog/backup-server/backup-server-build/">Building a better backup server</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/backup-server/backup-server-build/">Building a better backup server</a></li><li>Next: <a href="/blog/rhcsa/bash-history/">bash history</a></li>
 </ul>
 
 		</main>
