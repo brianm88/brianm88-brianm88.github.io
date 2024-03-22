@@ -82,6 +82,11 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/scripts/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/bash/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -93,11 +98,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/rhcsa/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/scripts/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -327,6 +327,11 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/rsync/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/zvol/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -414,5 +419,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/zfs-bench2/zfs-volblocksize-round-2/</loc>
 		<lastmod>2024-03-21</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/thinkpad-backup/thinkpad-backup-script/</loc>
+		<lastmod>2024-03-22</lastmod>
 	</url>
 </urlset>
