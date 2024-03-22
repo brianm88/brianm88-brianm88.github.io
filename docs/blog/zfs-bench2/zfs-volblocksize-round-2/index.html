@@ -569,6 +569,10 @@ h2 + .header-anchor {
 <p>64k:<br>
 <picture><source type="image/avif" srcset="/img/qzUq7bzt-Z-482.avif 482w"><source type="image/webp" srcset="/img/qzUq7bzt-Z-482.webp 482w"><img alt="64k crystalbenchmark" loading="lazy" decoding="async" src="/img/qzUq7bzt-Z-482.png" width="482" height="352"></picture></p>
 <p>The speed increase for 1M operations makes sense to me when switching to 64k volblocksize.  The <strong>54%</strong> speed increase in 4k operations makes less sense to me.  These results align with the benchmarks on the 4 spinning disks in the last post, but they are still surprising to me!</p>
+<h2 id="what-have-i-learned-so-far" tabindex="-1">What have I learned so far? <a class="header-anchor" href="#what-have-i-learned-so-far">#</a></h2>
+<p>Well, it's still pretty confusing.  64k seems to be universally faster than 8k, but probably causes a decent amount of write amplification for small writes typical of VM workloads.</p>
+<p>After all this testing, I am getting interested in possibly moving away from the fileserver-in-a-VM setup.  It has been pretty a pretty elegant solution, being able to backup, restore, and migrate the entire fileserver so quickly and easily.  I think I can still get most of the same functionality with a plain ZFS dataset mounted in a container, using zfs send/receive to back it up to the Proxmox Backup Server.  It can probably be automated pretty easily with a script and be faster and better than what I'm doing.</p>
+<p>This has been pretty fun to learn so far!  Switching up my approach will allow me to learn even more about zfs snapshots and how to manage them.</p>
 
 <ul class="links-nextprev"><li>Previous: <a href="/blog/second-brain-activated/">Second Brain activated</a></li><li>Next: <a href="/blog/thinkpad-backup/thinkpad-backup-script/">Thinkpad Backup Script</a></li>
 </ul>
