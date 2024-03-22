@@ -40,6 +40,7 @@
 &lt;p&gt;Obviously the script is not actually checking anything during the echo messages but that will help to remind me where the exclude file is whenever I run the script manually.&lt;/p&gt;
 &lt;p&gt;The excludes file is just a txt file that lists Downloads/ and .*&lt;/p&gt;
 &lt;p&gt;The rsync flags are for archive mode, preserve hard links, verbose mode, compression enabled, Partial progress (resuming), update only if modified date changed, and itemize summary of changes.&lt;/p&gt;
+&lt;p&gt;I am also using the --delete option, which will &lt;strong&gt;delete all files from the destination that are no longer found in the source.&lt;/strong&gt; I snapshot the fileserver daily with Proxmox Backup Server, so I can recover any deleted files from a previous flieserver backup if I accidentally lose something.  This will just be a nice working copy of the laptop.&lt;/p&gt;
 &lt;p&gt;Since I wrote a ssh config file and I use a key pair to login, I can skip password authentication and use the shortcut address files:/location.&lt;/p&gt;
 &lt;p&gt;My scripts directory is added to my $PATH so I can execute the script manually by just typing&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;backup-thinkpad.sh&lt;/code&gt;&lt;/pre&gt;
