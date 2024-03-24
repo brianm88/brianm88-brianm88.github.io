@@ -507,7 +507,7 @@ Unlike LXCs, VMs do have a way to track which files have changed: dirty pages.  
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">useradd</span> files <span class="token parameter variable">-u</span> <span class="token number">101000</span> <span class="token parameter variable">-g</span> <span class="token number">110000</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-s</span> /bin/bash</code></pre>
 <p>chown the dataset to the new user and group:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">chown</span> <span class="token parameter variable">-R</span> files:file_users /fast/fileserver/</code></pre>
-<p>Then I created a new unprivileged debian 12 container.</p>
+<p>Then I created a new unprivileged ubuntu23 container.</p>
 <p>Now start the container and add the user and group inside there:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">groupadd</span> <span class="token parameter variable">-g</span> <span class="token number">10000</span> file_users
 <span class="token function">useradd</span> files <span class="token parameter variable">-u</span> <span class="token number">1000</span> <span class="token parameter variable">-g</span> <span class="token number">10000</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-s</span> /bin/bash</code></pre>
