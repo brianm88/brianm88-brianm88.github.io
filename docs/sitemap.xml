@@ -262,22 +262,22 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/find/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/linux/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/man/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://stinky.blog/tags/mandb/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/find/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/linux/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -432,7 +432,7 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/blog/zfs-fileserver/zfs-mounts-in-unprivileged-lxc-containers/</loc>
+		<loc>https://stinky.blog/blog/zfs-fileserver/</loc>
 		<lastmod>2024-03-23</lastmod>
 	</url>
 </urlset>

@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>ZFS Fileserver: LXC+Dataset vs VM+Zvol</title>
+		<meta name="description" content="Comparison between fileservers in a VM on ZFS zvol or a LXC with mounted dataset.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">stinky.blog</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>ZFS Fileserver: LXC+Dataset vs VM+Zvol</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2024-03-23">23 March 2024</time></li>
+	<li><a href="/tags/zfs/" class="post-tag">zfs</a>, </li>
+	<li><a href="/tags/zvol/" class="post-tag">zvol</a>, </li>
+	<li><a href="/tags/volblocksize/" class="post-tag">volblocksize</a>, </li>
+	<li><a href="/tags/lxc/" class="post-tag">lxc</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/fileserver/" class="post-tag">fileserver</a></li>
+</ul>
+
+<h2 id="intro-recap" tabindex="-1">Intro / recap <a class="header-anchor" href="#intro-recap">#</a></h2>
+<p>Lately, I have been doing some benchmarking of my ZFS pools.  I have been trying to learn the performance impact of different volblocksizes when running VMs on ZFS.</p>
+<p>Selecting the wrong volblocksize can cause serious performance issues.  Even though my VMs been trucking along just fine, I wanted to learn more about this and how to properly optimize it for production workloads.</p>
+<p>You can see the results of <a href="/blog/zfs-bench/">round 1</a> and <a href="/blog/zfs-bench2/zfs-volblocksize-round-2/">round 2</a> here.</p>
+<h2 id="vm-vs-lxc" tabindex="-1">VM vs LXC <a class="header-anchor" href="#vm-vs-lxc">#</a></h2>
+<p><strong>LXC:</strong>
+Originally, I ran my fileserver in a lightweight LXC container, using a storage-backed mount in Proxmox.  I passed the mount directory (ext4) into the VM and shared it via samba/nfs.  Performance was great and it worked like a charm.  The only major downside for me was that Proxmox Backup Server would then have to scan the entire disk in order to make the daily backups.  LXC containers don't have a way to track changes to files, so even incremental backups still take way too long.  I was using 5TB spinning disks at the time, and backups were taking about 3.5 hours at a minimum, even if there was nothing new to backup.</p>
+<p><strong>VM:</strong>
+Unlike LXCs, VMs do have a way to track which files have changed: dirty pages.  As long as the VM is online and has not rebooted since the last backup, it will only scan and transfer new or modified files.  This cut my backup times down from 3 hours to 3 minutes.</p>
+<p>I have run my fileserver in a VM on a ZFS pool for about a year and a half now.  It has worked great.  I love the integration with Proxmox Backup Server, which allows me to very quickly backup, restore, and migrate the entire VM along with all of its data.</p>
+<p>VMs running on ZFS pools in Proxmox introduce the volblocksize concept though, instead of using a recordsize.  While a sub-optimal recordsize isn't that big of a deal, setting the wrong volblocksize can be much worse.  That has been what I wanted to learn about through my testing.</p>
+<h2 id="test-results-so-far" tabindex="-1">Test results so far <a class="header-anchor" href="#test-results-so-far">#</a></h2>
+<p>The benchmarks I've run so far have led to more questions than answers.  The results are confusing.  I'm not sure if my testing methodology is even sound for what I'm looking to learn.  There is very little information online about volblocksize optimization and how to test it.  I think the general idea is that you should avoid zvols like the plague unless you know exactly what size blocks will be written from your workload, and you are able to tailor each zvol to the specific data that it will contain.  From my testing, speeds increase dramatically when pushing the volblocksize from the default 8k to as high as 64k.  I don't have a heavy database or write/rewrite in place workload to really test the downside of that change, though.</p>
+<p>So with that in mind, let's see if there's a way to avoid volblocksize completely, while retaining my favorite benefits of the VM.</p>
+<h2 id="back-to-lxc" tabindex="-1">Back to LXC <a class="header-anchor" href="#back-to-lxc">#</a></h2>
+<p>So, I will complete the circle and go back to using a LXC.  In order to avoid the super long backup times, I will switch up my backup process.</p>
+<p>Proxmox Backup Server uses its own method to create incremental backups, which requires either scanning the entire disk or using dirty-pages for a VM.  I will use zfs snapshots instead.  Since my Proxmox Backup Server has a 48TB ZFS pool, I can just use zfs send/receive to back them up on the same pool but without the long scan and transfer times.  Sending an incremental snapshot with zfs send should be nearly instant, no matter what the state of the container is.</p>
+<p>Unfortunately, it's not possible to do ZFS snapshots inside the PBS gui yet.  That's ok, though, since the commands should be pretty easy and scriptable.  I will just have PBS continue to backup the container itself with the backup job in the gui.</p>
+<p>There is one extra hoop to jump through in order to mount the zfs dataset inside the LXC, as well.  The datasets need to be created and then added to the container manually, rather than creating a fixed-size dataset within the Proxmox gui.</p>
+<h2 id="setup" tabindex="-1">Setup <a class="header-anchor" href="#setup">#</a></h2>
+<p>First, I created a new dataset (fileserver) on my zpool (fast):</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">zfs create fast/fileserver</code></pre>
+<p>Then I configured permissions on the proxmox host.  <a href="https://blog.kye.dev/proxmox-zfs-mounts">This is a great guide</a> on how to configure permissions for this specific scenario.  TLDR: Proxmox masks the true uid/gid inside containers for security reasons.  In order to share files on the host from inside an unprivileged container, this workaround (or manual user-mapping) is necessary.</p>
+<p>The uid/gid obfuscation works by adding 100,000 to whatever the container's value is.  So uid 1000 in the container is uid 101000 on the host.</p>
+<p>So I will make a fileserver users group with gid 110000 on the Proxmox host:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">groupadd</span> <span class="token parameter variable">-g</span> <span class="token number">110000</span> file_users</code></pre>
+<p>And then a user:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">useradd</span> files <span class="token parameter variable">-u</span> <span class="token number">101000</span> <span class="token parameter variable">-g</span> <span class="token number">110000</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-s</span> /bin/bash</code></pre>
+<p>chown the dataset to the new user and group:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">chown</span> <span class="token parameter variable">-R</span> files:file_users /fast/fileserver/</code></pre>
+<p>Then I created a new unprivileged debian 12 container.</p>
+<p>Now start the container and add the user and group inside there:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">groupadd</span> <span class="token parameter variable">-g</span> <span class="token number">10000</span> file_users
+<span class="token function">useradd</span> files <span class="token parameter variable">-u</span> <span class="token number">1000</span> <span class="token parameter variable">-g</span> <span class="token number">10000</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-s</span> /bin/bash</code></pre>
+<p>Shutdown the container.</p>
+<p>Finally, we just have to add the mountpoint to the container configuration file.  You can do this manually or just use pct set on the proxmox host:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">pct <span class="token builtin class-name">set</span> <span class="token number">109</span> <span class="token parameter variable">-mp0</span> /fast/fileserver,mp<span class="token operator">=</span>/mnt/files</code></pre>
+<p>Now run the container again.</p>
+<p>Tadaaaaaa:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@zfs-test:/mnt<span class="token comment"># ls</span>
+files
+root@zfs-test:/mnt<span class="token comment"># </span></code></pre>
+<p>Now before I get too excited and set up NFS and Samba, I'd like to just run the same benchmark I ran in <a href="/blog/zfs-bench/">round 1</a>.  Let's see how a raw dataset with 128k recordsize compares to all those volblocksizes.</p>
+<h2 id="quick-bench" tabindex="-1">Quick bench <a class="header-anchor" href="#quick-bench">#</a></h2>
+<pre class="language-bash" tabindex="0"><code class="language-bash">fio <span class="token parameter variable">--name</span><span class="token operator">=</span>random-write <span class="token parameter variable">--rw</span><span class="token operator">=</span>randrw <span class="token parameter variable">--bs</span><span class="token operator">=</span>4k <span class="token parameter variable">--size</span><span class="token operator">=</span>4g <span class="token parameter variable">--numjobs</span><span class="token operator">=</span><span class="token number">1</span> <span class="token parameter variable">--iodepth</span><span class="token operator">=</span><span class="token number">1</span> <span class="token parameter variable">--runtime</span><span class="token operator">=</span><span class="token number">60</span> <span class="token parameter variable">--time_based</span> <span class="token parameter variable">--end_fsync</span><span class="token operator">=</span><span class="token number">1</span></code></pre>
+<p>This container:</p>
+<pre><code>   READ: bw=42.4MiB/s (44.4MB/s), 42.4MiB/s-42.4MiB/s (44.4MB/s-44.4MB/s), io=2543MiB (2666MB), run=60001-60001msec
+
+  WRITE: bw=42.3MiB/s (44.4MB/s), 42.3MiB/s-42.3MiB/s (44.4MB/s-44.4MB/s), io=2540MiB (2664MB), run=60001-60001msec
+</code></pre>
+<p><strong>Compared to the fileserver-in-a-VM with 64kb volblocksize:</strong></p>
+<p><picture><source type="image/avif" srcset="/img/_MI6b4p9wf-923.avif 923w"><source type="image/webp" srcset="/img/_MI6b4p9wf-923.webp 923w"><img alt="4k random read/write on zvol 64kb volblocksize" loading="lazy" decoding="async" src="/img/_MI6b4p9wf-923.jpeg" width="923" height="52"></picture></p>
+<p>Well... the VM running ext4 on a zvol with 64kb volblocksize is faster at 4k random read/write than the container with the dataset mounted directly, recordsize 128kb. <strong>How about 1M?</strong></p>
+<p>This container:</p>
+<pre><code>   READ: bw=1151MiB/s (1207MB/s), 1151MiB/s-1151MiB/s (1207MB/s-1207MB/s), io=67.4GiB (72.4GB), run=60001-60001msec
+  WRITE: bw=1144MiB/s (1200MB/s), 1144MiB/s-1144MiB/s (1200MB/s-1200MB/s), io=67.1GiB (72.0GB), run=60001-60001msec
+</code></pre>
+<p>fileserver-in-a-vm, 64k volblocksize:</p>
+<p><picture><source type="image/avif" srcset="/img/JiKKDb8sHq-923.avif 923w"><source type="image/webp" srcset="/img/JiKKDb8sHq-923.webp 923w"><img alt="1M random read/write on zvol 64kb volblocksize" loading="lazy" decoding="async" src="/img/JiKKDb8sHq-923.jpeg" width="923" height="52"></picture></p>
+<p>The container is <strong>102% faster</strong> than the VM here.  It transferred <strong>72GB</strong> while the VM transferred 36GB.</p>
+<h2 id="samba-time" tabindex="-1">samba time. <a class="header-anchor" href="#samba-time">#</a></h2>
+<p>Just installed the base ubuntu &quot;samba&quot; package.  Made a basic smb.conf</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token punctuation">[</span>files<span class="token punctuation">]</span>
+   path <span class="token operator">=</span> /mnt/files
+   valid <span class="token function">users</span> <span class="token operator">=</span> files
+   guest ok <span class="token operator">=</span> no
+   writable <span class="token operator">=</span> <span class="token function">yes</span>
+   browseable <span class="token operator">=</span> <span class="token function">yes</span></code></pre>
+<p>created user:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">smbpasswd <span class="token parameter variable">-a</span> files</code></pre>
+<h2 id="results" tabindex="-1">Results <a class="header-anchor" href="#results">#</a></h2>
+<p>Ran crystaldiskmark on the network share again, from my windows11 PC connected via 10GbE.</p>
+<p>In the container:</p>
+<p><picture><source type="image/avif" srcset="/img/tpiLKNgtFo-482.avif 482w"><source type="image/webp" srcset="/img/tpiLKNgtFo-482.webp 482w"><img alt="crystaldiskmark results in container with zfs dataset mount, network share" loading="lazy" decoding="async" src="/img/tpiLKNgtFo-482.png" width="482" height="355"></picture></p>
+<p>In the VM:</p>
+<p><picture><source type="image/avif" srcset="/img/qzUq7bzt-Z-482.avif 482w"><source type="image/webp" srcset="/img/qzUq7bzt-Z-482.webp 482w"><img alt="64k volblocksize vm crystaldiskmark results" loading="lazy" decoding="async" src="/img/qzUq7bzt-Z-482.png" width="482" height="352"></picture></p>
+<p><strong>It's a lot faster!!</strong></p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/thinkpad-backup/thinkpad-backup-script/">Thinkpad Backup Script</a></li>
+</ul>
+
+		</main>
+
+		<footer></footer>
+
+		<!-- Current page: /blog/zfs-fileserver/ -->
+	</body>
+</html>
