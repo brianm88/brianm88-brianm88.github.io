@@ -523,17 +523,14 @@ root@zfs-test:/mnt<span class="token comment"># </span></code></pre>
 <h2 id="quick-bench" tabindex="-1">Quick bench <a class="header-anchor" href="#quick-bench">#</a></h2>
 <pre class="language-bash" tabindex="0"><code class="language-bash">fio <span class="token parameter variable">--name</span><span class="token operator">=</span>random-write <span class="token parameter variable">--rw</span><span class="token operator">=</span>randrw <span class="token parameter variable">--bs</span><span class="token operator">=</span>4k <span class="token parameter variable">--size</span><span class="token operator">=</span>4g <span class="token parameter variable">--numjobs</span><span class="token operator">=</span><span class="token number">1</span> <span class="token parameter variable">--iodepth</span><span class="token operator">=</span><span class="token number">1</span> <span class="token parameter variable">--runtime</span><span class="token operator">=</span><span class="token number">60</span> <span class="token parameter variable">--time_based</span> <span class="token parameter variable">--end_fsync</span><span class="token operator">=</span><span class="token number">1</span></code></pre>
 <p>This container:</p>
-<pre><code>   READ: bw=42.4MiB/s (44.4MB/s), 42.4MiB/s-42.4MiB/s (44.4MB/s-44.4MB/s), io=2543MiB (2666MB), run=60001-60001msec
-
-  WRITE: bw=42.3MiB/s (44.4MB/s), 42.3MiB/s-42.3MiB/s (44.4MB/s-44.4MB/s), io=2540MiB (2664MB), run=60001-60001msec
-</code></pre>
+<p>READ: bw=42.4MiB/s (44.4MB/s), 42.4MiB/s-42.4MiB/s (44.4MB/s-44.4MB/s), io=2543MiB (2666MB), run=60001-60001msec</p>
+<p>WRITE: bw=42.3MiB/s (44.4MB/s), 42.3MiB/s-42.3MiB/s (44.4MB/s-44.4MB/s), io=2540MiB (2664MB), run=60001-60001msec</p>
 <p><strong>Compared to the fileserver-in-a-VM with 64kb volblocksize:</strong></p>
 <p><picture><source type="image/avif" srcset="/img/_MI6b4p9wf-923.avif 923w"><source type="image/webp" srcset="/img/_MI6b4p9wf-923.webp 923w"><img alt="4k random read/write on zvol 64kb volblocksize" loading="lazy" decoding="async" src="/img/_MI6b4p9wf-923.jpeg" width="923" height="52"></picture></p>
 <p>Well... the VM running ext4 on a zvol with 64kb volblocksize is faster at 4k random read/write than the container with the dataset mounted directly, recordsize 128kb. <strong>How about 1M?</strong></p>
 <p>This container:</p>
-<pre><code>   READ: bw=1151MiB/s (1207MB/s), 1151MiB/s-1151MiB/s (1207MB/s-1207MB/s), io=67.4GiB (72.4GB), run=60001-60001msec
-  WRITE: bw=1144MiB/s (1200MB/s), 1144MiB/s-1144MiB/s (1200MB/s-1200MB/s), io=67.1GiB (72.0GB), run=60001-60001msec
-</code></pre>
+<p>READ: bw=1151MiB/s (1207MB/s), 1151MiB/s-1151MiB/s (1207MB/s-1207MB/s), io=67.4GiB (72.4GB), run=60001-60001msec
+WRITE: bw=1144MiB/s (1200MB/s), 1144MiB/s-1144MiB/s (1200MB/s-1200MB/s), io=67.1GiB (72.0GB), run=60001-60001msec</p>
 <p>fileserver-in-a-vm, 64k volblocksize:</p>
 <p><picture><source type="image/avif" srcset="/img/JiKKDb8sHq-923.avif 923w"><source type="image/webp" srcset="/img/JiKKDb8sHq-923.webp 923w"><img alt="1M random read/write on zvol 64kb volblocksize" loading="lazy" decoding="async" src="/img/JiKKDb8sHq-923.jpeg" width="923" height="52"></picture></p>
 <p>The container is <strong>102% faster</strong> than the VM here.  It transferred <strong>72GB</strong> while the VM transferred 36GB.</p>
