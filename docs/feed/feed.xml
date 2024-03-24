@@ -65,13 +65,15 @@ root@zfs-test:/mnt&lt;span class=&quot;token comment&quot;&gt;# &lt;/span&gt;&lt
 &lt;p&gt;READ: bw=42.4MiB/s (44.4MB/s), 42.4MiB/s-42.4MiB/s (44.4MB/s-44.4MB/s), io=2543MiB (2666MB), run=60001-60001msec&lt;/p&gt;
 &lt;p&gt;WRITE: bw=42.3MiB/s (44.4MB/s), 42.3MiB/s-42.3MiB/s (44.4MB/s-44.4MB/s), io=2540MiB (2664MB), run=60001-60001msec&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Compared to the fileserver-in-a-VM with 64kb volblocksize:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/_MI6b4p9wf-923.avif 923w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/_MI6b4p9wf-923.webp 923w&quot;&gt;&lt;img alt=&quot;4k random read/write on zvol 64kb volblocksize&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/_MI6b4p9wf-923.jpeg&quot; width=&quot;923&quot; height=&quot;52&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;READ: bw=51.8MiB/s (54.3MB/s), 51.8Mib/s-51.8MiB/s (54.3MB/s-54.3MB/s), io=3127MiB (3279MB), run=60400-60400msec&lt;/p&gt;
+&lt;p&gt;WRITE: bw=51.7MiB/s (54.2MB/s), 51.MiB/s-51.7MiB/s (54.2MB/s-54.2MB/s, io=3123MiB (3274MB), run=60400-60400msec&lt;/p&gt;
 &lt;p&gt;Well... the VM running ext4 on a zvol with 64kb volblocksize is faster at 4k random read/write than the container with the dataset mounted directly, recordsize 128kb. &lt;strong&gt;How about 1M?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;This container:&lt;/p&gt;
 &lt;p&gt;READ: bw=1151MiB/s (1207MB/s), 1151MiB/s-1151MiB/s (1207MB/s-1207MB/s), io=67.4GiB (72.4GB), run=60001-60001msec
 WRITE: bw=1144MiB/s (1200MB/s), 1144MiB/s-1144MiB/s (1200MB/s-1200MB/s), io=67.1GiB (72.0GB), run=60001-60001msec&lt;/p&gt;
 &lt;p&gt;fileserver-in-a-vm, 64k volblocksize:&lt;/p&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/JiKKDb8sHq-923.avif 923w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/JiKKDb8sHq-923.webp 923w&quot;&gt;&lt;img alt=&quot;1M random read/write on zvol 64kb volblocksize&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/JiKKDb8sHq-923.jpeg&quot; width=&quot;923&quot; height=&quot;52&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;READ: bw=569MiB/s (596MB/s), 569MiB/s-569MiB/s (596MB/s-596MB/s), io=33.4GiB (35.9GB), run=60157-60157msec
+WRITE: bw=570MiB/s (598MB/s), 570MiB/s-570MiB/s (598MB/s-598MB/s), io=33.5 GiB (35.9GB), run=60157-60157msec&lt;/p&gt;
 &lt;p&gt;The container is &lt;strong&gt;102% faster&lt;/strong&gt; than the VM here.  It transferred &lt;strong&gt;72GB&lt;/strong&gt; while the VM transferred 36GB.&lt;/p&gt;
 &lt;h2 id=&quot;samba-time&quot; tabindex=&quot;-1&quot;&gt;samba time. &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Just installed the base ubuntu &amp;quot;samba&amp;quot; package.  Made a basic smb.conf&lt;/p&gt;
