@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Thinkpad Backup Script</title>
-		<meta name="description" content="Script to backup thinkpad to fileserver.">
+		<title>ZFS Fileserver: LXC+Dataset vs VM+Zvol</title>
+		<meta name="description" content="Comparison between fileservers in a VM on ZFS zvol or a LXC with mounted dataset.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,53 +465,61 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>Thinkpad Backup Script</h1>
+<h1>ZFS Fileserver: LXC+Dataset vs VM+Zvol</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-03-22">22 March 2024</time></li>
-	<li><a href="/tags/bash/" class="post-tag">bash</a>, </li>
-	<li><a href="/tags/scripts/" class="post-tag">scripts</a>, </li>
-	<li><a href="/tags/rsync/" class="post-tag">rsync</a></li>
+	<li><time datetime="2024-03-23">23 March 2024</time></li>
+	<li><a href="/tags/zfs/" class="post-tag">zfs</a>, </li>
+	<li><a href="/tags/zvol/" class="post-tag">zvol</a>, </li>
+	<li><a href="/tags/volblocksize/" class="post-tag">volblocksize</a>, </li>
+	<li><a href="/tags/lxc/" class="post-tag">lxc</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/fileserver/" class="post-tag">fileserver</a></li>
 </ul>
 
-<h2 id="fast-backups" tabindex="-1">Fast backups <a class="header-anchor" href="#fast-backups">#</a></h2>
-<p>I have been doing super lazy backups of my thinkpad for a while.  I just rsync the whole home folder to my fileserver.  That has been working okay, except that now I have a ton of files I'd like to exclude from the backup to speed it up a bit.  I'd also like the backup to run periodically in the background.</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
-<span class="token builtin class-name">echo</span> <span class="token string">"Hi friend!  It's backup time."</span>
+<h2 id="intro-recap" tabindex="-1">Intro / recap <a class="header-anchor" href="#intro-recap">#</a></h2>
+<p>Lately, I have been doing some benchmarking of my ZFS pools.  I have been trying to learn the performance impact of different volblocksizes when running VMs on ZFS.</p>
+<p>Selecting the wrong volblocksize can cause serious performance issues.  Even though my VMs been trucking along just fine, I wanted to learn more about this and how to properly optimize it for production workloads.</p>
+<p>You can see the results of <a href="/blog/zfs-bench/">round 1</a> and <a href="/blog/zfs-bench2/zfs-volblocksize-round-2/">round 2</a> here.</p>
+<h2 id="vm-vs-lxc" tabindex="-1">VM vs LXC <a class="header-anchor" href="#vm-vs-lxc">#</a></h2>
+<p><strong>LXC:</strong>
+Originally, I ran my fileserver in a lightweight LXC container, using a storage-backed mount in Proxmox.  I passed the mount directory (ext4) into the VM and shared it via samba/nfs.  Performance was great and it worked like a charm.  The only major downside for me was that Proxmox Backup Server would then have to scan the entire disk in order to make the daily backups.  LXC containers don't have a way to track changes to files, so even incremental backups still take way too long.  I was using 5TB spinning disks at the time, and backups were taking about 3.5 hours at a minimum, even if there was nothing new to backup.</p>
+<p><strong>VM:</strong>
+Unlike LXCs, VMs do have a way to track which files have changed: dirty pages.  As long as the VM is online and has not rebooted since the last backup, it will only scan and transfer new or modified files.  This cut my backup times down from 3 hours to 3 minutes.</p>
+<p>I have run my fileserver in a VM on a ZFS pool for about a year and a half now.  It has worked great.  I love the integration with Proxmox Backup Server, which allows me to very quickly backup, restore, and migrate the entire VM along with all of its data.</p>
+<p>VMs running on ZFS pools in Proxmox introduce the volblocksize concept though, instead of using a recordsize.  While a sub-optimal recordsize isn't that big of a deal, setting the wrong volblocksize can be much worse.  That has been what I wanted to learn about through my testing.</p>
+<h2 id="test-results-so-far" tabindex="-1">Test results so far <a class="header-anchor" href="#test-results-so-far">#</a></h2>
+<p>The benchmarks I've run so far have led to more questions than answers.  The results are confusing.  I'm not sure if my testing methodology is even sound for what I'm looking to learn.  There is very little information online about volblocksize optimization and how to test it.  I think the general idea is that you should avoid zvols like the plague unless you know exactly what size blocks will be written from your workload, and you are able to tailor each zvol to the specific data that it will contain.  From my testing, speeds increase dramatically when pushing the volblocksize from the default 8k to as high as 64k.  I don't have a heavy database or write/rewrite in place workload to really test the downside of that change, though.</p>
+<p>So with that in mind, let's see if there's a way to avoid volblocksize completely, while retaining my favorite benefits of the VM.</p>
+<h2 id="back-to-lxc" tabindex="-1">Back to LXC <a class="header-anchor" href="#back-to-lxc">#</a></h2>
+<p>So, I will complete the circle and go back to using a LXC.  In order to avoid the super long backup times, I will switch up my backup process.</p>
+<p>Proxmox Backup Server uses its own method to create incremental backups, which requires either scanning the entire disk or using dirty-pages for a VM.  I will use zfs snapshots instead.  Since my Proxmox Backup Server has a 48TB ZFS pool, I can just use zfs send/receive to back them up on the same pool but without the long scan and transfer times.  Sending an incremental snapshot with zfs send should be nearly instant, no matter what the state of the container is.</p>
+<p>Unfortunately, it's not possible to do ZFS snapshots inside the PBS gui yet.  That's ok, though, since the commands should be pretty easy and scriptable.  I will just have PBS continue to backup the container itself with the backup job in the gui.</p>
+<p>There is one extra hoop to jump through in order to mount the zfs dataset inside the LXC, as well.  The datasets need to be created and then added to the container manually, rather than creating a fixed-size dataset within the Proxmox gui.</p>
+<h2 id="setup" tabindex="-1">Setup <a class="header-anchor" href="#setup">#</a></h2>
+<p>First, I created a new dataset (fileserver) on my zpool (fast):</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">zfs create fast/fileserver</code></pre>
+<p>Then I configured permissions on the proxmox host.  <a href="https://blog.kye.dev/proxmox-zfs-mounts">This is a great guide</a> on how to configure permissions for this specific scenario.  TLDR: Proxmox masks the true uid/gid inside containers for security reasons.  In order to share files on the host from inside an unprivileged container, this workaround (or manual user-mapping) is necessary.</p>
+<p>The uid/gid obfuscation works by adding 100,000 to whatever the container's value is.  So uid 1000 in the container is uid 101000 on the host.</p>
+<p>So I will make a fileserver users group with gid 110000 on the Proxmox host:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">groupadd</span> <span class="token parameter variable">-g</span> <span class="token number">110000</span> file_users</code></pre>
+<p>And then a user:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">useradd</span> files <span class="token parameter variable">-u</span> <span class="token number">101000</span> <span class="token parameter variable">-g</span> <span class="token number">110000</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-s</span> /bin/bash</code></pre>
+<p>chown the dataset to the new user and group:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">chown</span> <span class="token parameter variable">-R</span> files:file_users /fast/fileserver/</code></pre>
+<p>Now start the container and add the user and group inside there:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">groupadd</span> <span class="token parameter variable">-g</span> <span class="token number">10000</span> file_users
+<span class="token function">useradd</span> files <span class="token parameter variable">-u</span> <span class="token number">1000</span> <span class="token parameter variable">-g</span> <span class="token number">10000</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-s</span> /bin/bash</code></pre>
+<p>Finally, we just have to add the mountpoint to the container configuration file.  You can do this manually or just use pct set on the proxmox host:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">pct <span class="token builtin class-name">set</span> <span class="token number">109</span> <span class="token parameter variable">-mp0</span> /fast/fileserver,mp<span class="token operator">=</span>/mnt/files</code></pre>
 
-<span class="token function">sleep</span> <span class="token number">1</span>
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Checking exclude file at <span class="token environment constant">$HOME</span>/scripts/backup-excludes..."</span>
-
-<span class="token function">sleep</span> <span class="token number">1</span>
-
-<span class="token builtin class-name">echo</span> <span class="token string">"..."</span>
-
-<span class="token function">sleep</span> <span class="token number">1</span>
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Backing up /home/brian to file server..."</span>
-
-<span class="token comment">#copy home folder to file server, minus exclude file:</span>
-<span class="token function">rsync</span> <span class="token parameter variable">-aHvzPui</span> <span class="token parameter variable">--delete</span> --exclude-from<span class="token operator">=</span><span class="token string">'/home/brian/scripts/backup-excludes.txt'</span> <span class="token parameter variable">--stats</span> <span class="token parameter variable">--progress</span> /home/brian/ files:/Vault/brian/current
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Done!"</span></code></pre>
-<p>Obviously the script is not actually checking anything during the echo messages but that will help to remind me where the exclude file is whenever I run the script manually.</p>
-<p>The excludes file is just a txt file that lists Downloads/ and .*</p>
-<p>The rsync flags are for archive mode, preserve hard links, verbose mode, compression enabled, Partial progress (resuming), update only if modified date changed, and itemize summary of changes.</p>
-<p>I am also using the --delete option, which will <strong>delete all files from the destination that are no longer found in the source.</strong> I snapshot the fileserver daily with Proxmox Backup Server, so I can recover any deleted files from a previous flieserver backup if I accidentally lose something.  This will just be a nice working copy of the laptop.</p>
-<p>Since I wrote a ssh config file and I use a key pair to login, I can skip password authentication and use the shortcut address files:/location.</p>
-<p>My scripts directory is added to my $PATH so I can execute the script manually by just typing</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">backup-thinkpad.sh</code></pre>
-<p>It works pretty great!</p>
-<p><picture><source type="image/avif" srcset="/img/aL38ajhhP5-800.avif 800w"><source type="image/webp" srcset="/img/aL38ajhhP5-800.webp 800w"><img alt="running the thinkpad backup script" loading="lazy" decoding="async" src="/img/aL38ajhhP5-800.png" width="800" height="600"></picture></p>
-
-<ul class="links-nextprev"><li>Previous: <a href="/blog/zfs-bench2/zfs-volblocksize-round-2/">ZFS Volblocksize Round 2</a></li><li>Next: <a href="/blog/zfs-fileserver/zfs-mounts-in-unprivileged-lxc-containers/">ZFS Fileserver: LXC+Dataset vs VM+Zvol</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/thinkpad-backup/thinkpad-backup-script/">Thinkpad Backup Script</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/thinkpad-backup/thinkpad-backup-script/ -->
+		<!-- Current page: /blog/zfs-mounts-in-unprivileged-lxc-containers/ -->
 	</body>
 </html>

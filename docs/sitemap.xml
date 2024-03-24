@@ -352,6 +352,11 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/fileserver/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/blog/backup-server/backup-server-build/</loc>
 		<lastmod>2024-03-05</lastmod>
 	</url>
@@ -424,5 +429,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/thinkpad-backup/thinkpad-backup-script/</loc>
 		<lastmod>2024-03-22</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/zfs-fileserver/zfs-mounts-in-unprivileged-lxc-containers/</loc>
+		<lastmod>2024-03-23</lastmod>
 	</url>
 </urlset>
