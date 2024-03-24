@@ -90,6 +90,9 @@ WRITE: bw=1144MiB/s (1200MB/s), 1144MiB/s-1144MiB/s (1200MB/s-1200MB/s), io=67.1
 &lt;p&gt;In the VM:&lt;/p&gt;
 &lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/qzUq7bzt-Z-482.avif 482w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/qzUq7bzt-Z-482.webp 482w&quot;&gt;&lt;img alt=&quot;64k volblocksize vm crystaldiskmark results&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/qzUq7bzt-Z-482.png&quot; width=&quot;482&quot; height=&quot;352&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;It&#39;s a lot faster!!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Nearly doubled the write performance when writing to the dataset directly rather than through a zvol.&lt;/p&gt;
+&lt;p&gt;Looking forward to learning how to automate snapshots and zfs send them to the Proxmox Backup Server!  Will post a follow up.&lt;/p&gt;
+&lt;p&gt;Happy homelabbing!&lt;/p&gt;
 </content>
 	</entry>
 	
