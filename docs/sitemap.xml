@@ -177,12 +177,27 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
+		<loc>https://stinky.blog/tags/zfs/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/zfs/</loc>
+		<loc>https://stinky.blog/tags/fileserver/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/snapshots/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -213,11 +228,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/ch341a/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -352,11 +362,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/fileserver/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/blog/backup-server/backup-server-build/</loc>
 		<lastmod>2024-03-05</lastmod>
 	</url>
@@ -434,5 +439,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/zfs-fileserver/</loc>
 		<lastmod>2024-03-23</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/</loc>
+		<lastmod>2024-03-24</lastmod>
 	</url>
 </urlset>

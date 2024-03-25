@@ -4,12 +4,86 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-03-23T00:00:00Z</updated>
+	<updated>2024-03-24T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>ZFS Fileserver: Automated snapshots</title>
+		<link href="https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/"/>
+		<updated>2024-03-24T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/</id>
+		<content type="html">&lt;h2 id=&quot;backing-up-the-new-zfs-fileserver&quot; tabindex=&quot;-1&quot;&gt;Backing up the new ZFS Fileserver &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;So in the &lt;a href=&quot;https://stinky.blog/zfs-fileserver/&quot;&gt;last post&lt;/a&gt;, we got the LXC fileserver working, with a ZFS dataset passed through as a bind mount.  We ran some quick benchmarks and discovered that the container is significantly faster than the old VM in many workloads.&lt;/p&gt;
+&lt;p&gt;Before we ditch the VM fileserver completely, we stll have to nail down a backup solution.  Proxmox Backup Server can backup the container&#39;s primary disk and its configuration file, but it won&#39;t be able to backup the data on the bind mount.&lt;/p&gt;
+&lt;h2 id=&quot;zfs-snapshots&quot; tabindex=&quot;-1&quot;&gt;ZFS snapshots &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Since my Proxmox Backup Server uses ZFS as well, I should be able to just use built-in zfs tools to snapshot the fileserver and then use zfs send/receive to send them to the backup server.  Then I should be able to prune them with a little script.&lt;/p&gt;
+&lt;p&gt;There are a number of solutions to automate this process, including &lt;a href=&quot;https://github.com/psy0rz/zfs_autobackup&quot;&gt;zfs_autobackup&lt;/a&gt; and &lt;a href=&quot;https://github.com/jimsalterjrs/sanoid&quot;&gt;Sanoid / Syncoid&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;But before I try one of those auto-magic scripts, I want to do it manually a few times just so I understand the process.&lt;/p&gt;
+&lt;h2 id=&quot;learning-to-snapshot-and-zfs-send-receive&quot; tabindex=&quot;-1&quot;&gt;Learning to snapshot and zfs send/receive &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;From what I understand, the first snapshot I take of the dataset will be a full copy of the data. I&#39;ll be able to just send incrementals to the remote server after that.&lt;/p&gt;
+&lt;p&gt;So let&#39;s take the first snapshot.  Connected to the Proxmox host with ssh:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation:~&lt;span class=&quot;token comment&quot;&gt;# zfs list&lt;/span&gt;
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+fast                     &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;.43T  &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;.79T  &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;.00G  /fast
+fast/fileserver            96K  &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;.79T    96K  /fast/fileserver&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There she is.  Let&#39;s snapshot:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;zfs snapshot fast/fileserver@initial&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;No output... where&#39;d it go?&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation:~&lt;span class=&quot;token comment&quot;&gt;# zfs list -t snapshot&lt;/span&gt;
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+fast/fileserver@initial     0B      -    96K  -
+root@thinkstation:~&lt;span class=&quot;token comment&quot;&gt;# &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Cool!  But where is that?&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation:/fast/fileserver/.zfs/snapshot&lt;span class=&quot;token comment&quot;&gt;# ls&lt;/span&gt;
+initial&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So snapshots are stored in the root of the dataset, in a hidden folder called .zfs/snapshot -- got it.&lt;/p&gt;
+&lt;p&gt;Now how do I send this to the zfs pool on the proxmox backup server?&lt;/p&gt;
+&lt;p&gt;First I need to create a new dataset on the backup server for the snapshots.  I created another dataset inside that one just for the fileserver.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# zfs create bigpool/snapshots&lt;/span&gt;
+root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# zfs create bigpool/snapshots/fileserver&lt;/span&gt;
+root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# zfs list&lt;/span&gt;
+NAME                           USED  AVAIL  REFER  MOUNTPOINT
+bigpool                       &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;.76T  &lt;span class=&quot;token number&quot;&gt;18&lt;/span&gt;.9T   104K  /bigpool
+bigpool/pbs                   &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;.72T  &lt;span class=&quot;token number&quot;&gt;18&lt;/span&gt;.9T  &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;.72T  /bigpool/pbs
+bigpool/snapshots              192K  &lt;span class=&quot;token number&quot;&gt;18&lt;/span&gt;.9T    96K  /bigpool/snapshots
+bigpool/snapshots/fileserver    96K  &lt;span class=&quot;token number&quot;&gt;18&lt;/span&gt;.9T    96K  /bigpool/snapshots/fileserver&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ok, let&#39;s try to send it.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;zfs send fast/fileserver@intial &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; thinkstation2 zfs receive bigpool/snapshots/fileserver&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I get a warning about overwriting the dataset, must add -F to continue.  Sure!&lt;/p&gt;
+&lt;p&gt;Did it work?&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# ls /bigpool/snapshots/fileserver/.zfs/snapshot/&lt;/span&gt;
+initial&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Heck yea!  Now I know how to create the snapshots.  How do I restore them?&lt;/p&gt;
+&lt;h2 id=&quot;restoring-a-snapshot&quot; tabindex=&quot;-1&quot;&gt;Restoring a snapshot &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;First, I&#39;ll try a local snapshot restore.  I created a file on the fileserver named &amp;quot;ghost&amp;quot;.  Let&#39;s rollback the fileserver to the initial state and make the ghost disapppear.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;zfs rollback fast/fileserver@initial&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It worked!  The ghost disappeared:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;brian@thinkpad-x390 ~/test $ &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt;
+ghost-file
+brian@thinkpad-x390 ~/test $ &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt;
+brian@thinkpad-x390 ~/test $ &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now can we do the same thing with the remote snapshot?&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation:~&lt;span class=&quot;token comment&quot;&gt;# ssh thinkstation2 &quot;zfs send bigpool/snapshots/fileserver@initial&quot; | zfs receive -F fast/fileserver&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It worked again!  No ghost:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;brian@thinkpad-x390 ~/test $ &lt;span class=&quot;token function&quot;&gt;touch&lt;/span&gt; ghost
+brian@thinkpad-x390 ~/test $ &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt;
+brian@thinkpad-x390 ~/test $ &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Alright!  I just wanted to make sure I understood the process before I started running random scripts from github.  Knowing how to manually snapshot, send and receive, restore, and delete seems like enough to get started with some automation.&lt;/p&gt;
+&lt;h2 id=&quot;automating-the-process&quot; tabindex=&quot;-1&quot;&gt;Automating the process &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Sanoid/Syncoid looks like a solid choice to test out first.  The author&#39;s posts on various forums are what caused me to go down this benchmarking volblocksize rabbit hole in the first place.&lt;/p&gt;
+&lt;p&gt;Before trying to configure Sanoid, I tested Syncoid.  I ssh&#39;d into backup server and pulled the initial snapshot from the fileserver:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# syncoid --no-privilege-elevation thinkstation:fast/fileserver bigpool/snapshots/fileserver&lt;/span&gt;
+
+root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# ls /bigpool/snapshots/fileserver/.zfs/snapshot&lt;/span&gt;
+initial  syncoid_thinkstation2_2024-03-24:21:36:29-GMT-04:00&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That worked great.  Now I just need to configure the Sanoid policy on the target to create and retain snapshots.&lt;/p&gt;
+&lt;p&gt;--to be continued&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>ZFS Fileserver: LXC+Dataset vs VM+Zvol</title>
