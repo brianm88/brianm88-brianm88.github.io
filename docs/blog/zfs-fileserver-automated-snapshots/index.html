@@ -646,6 +646,15 @@ drwxrwxrwx <span class="token number">1</span> root root <span class="token numb
 <p>Heck yea!  That was easier than I thought it would be.</p>
 <p>I'll let this run for a few days to make sure I didn't miss anything, but then it's time to send that fileserver VM to the trash and start using the new container!</p>
 <p>For now, I will still use Proxmox Backup Server for everything else.</p>
+<h2 id="bonus-enable-previous-versions-in-windows" tabindex="-1">Bonus: Enable &quot;previous versions&quot; in Windows <a class="header-anchor" href="#bonus-enable-previous-versions-in-windows">#</a></h2>
+<p>Samba can use vfs shadow_copy2 to enable the &quot;Previous Versions&quot; feature when you right-click on files on Windows machines.</p>
+<p>It was super easy to turn on, just added the following at the bottom of the file share in /etc/samba/smb.conf:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token punctuation">;</span><span class="token punctuation">[</span>enable shadow copies <span class="token keyword">in</span> windows<span class="token punctuation">]</span>
+vfs objects <span class="token operator">=</span> shadow_copy2
+shadow:snapdir <span class="token operator">=</span> .zfs/snapshot
+shadow:sort <span class="token operator">=</span> desc
+shadow:format <span class="token operator">=</span> autosnap_%Y-%m-%d_%H:%M:%S_hourly</code></pre>
+<p>The container has samba 4.2 so it will only allow me to select one snapshot type (frequently, hourly, daily, etc).  Hourly seems good.</p>
 <p>That was really fun to learn!  Thanks for reading and happy homelabbing.</p>
 
 <ul class="links-nextprev"><li>Previous: <a href="/blog/zfs-fileserver/">ZFS Fileserver: LXC+Dataset vs VM+Zvol</a></li>
