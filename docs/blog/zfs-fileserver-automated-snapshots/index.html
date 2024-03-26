@@ -478,7 +478,7 @@ h2 + .header-anchor {
 
 <h2 id="backing-up-the-new-zfs-fileserver" tabindex="-1">Backing up the new ZFS Fileserver <a class="header-anchor" href="#backing-up-the-new-zfs-fileserver">#</a></h2>
 <p>In the <a href="/zfs-fileserver/">last post</a>, I got the LXC fileserver working with a ZFS dataset passed through as a bind mount.  I ran some quick benchmarks and discovered that the container is significantly faster than the old VM in many workloads.</p>
-<p>Before ditching the VM fileserver completely, I stll have to nail down a backup solution.  Proxmox Backup Server can backup the container's primary disk and its configuration file, but it won't be able to backup the data on the bind mount.</p>
+<p>Before ditching the VM fileserver completely, I still have to nail down a backup solution.  Proxmox Backup Server can backup the container's primary disk and its configuration file, but it won't be able to backup the data on the bind mount.</p>
 <h2 id="zfs-snapshots" tabindex="-1">ZFS snapshots <a class="header-anchor" href="#zfs-snapshots">#</a></h2>
 <p>Since my Proxmox Backup Server uses ZFS as well, I should be able to just use built-in zfs tools to snapshot the fileserver and then use zfs send/receive to send them to the backup server.  Then I should be able to prune them with a little script.</p>
 <p>There are a number of solutions to automate this process, including <a href="https://github.com/psy0rz/zfs_autobackup">zfs_autobackup</a> and <a href="https://github.com/jimsalterjrs/sanoid">Sanoid / Syncoid</a>.</p>
