@@ -477,8 +477,8 @@ h2 + .header-anchor {
 </ul>
 
 <h2 id="backing-up-the-new-zfs-fileserver" tabindex="-1">Backing up the new ZFS Fileserver <a class="header-anchor" href="#backing-up-the-new-zfs-fileserver">#</a></h2>
-<p>So in the <a href="/zfs-fileserver/">last post</a>, we got the LXC fileserver working, with a ZFS dataset passed through as a bind mount.  We ran some quick benchmarks and discovered that the container is significantly faster than the old VM in many workloads.</p>
-<p>Before we ditch the VM fileserver completely, we stll have to nail down a backup solution.  Proxmox Backup Server can backup the container's primary disk and its configuration file, but it won't be able to backup the data on the bind mount.</p>
+<p>In the <a href="/zfs-fileserver/">last post</a>, I got the LXC fileserver working with a ZFS dataset passed through as a bind mount.  I ran some quick benchmarks and discovered that the container is significantly faster than the old VM in many workloads.</p>
+<p>Before ditching the VM fileserver completely, I stll have to nail down a backup solution.  Proxmox Backup Server can backup the container's primary disk and its configuration file, but it won't be able to backup the data on the bind mount.</p>
 <h2 id="zfs-snapshots" tabindex="-1">ZFS snapshots <a class="header-anchor" href="#zfs-snapshots">#</a></h2>
 <p>Since my Proxmox Backup Server uses ZFS as well, I should be able to just use built-in zfs tools to snapshot the fileserver and then use zfs send/receive to send them to the backup server.  Then I should be able to prune them with a little script.</p>
 <p>There are a number of solutions to automate this process, including <a href="https://github.com/psy0rz/zfs_autobackup">zfs_autobackup</a> and <a href="https://github.com/jimsalterjrs/sanoid">Sanoid / Syncoid</a>.</p>
@@ -534,7 +534,7 @@ brian@thinkpad-x390 ~/test $ <span class="token function">ls</span>
 brian@thinkpad-x390 ~/test $ </code></pre>
 <p>Alright!  I just wanted to make sure I understood the process before I started running random scripts from github.  Knowing how to manually snapshot, send and receive, restore, and delete seems like enough to get started with some automation.</p>
 <h2 id="automating-the-process" tabindex="-1">Automating the process <a class="header-anchor" href="#automating-the-process">#</a></h2>
-<p>Sanoid/Syncoid looks like a solid choice to test out first.  The author's posts on various forums are what caused me to go down this benchmarking volblocksize rabbit hole in the first place.</p>
+<p>Sanoid/Syncoid looks like a solid choice to test out first.  The author's great posts on various zfs forums are what caused me to go down that volblocksize rabbit hole in the last few posts.</p>
 <p><strong>Sanoid</strong> creates and prunes snapshots according to policy.  The policy is contained in /etc/sanoid.conf, and it's pretty easy to understand.</p>
 <p><strong>Syncoid</strong> then syncs those snapshots from one machine to another.</p>
 <p>I will be using both tools to accomplish my goal here.</p>
@@ -566,14 +566,14 @@ initial  syncoid_thinkstation2_2024-03-24:21:36:29-GMT-04:00</code></pre>
 <span class="token punctuation">[</span>template_backup<span class="token punctuation">]</span>
         autoprune <span class="token operator">=</span> <span class="token function">yes</span>
         frequently <span class="token operator">=</span> <span class="token number">0</span>
-        hourly <span class="token operator">=</span> <span class="token number">24</span>
+        hourly <span class="token operator">=</span> <span class="token number">72</span>
         daily <span class="token operator">=</span> <span class="token number">30</span>
         monthly <span class="token operator">=</span> <span class="token number">6</span>
         yearly <span class="token operator">=</span> <span class="token number">0</span>
         autosnap <span class="token operator">=</span> no</code></pre>
 <p>It's short and sweet.  Name the pool/dataset at the top, and specify a template.  Then write the templates at the bottom.</p>
 <p>The production template I made here will take a snapshot every 15 minutes (frequently = 4, 4 per hour), 1 per hour, 1 per day.  It will retain 4 of the frequents, 24 of the hourlies, and the last 3 dailies.  That should be good enough for rewinding mistakes -- I don't want to clutter it up with any more than that.</p>
-<p>The backup template will retain 0 of the 15-minute snapshots, 24 of the hourlies, 30 dailies, and 6 monthlies.  That should be plenty for my homelab.</p>
+<p>The backup template will retain 0 of the 15-minute snapshots, 72 of the hourlies, 30 dailies, and 6 monthlies.  That should be plenty for my homelab.</p>
 <p><strong>autosnap</strong> and <strong>autoprune</strong> are important options here.  <strong>autosnap</strong> tells Sanoid to create the snapshots at the specified intervals.  <strong>autoprune</strong> tells Sanoid it's okay to delete snapshots that have expired according to the policy.</p>
 <p>For my setup, I want <strong>autosnap</strong> enabled on the fileserver so it will create snapshots.  It needs to be disabled on the backup server though, or else the backup server will start snapshotting the snapshots!  <strong>autoprune</strong> needs to be enabled on both machines, since they both need to delete snapshots according to their respective policies.</p>
 <p>Default systemd units look for Sanoid in /usr/local/sbin, so it didn't launch at first.  Added a symbolic link there to /sbin/sanoid for now.</p>
@@ -586,7 +586,7 @@ autosnap_2024-03-25_22:30:00_frequently
 autosnap_2024-03-25_22:15:06_frequently
 autosnap_2024-03-25_22:00:06_frequently
 initial</code></pre>
-<p>The times are in UTC to avoid DST issues.  You can list them newest to oldest with <strong>ls -t</strong>.</p>
+<p>The times are in UTC to avoid DST issues.  You can list them newest to oldest with <strong>ls -t</strong> (ls -tr oldest to newest).</p>
 <p>Looking good so far!  Now I'll just copy and paste that same sanoid.conf to the backup server.  Only need to change the path to the pool and the template:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token punctuation">[</span>bigpool/snapshots/fileserver<span class="token punctuation">]</span>
         use_template <span class="token operator">=</span> backup</code></pre>
