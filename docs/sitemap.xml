@@ -52,131 +52,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/blog/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/eleventy/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/11ty/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/wordpress/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/github-pages/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/article/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/scripts/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/bash/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/config/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rhcsa/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/easyengine/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/docker/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/vps/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/proxmox/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/ssl/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/tls/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/ssh/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/cluster-quorum/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/power-consumption/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/cpu-governor/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/fuzzy-finder/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/fzf/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/second-brain/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/markdown/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/notes/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/zfs/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
@@ -192,12 +67,32 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/proxmox/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/snapshots/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
+		<loc>https://stinky.blog/tags/zvol/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/volblocksize/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/block-size/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/linux/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -207,7 +102,137 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/thinkstation/</loc>
+		<loc>https://stinky.blog/tags/backup-server/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/article/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vim/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rhcsa/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/text-editor/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/bash/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shell-expansion/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/globbing/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/stdin/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/stdout/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/stderr/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/pipe/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shortcuts/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/man/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/mandb/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/escaping/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/scripts/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rsync/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/find/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/eleventy/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/blog/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shell/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/bash-history/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/wordpress/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/easyengine/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/docker/</loc>
+		<lastmod>2024-03-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vps/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -257,107 +282,82 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/shell/</loc>
+		<loc>https://stinky.blog/tags/power-consumption/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/bash-history/</loc>
+		<loc>https://stinky.blog/tags/cpu-governor/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/shortcuts/</loc>
+		<loc>https://stinky.blog/tags/ssl/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/find/</loc>
+		<loc>https://stinky.blog/tags/tls/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/linux/</loc>
+		<loc>https://stinky.blog/tags/ssh/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/man/</loc>
+		<loc>https://stinky.blog/tags/cluster-quorum/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/mandb/</loc>
+		<loc>https://stinky.blog/tags/fuzzy-finder/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/escaping/</loc>
+		<loc>https://stinky.blog/tags/fzf/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/shell-expansion/</loc>
+		<loc>https://stinky.blog/tags/second-brain/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/globbing/</loc>
+		<loc>https://stinky.blog/tags/markdown/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/stdin/</loc>
+		<loc>https://stinky.blog/tags/notes/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/stdout/</loc>
+		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/stderr/</loc>
+		<loc>https://stinky.blog/tags/thinkstation/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/pipe/</loc>
+		<loc>https://stinky.blog/tags/11ty/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/vim/</loc>
+		<loc>https://stinky.blog/tags/github-pages/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/text-editor/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rsync/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/zvol/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/volblocksize/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/block-size/</loc>
-		<lastmod>2024-03-03</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/backup-server/</loc>
+		<loc>https://stinky.blog/tags/config/</loc>
 		<lastmod>2024-03-03</lastmod>
 	</url>
 	
@@ -442,7 +442,7 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/</loc>
+		<loc>https://stinky.blog/blog/zfs-fileserver-automated-snapshots/</loc>
 		<lastmod>2024-03-24</lastmod>
 	</url>
 </urlset>

@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>ZFS Fileserver: Automated snapshots</title>
+		<meta name="description" content="Notes about my backup method for zfs-backed fileserver in lxc container.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">stinky.blog</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>ZFS Fileserver: Automated snapshots</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2024-03-24">24 March 2024</time></li>
+	<li><a href="/tags/zfs/" class="post-tag">zfs</a>, </li>
+	<li><a href="/tags/fileserver/" class="post-tag">fileserver</a>, </li>
+	<li><a href="/tags/lxc/" class="post-tag">lxc</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/snapshots/" class="post-tag">snapshots</a></li>
+</ul>
+
+<h2 id="backing-up-the-new-zfs-fileserver" tabindex="-1">Backing up the new ZFS Fileserver <a class="header-anchor" href="#backing-up-the-new-zfs-fileserver">#</a></h2>
+<p>So in the <a href="/zfs-fileserver/">last post</a>, we got the LXC fileserver working, with a ZFS dataset passed through as a bind mount.  We ran some quick benchmarks and discovered that the container is significantly faster than the old VM in many workloads.</p>
+<p>Before we ditch the VM fileserver completely, we stll have to nail down a backup solution.  Proxmox Backup Server can backup the container's primary disk and its configuration file, but it won't be able to backup the data on the bind mount.</p>
+<h2 id="zfs-snapshots" tabindex="-1">ZFS snapshots <a class="header-anchor" href="#zfs-snapshots">#</a></h2>
+<p>Since my Proxmox Backup Server uses ZFS as well, I should be able to just use built-in zfs tools to snapshot the fileserver and then use zfs send/receive to send them to the backup server.  Then I should be able to prune them with a little script.</p>
+<p>There are a number of solutions to automate this process, including <a href="https://github.com/psy0rz/zfs_autobackup">zfs_autobackup</a> and <a href="https://github.com/jimsalterjrs/sanoid">Sanoid / Syncoid</a>.</p>
+<p>But before I try one of those auto-magic scripts, I want to do it manually a few times just so I understand the process.</p>
+<h2 id="learning-to-snapshot-and-zfs-send-receive" tabindex="-1">Learning to snapshot and zfs send/receive <a class="header-anchor" href="#learning-to-snapshot-and-zfs-send-receive">#</a></h2>
+<p>From what I understand, the first snapshot I take of the dataset will be a full copy of the data. I'll be able to just send incrementals to the remote server after that.</p>
+<p>So let's take the first snapshot.  Connected to the Proxmox host with ssh:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation:~<span class="token comment"># zfs list</span>
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+fast                     <span class="token number">2</span>.43T  <span class="token number">4</span>.79T  <span class="token number">4</span>.00G  /fast
+fast/fileserver            96K  <span class="token number">4</span>.79T    96K  /fast/fileserver</code></pre>
+<p>There she is.  Let's snapshot:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">zfs snapshot fast/fileserver@initial</code></pre>
+<p>No output... where'd it go?</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation:~<span class="token comment"># zfs list -t snapshot</span>
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+fast/fileserver@initial     0B      -    96K  -
+root@thinkstation:~<span class="token comment"># </span></code></pre>
+<p>Cool!  But where is that?</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation:/fast/fileserver/.zfs/snapshot<span class="token comment"># ls</span>
+initial</code></pre>
+<p>So snapshots are stored in the root of the dataset, in a hidden folder called .zfs/snapshot -- got it.</p>
+<p>Now how do I send this to the zfs pool on the proxmox backup server?</p>
+<p>First I need to create a new dataset on the backup server for the snapshots.  I created another dataset inside that one just for the fileserver.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:~<span class="token comment"># zfs create bigpool/snapshots</span>
+root@thinkstation2:~<span class="token comment"># zfs create bigpool/snapshots/fileserver</span>
+root@thinkstation2:~<span class="token comment"># zfs list</span>
+NAME                           USED  AVAIL  REFER  MOUNTPOINT
+bigpool                       <span class="token number">2</span>.76T  <span class="token number">18</span>.9T   104K  /bigpool
+bigpool/pbs                   <span class="token number">2</span>.72T  <span class="token number">18</span>.9T  <span class="token number">2</span>.72T  /bigpool/pbs
+bigpool/snapshots              192K  <span class="token number">18</span>.9T    96K  /bigpool/snapshots
+bigpool/snapshots/fileserver    96K  <span class="token number">18</span>.9T    96K  /bigpool/snapshots/fileserver</code></pre>
+<p>Ok, let's try to send it.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">zfs send fast/fileserver@intial <span class="token operator">|</span> <span class="token function">ssh</span> thinkstation2 zfs receive bigpool/snapshots/fileserver</code></pre>
+<p>I get a warning about overwriting the dataset, must add -F to continue.  Sure!</p>
+<p>Did it work?</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:~<span class="token comment"># ls /bigpool/snapshots/fileserver/.zfs/snapshot/</span>
+initial</code></pre>
+<p>Heck yea!  Now I know how to create the snapshots.  How do I restore them?</p>
+<h2 id="restoring-a-snapshot" tabindex="-1">Restoring a snapshot <a class="header-anchor" href="#restoring-a-snapshot">#</a></h2>
+<p>First, I'll try a local snapshot restore.  I created a file on the fileserver named &quot;ghost&quot;.  Let's rollback the fileserver to the initial state and make the ghost disapppear.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">zfs rollback fast/fileserver@initial</code></pre>
+<p>It worked!  The ghost disappeared:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">brian@thinkpad-x390 ~/test $ <span class="token function">ls</span>
+ghost-file
+brian@thinkpad-x390 ~/test $ <span class="token function">ls</span>
+brian@thinkpad-x390 ~/test $ </code></pre>
+<p>Now can we do the same thing with the remote snapshot?</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation:~<span class="token comment"># ssh thinkstation2 "zfs send bigpool/snapshots/fileserver@initial" | zfs receive -F fast/fileserver</span></code></pre>
+<p>It worked again!  No ghost:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">brian@thinkpad-x390 ~/test $ <span class="token function">touch</span> ghost
+brian@thinkpad-x390 ~/test $ <span class="token function">ls</span>
+brian@thinkpad-x390 ~/test $ </code></pre>
+<p>Alright!  I just wanted to make sure I understood the process before I started running random scripts from github.  Knowing how to manually snapshot, send and receive, restore, and delete seems like enough to get started with some automation.</p>
+<h2 id="automating-the-process" tabindex="-1">Automating the process <a class="header-anchor" href="#automating-the-process">#</a></h2>
+<p>Sanoid/Syncoid looks like a solid choice to test out first.  The author's posts on various forums are what caused me to go down this benchmarking volblocksize rabbit hole in the first place.</p>
+<p><strong>Sanoid</strong> creates and prunes snapshots according to policy.  The policy is contained in /etc/sanoid.conf, and it's pretty easy to understand.</p>
+<p><strong>Syncoid</strong> then syncs those snapshots from one machine to another.</p>
+<p>I will be using both tools to accomplish my goal here.</p>
+<p>Sanoid will run on both the fileserver (Proxmox host) and the backup server.  It will create the snapshots on the fileserver, and it will prune the snapshots on the backup server.</p>
+<p>Syncoid will only run on the backup server, to pull the snapshots at a certain interval.  There are security benefits to using this &quot;pull&quot; method, namely that if the primary server is compromised, the attacker does not also have access to the backup server.  The backup server only needs a ssh key and read access in order to complete the pull.  If you were &quot;pushing&quot;, the primary server would have write access to snapshots on the backup server.</p>
+<p>Before trying to configure Sanoid, I tested Syncoid.  I ssh'd into backup server and pulled the initial snapshot from the fileserver:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:~<span class="token comment"># syncoid --no-privilege-elevation thinkstation:fast/fileserver bigpool/snapshots/fileserver</span>
+
+root@thinkstation2:~<span class="token comment"># ls /bigpool/snapshots/fileserver/.zfs/snapshot</span>
+initial  syncoid_thinkstation2_2024-03-24:21:36:29-GMT-04:00</code></pre>
+<p>That worked great.  Next, I need to configure the Sanoid policy on the fileserver to create and retain snapshots.</p>
+<p><strong>/etc/sanoid/sanoid.conf</strong> on the fileserver:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation:/etc/sanoid<span class="token comment"># cat sanoid.conf</span>
+<span class="token punctuation">[</span>fast/fileserver<span class="token punctuation">]</span>
+        use_template <span class="token operator">=</span> production
+
+
+<span class="token comment">## templates</span>
+
+<span class="token punctuation">[</span>template_production<span class="token punctuation">]</span>
+        frequently <span class="token operator">=</span> <span class="token number">4</span>
+        hourly <span class="token operator">=</span> <span class="token number">24</span>
+        daily <span class="token operator">=</span> <span class="token number">3</span>
+        monthly <span class="token operator">=</span> <span class="token number">0</span>
+        yearly <span class="token operator">=</span> <span class="token number">0</span>
+        autosnap <span class="token operator">=</span> <span class="token function">yes</span>
+        autoprune <span class="token operator">=</span> <span class="token function">yes</span>
+
+<span class="token punctuation">[</span>template_backup<span class="token punctuation">]</span>
+        autoprune <span class="token operator">=</span> <span class="token function">yes</span>
+        frequently <span class="token operator">=</span> <span class="token number">0</span>
+        hourly <span class="token operator">=</span> <span class="token number">24</span>
+        daily <span class="token operator">=</span> <span class="token number">30</span>
+        monthly <span class="token operator">=</span> <span class="token number">6</span>
+        yearly <span class="token operator">=</span> <span class="token number">0</span>
+        autosnap <span class="token operator">=</span> no</code></pre>
+<p>It's short and sweet.  Name the pool/dataset at the top, and specify a template.  Then write the templates at the bottom.</p>
+<p>The production template I made here will take a snapshot every 15 minutes (frequently = 4, 4 per hour), 1 per hour, 1 per day.  It will retain 4 of the frequents, 24 of the hourlies, and the last 3 dailies.  That should be good enough for rewinding mistakes -- I don't want to clutter it up with any more than that.</p>
+<p>The backup template will retain 0 of the 15-minute snapshots, 24 of the hourlies, 30 dailies, and 6 monthlies.  That should be plenty for my homelab.</p>
+<p><strong>autosnap</strong> and <strong>autoprune</strong> are important options here.  <strong>autosnap</strong> tells Sanoid to create the snapshots at the specified intervals.  <strong>autoprune</strong> tells Sanoid it's okay to delete snapshots that have expired according to the policy.</p>
+<p>For my setup, I want <strong>autosnap</strong> enabled on the fileserver so it will create snapshots.  It needs to be disabled on the backup server though, or else the backup server will start snapshotting the snapshots!  <strong>autoprune</strong> needs to be enabled on both machines, since they both need to delete snapshots according to their respective policies.</p>
+<p>Default systemd units look for Sanoid in /usr/local/sbin, so it didn't launch at first.  Added a symbolic link there to /sbin/sanoid for now.</p>
+<p>This config has been running in the background while I type all this mess, so let's see if it's working:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation:/fast/fileserver/.zfs/snapshot<span class="token comment"># ls -t</span>
+autosnap_2024-03-25_23:00:06_frequently
+autosnap_2024-03-25_23:00:06_hourly
+autosnap_2024-03-25_22:45:05_frequently
+autosnap_2024-03-25_22:30:00_frequently
+autosnap_2024-03-25_22:15:06_frequently
+autosnap_2024-03-25_22:00:06_frequently
+initial</code></pre>
+<p>The times are in UTC to avoid DST issues.  You can list them newest to oldest with <strong>ls -t</strong>.</p>
+<p>Looking good so far!  Now I'll just copy and paste that same sanoid.conf to the backup server.  Only need to change the path to the pool and the template:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token punctuation">[</span>bigpool/snapshots/fileserver<span class="token punctuation">]</span>
+        use_template <span class="token operator">=</span> backup</code></pre>
+<p>Let's run the syncoid command again and see if it worked:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:/bigpool/snapshots/fileserver/.zfs/snapshot<span class="token comment"># ls -lt</span>
+
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">19</span>:51 syncoid_thinkstation2_2024-03-25:19:51:20-GMT-04:00
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">19</span>:00 autosnap_2024-03-25_23:00:06_hourly
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">18</span>:00 autosnap_2024-03-25_22:00:06_hourly
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">17</span>:30 autosnap_2024-03-25_21:30:00_daily
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">17</span>:30 autosnap_2024-03-25_21:30:00_hourly
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">24</span> <span class="token number">16</span>:49 initial</code></pre>
+<p>Perfect.  It's deleting everything except what's specified in the 'backup' policy template.</p>
+<p>Now we're ready to schedule this process.</p>
+<h2 id="running-syncoid-periodically" tabindex="-1">Running syncoid periodically <a class="header-anchor" href="#running-syncoid-periodically">#</a></h2>
+<p>Now the backup server just needs a systemd timer that will run the syncoid service periodically.  Since I'm only pulling hourly or older snapshots to the backup server, a timer that runs hourly should be fine.</p>
+<p>First I made the syncoid.service file.  Just copied the sanoid.service file and changed a couple words.  (symbolic link in /usr/local/sbin for /sbin/syncoid)</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:/etc/systemd/system<span class="token comment"># cat syncoid.service </span>
+
+<span class="token punctuation">[</span>Unit<span class="token punctuation">]</span>
+<span class="token assign-left variable">Description</span><span class="token operator">=</span>Replicate snapshots
+<span class="token assign-left variable">Requires</span><span class="token operator">=</span>zfs.target
+<span class="token assign-left variable">After</span><span class="token operator">=</span>zfs.target
+<span class="token assign-left variable">Wants</span><span class="token operator">=</span>sanoid-prune.service
+<span class="token assign-left variable">Before</span><span class="token operator">=</span>sanoid-prune.service
+<span class="token assign-left variable">ConditionFileNotEmpty</span><span class="token operator">=</span>/etc/sanoid/sanoid.conf
+
+<span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
+<span class="token assign-left variable">Environment</span><span class="token operator">=</span>TZ<span class="token operator">=</span>UTC
+<span class="token assign-left variable">Type</span><span class="token operator">=</span>oneshot
+<span class="token assign-left variable">ExecStart</span><span class="token operator">=</span>/usr/local/sbin/syncoid --no-privilege-elevation thinkstation:fast/fileserver bigpool/snapshots/fileserver</code></pre>
+<p>Then I made the timer file, which will call the service file:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:/etc/systemd/system<span class="token comment"># cat syncoid.timer</span>
+
+<span class="token punctuation">[</span>Unit<span class="token punctuation">]</span>
+<span class="token assign-left variable">Description</span><span class="token operator">=</span>Run Syncoid Every Hour
+<span class="token assign-left variable">Requires</span><span class="token operator">=</span>syncoid.service
+
+<span class="token punctuation">[</span>Timer<span class="token punctuation">]</span>
+<span class="token assign-left variable">OnCalendar</span><span class="token operator">=</span>hourly
+<span class="token assign-left variable">Persistent</span><span class="token operator">=</span>true
+
+<span class="token punctuation">[</span>Install<span class="token punctuation">]</span>
+<span class="token assign-left variable">WantedBy</span><span class="token operator">=</span>timers.target</code></pre>
+<p>Let's see if they work:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:~<span class="token comment"># systemctl status syncoid</span>
+
+
+Mar <span class="token number">25</span> <span class="token number">22</span>:08:54 thinkstation2 systemd<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: Finished syncoid.service - Replicate snapshots.</code></pre>
+<p>Great!  And is pruning working?</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">root@thinkstation2:/bigpool/snapshots/fileserver/.zfs/snapshot<span class="token comment"># ls -lt</span>
+
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">22</span>:08 syncoid_thinkstation2_2024-03-26:02:08:49-GMT00:00
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">22</span>:00 autosnap_2024-03-26_02:00:06_hourly
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">21</span>:00 autosnap_2024-03-26_01:00:06_hourly
+drwxrwxrwx <span class="token number">1</span> root root <span class="token number">0</span> Mar <span class="token number">25</span> <span class="token number">20</span>:00 autosnap_2024-03-26_00:00:01_daily</code></pre>
+<p>Heck yea!  That was easier than I thought it would be.</p>
+<p>I'll let this run for a few days to make sure I didn't miss anything, but then it's time to send that fileserver VM to the trash and start using the new container!</p>
+<p>For now, I will still use Proxmox Backup Server for everything else.</p>
+<p>That was really fun to learn!  Thanks for reading and happy homelabbing.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/zfs-fileserver/">ZFS Fileserver: LXC+Dataset vs VM+Zvol</a></li>
+</ul>
+
+		</main>
+
+		<footer></footer>
+
+		<!-- Current page: /blog/zfs-fileserver-automated-snapshots/ -->
+	</body>
+</html>

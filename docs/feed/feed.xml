@@ -13,17 +13,17 @@
 	
 	<entry>
 		<title>ZFS Fileserver: Automated snapshots</title>
-		<link href="https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/"/>
+		<link href="https://stinky.blog/blog/zfs-fileserver-automated-snapshots/"/>
 		<updated>2024-03-24T00:00:00Z</updated>
-		<id>https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/</id>
-		<content type="html">&lt;h2 id=&quot;backing-up-the-new-zfs-fileserver&quot; tabindex=&quot;-1&quot;&gt;Backing up the new ZFS Fileserver &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+		<id>https://stinky.blog/blog/zfs-fileserver-automated-snapshots/</id>
+		<content type="html">&lt;h2 id=&quot;backing-up-the-new-zfs-fileserver&quot; tabindex=&quot;-1&quot;&gt;Backing up the new ZFS Fileserver &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;So in the &lt;a href=&quot;https://stinky.blog/zfs-fileserver/&quot;&gt;last post&lt;/a&gt;, we got the LXC fileserver working, with a ZFS dataset passed through as a bind mount.  We ran some quick benchmarks and discovered that the container is significantly faster than the old VM in many workloads.&lt;/p&gt;
 &lt;p&gt;Before we ditch the VM fileserver completely, we stll have to nail down a backup solution.  Proxmox Backup Server can backup the container&#39;s primary disk and its configuration file, but it won&#39;t be able to backup the data on the bind mount.&lt;/p&gt;
-&lt;h2 id=&quot;zfs-snapshots&quot; tabindex=&quot;-1&quot;&gt;ZFS snapshots &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;zfs-snapshots&quot; tabindex=&quot;-1&quot;&gt;ZFS snapshots &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Since my Proxmox Backup Server uses ZFS as well, I should be able to just use built-in zfs tools to snapshot the fileserver and then use zfs send/receive to send them to the backup server.  Then I should be able to prune them with a little script.&lt;/p&gt;
 &lt;p&gt;There are a number of solutions to automate this process, including &lt;a href=&quot;https://github.com/psy0rz/zfs_autobackup&quot;&gt;zfs_autobackup&lt;/a&gt; and &lt;a href=&quot;https://github.com/jimsalterjrs/sanoid&quot;&gt;Sanoid / Syncoid&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;But before I try one of those auto-magic scripts, I want to do it manually a few times just so I understand the process.&lt;/p&gt;
-&lt;h2 id=&quot;learning-to-snapshot-and-zfs-send-receive&quot; tabindex=&quot;-1&quot;&gt;Learning to snapshot and zfs send/receive &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;learning-to-snapshot-and-zfs-send-receive&quot; tabindex=&quot;-1&quot;&gt;Learning to snapshot and zfs send/receive &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;From what I understand, the first snapshot I take of the dataset will be a full copy of the data. I&#39;ll be able to just send incrementals to the remote server after that.&lt;/p&gt;
 &lt;p&gt;So let&#39;s take the first snapshot.  Connected to the Proxmox host with ssh:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation:~&lt;span class=&quot;token comment&quot;&gt;# zfs list&lt;/span&gt;
@@ -58,7 +58,7 @@ bigpool/snapshots/fileserver    96K  &lt;span class=&quot;token number&quot;&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# ls /bigpool/snapshots/fileserver/.zfs/snapshot/&lt;/span&gt;
 initial&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Heck yea!  Now I know how to create the snapshots.  How do I restore them?&lt;/p&gt;
-&lt;h2 id=&quot;restoring-a-snapshot&quot; tabindex=&quot;-1&quot;&gt;Restoring a snapshot &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;restoring-a-snapshot&quot; tabindex=&quot;-1&quot;&gt;Restoring a snapshot &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;First, I&#39;ll try a local snapshot restore.  I created a file on the fileserver named &amp;quot;ghost&amp;quot;.  Let&#39;s rollback the fileserver to the initial state and make the ghost disapppear.&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;zfs rollback fast/fileserver@initial&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It worked!  The ghost disappeared:&lt;/p&gt;
@@ -73,15 +73,120 @@ brian@thinkpad-x390 ~/test $ &lt;/code&gt;&lt;/pre&gt;
 brian@thinkpad-x390 ~/test $ &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt;
 brian@thinkpad-x390 ~/test $ &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Alright!  I just wanted to make sure I understood the process before I started running random scripts from github.  Knowing how to manually snapshot, send and receive, restore, and delete seems like enough to get started with some automation.&lt;/p&gt;
-&lt;h2 id=&quot;automating-the-process&quot; tabindex=&quot;-1&quot;&gt;Automating the process &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver:-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;automating-the-process&quot; tabindex=&quot;-1&quot;&gt;Automating the process &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Sanoid/Syncoid looks like a solid choice to test out first.  The author&#39;s posts on various forums are what caused me to go down this benchmarking volblocksize rabbit hole in the first place.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sanoid&lt;/strong&gt; creates and prunes snapshots according to policy.  The policy is contained in /etc/sanoid.conf, and it&#39;s pretty easy to understand.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Syncoid&lt;/strong&gt; then syncs those snapshots from one machine to another.&lt;/p&gt;
+&lt;p&gt;I will be using both tools to accomplish my goal here.&lt;/p&gt;
+&lt;p&gt;Sanoid will run on both the fileserver (Proxmox host) and the backup server.  It will create the snapshots on the fileserver, and it will prune the snapshots on the backup server.&lt;/p&gt;
+&lt;p&gt;Syncoid will only run on the backup server, to pull the snapshots at a certain interval.  There are security benefits to using this &amp;quot;pull&amp;quot; method, namely that if the primary server is compromised, the attacker does not also have access to the backup server.  The backup server only needs a ssh key and read access in order to complete the pull.  If you were &amp;quot;pushing&amp;quot;, the primary server would have write access to snapshots on the backup server.&lt;/p&gt;
 &lt;p&gt;Before trying to configure Sanoid, I tested Syncoid.  I ssh&#39;d into backup server and pulled the initial snapshot from the fileserver:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# syncoid --no-privilege-elevation thinkstation:fast/fileserver bigpool/snapshots/fileserver&lt;/span&gt;
 
 root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# ls /bigpool/snapshots/fileserver/.zfs/snapshot&lt;/span&gt;
 initial  syncoid_thinkstation2_2024-03-24:21:36:29-GMT-04:00&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;That worked great.  Now I just need to configure the Sanoid policy on the target to create and retain snapshots.&lt;/p&gt;
-&lt;p&gt;--to be continued&lt;/p&gt;
+&lt;p&gt;That worked great.  Next, I need to configure the Sanoid policy on the fileserver to create and retain snapshots.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;/etc/sanoid/sanoid.conf&lt;/strong&gt; on the fileserver:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation:/etc/sanoid&lt;span class=&quot;token comment&quot;&gt;# cat sanoid.conf&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;fast/fileserver&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+        use_template &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; production
+
+
+&lt;span class=&quot;token comment&quot;&gt;## templates&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;template_production&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+        frequently &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;
+        hourly &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;24&lt;/span&gt;
+        daily &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;
+        monthly &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;
+        yearly &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;
+        autosnap &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;yes&lt;/span&gt;
+        autoprune &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;yes&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;template_backup&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+        autoprune &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;yes&lt;/span&gt;
+        frequently &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;
+        hourly &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;24&lt;/span&gt;
+        daily &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;30&lt;/span&gt;
+        monthly &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;
+        yearly &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;
+        autosnap &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; no&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It&#39;s short and sweet.  Name the pool/dataset at the top, and specify a template.  Then write the templates at the bottom.&lt;/p&gt;
+&lt;p&gt;The production template I made here will take a snapshot every 15 minutes (frequently = 4, 4 per hour), 1 per hour, 1 per day.  It will retain 4 of the frequents, 24 of the hourlies, and the last 3 dailies.  That should be good enough for rewinding mistakes -- I don&#39;t want to clutter it up with any more than that.&lt;/p&gt;
+&lt;p&gt;The backup template will retain 0 of the 15-minute snapshots, 24 of the hourlies, 30 dailies, and 6 monthlies.  That should be plenty for my homelab.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;autosnap&lt;/strong&gt; and &lt;strong&gt;autoprune&lt;/strong&gt; are important options here.  &lt;strong&gt;autosnap&lt;/strong&gt; tells Sanoid to create the snapshots at the specified intervals.  &lt;strong&gt;autoprune&lt;/strong&gt; tells Sanoid it&#39;s okay to delete snapshots that have expired according to the policy.&lt;/p&gt;
+&lt;p&gt;For my setup, I want &lt;strong&gt;autosnap&lt;/strong&gt; enabled on the fileserver so it will create snapshots.  It needs to be disabled on the backup server though, or else the backup server will start snapshotting the snapshots!  &lt;strong&gt;autoprune&lt;/strong&gt; needs to be enabled on both machines, since they both need to delete snapshots according to their respective policies.&lt;/p&gt;
+&lt;p&gt;Default systemd units look for Sanoid in /usr/local/sbin, so it didn&#39;t launch at first.  Added a symbolic link there to /sbin/sanoid for now.&lt;/p&gt;
+&lt;p&gt;This config has been running in the background while I type all this mess, so let&#39;s see if it&#39;s working:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation:/fast/fileserver/.zfs/snapshot&lt;span class=&quot;token comment&quot;&gt;# ls -t&lt;/span&gt;
+autosnap_2024-03-25_23:00:06_frequently
+autosnap_2024-03-25_23:00:06_hourly
+autosnap_2024-03-25_22:45:05_frequently
+autosnap_2024-03-25_22:30:00_frequently
+autosnap_2024-03-25_22:15:06_frequently
+autosnap_2024-03-25_22:00:06_frequently
+initial&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The times are in UTC to avoid DST issues.  You can list them newest to oldest with &lt;strong&gt;ls -t&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Looking good so far!  Now I&#39;ll just copy and paste that same sanoid.conf to the backup server.  Only need to change the path to the pool and the template:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;bigpool/snapshots/fileserver&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+        use_template &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; backup&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&#39;s run the syncoid command again and see if it worked:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:/bigpool/snapshots/fileserver/.zfs/snapshot&lt;span class=&quot;token comment&quot;&gt;# ls -lt&lt;/span&gt;
+
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;19&lt;/span&gt;:51 syncoid_thinkstation2_2024-03-25:19:51:20-GMT-04:00
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;19&lt;/span&gt;:00 autosnap_2024-03-25_23:00:06_hourly
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;18&lt;/span&gt;:00 autosnap_2024-03-25_22:00:06_hourly
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;17&lt;/span&gt;:30 autosnap_2024-03-25_21:30:00_daily
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;17&lt;/span&gt;:30 autosnap_2024-03-25_21:30:00_hourly
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;16&lt;/span&gt;:49 initial&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Perfect.  It&#39;s deleting everything except what&#39;s specified in the &#39;backup&#39; policy template.&lt;/p&gt;
+&lt;p&gt;Now we&#39;re ready to schedule this process.&lt;/p&gt;
+&lt;h2 id=&quot;running-syncoid-periodically&quot; tabindex=&quot;-1&quot;&gt;Running syncoid periodically &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/zfs-fileserver-automated-snapshots/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Now the backup server just needs a systemd timer that will run the syncoid service periodically.  Since I&#39;m only pulling hourly or older snapshots to the backup server, a timer that runs hourly should be fine.&lt;/p&gt;
+&lt;p&gt;First I made the syncoid.service file.  Just copied the sanoid.service file and changed a couple words.  (symbolic link in /usr/local/sbin for /sbin/syncoid)&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:/etc/systemd/system&lt;span class=&quot;token comment&quot;&gt;# cat syncoid.service &lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Unit&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;Replicate snapshots
+&lt;span class=&quot;token assign-left variable&quot;&gt;Requires&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;zfs.target
+&lt;span class=&quot;token assign-left variable&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;zfs.target
+&lt;span class=&quot;token assign-left variable&quot;&gt;Wants&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;sanoid-prune.service
+&lt;span class=&quot;token assign-left variable&quot;&gt;Before&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;sanoid-prune.service
+&lt;span class=&quot;token assign-left variable&quot;&gt;ConditionFileNotEmpty&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/etc/sanoid/sanoid.conf
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Service&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Environment&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;TZ&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;UTC
+&lt;span class=&quot;token assign-left variable&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;oneshot
+&lt;span class=&quot;token assign-left variable&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/usr/local/sbin/syncoid --no-privilege-elevation thinkstation:fast/fileserver bigpool/snapshots/fileserver&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then I made the timer file, which will call the service file:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:/etc/systemd/system&lt;span class=&quot;token comment&quot;&gt;# cat syncoid.timer&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Unit&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;Run Syncoid Every Hour
+&lt;span class=&quot;token assign-left variable&quot;&gt;Requires&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;syncoid.service
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Timer&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;OnCalendar&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;hourly
+&lt;span class=&quot;token assign-left variable&quot;&gt;Persistent&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;true
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Install&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;timers.target&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&#39;s see if they work:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:~&lt;span class=&quot;token comment&quot;&gt;# systemctl status syncoid&lt;/span&gt;
+
+
+Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;22&lt;/span&gt;:08:54 thinkstation2 systemd&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;: Finished syncoid.service - Replicate snapshots.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Great!  And is pruning working?&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:/bigpool/snapshots/fileserver/.zfs/snapshot&lt;span class=&quot;token comment&quot;&gt;# ls -lt&lt;/span&gt;
+
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;22&lt;/span&gt;:08 syncoid_thinkstation2_2024-03-26:02:08:49-GMT00:00
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;22&lt;/span&gt;:00 autosnap_2024-03-26_02:00:06_hourly
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;21&lt;/span&gt;:00 autosnap_2024-03-26_01:00:06_hourly
+drwxrwxrwx &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; root root &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt; Mar &lt;span class=&quot;token number&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;20&lt;/span&gt;:00 autosnap_2024-03-26_00:00:01_daily&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Heck yea!  That was easier than I thought it would be.&lt;/p&gt;
+&lt;p&gt;I&#39;ll let this run for a few days to make sure I didn&#39;t miss anything, but then it&#39;s time to send that fileserver VM to the trash and start using the new container!&lt;/p&gt;
+&lt;p&gt;For now, I will still use Proxmox Backup Server for everything else.&lt;/p&gt;
+&lt;p&gt;That was really fun to learn!  Thanks for reading and happy homelabbing.&lt;/p&gt;
 </content>
 	</entry>
 	
