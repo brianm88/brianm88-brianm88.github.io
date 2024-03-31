@@ -59,11 +59,22 @@ zpcachyos/ROOT/cos/varlog     540K   445G   300K  /var/log&lt;/code&gt;&lt;/pre&
         autosnap &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; no&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In the fileserver examples, both of those proxmox hosts were logged in as root, which meant I needed to use --no-privilege-elevation in the syncoid command.&lt;/p&gt;
 &lt;p&gt;The thinkpad is obviously not logged in as root, so it needs to run the syncoid command as sudo, but still needs --no-privilege-elevation or else it will be trying to use &amp;quot;sudo&amp;quot; on the backup server as well.&lt;/p&gt;
-&lt;p&gt;Working command:&lt;/p&gt;
+&lt;p&gt;Working command (-F the first time):&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; syncoid &lt;span class=&quot;token parameter variable&quot;&gt;-r&lt;/span&gt; --no-privilege-elevation zpcachyos/ROOT thinkstation2:bigpool/snapshots/thinkpad&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;How it looks on the backup server:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;root@thinkstation2:/bigpool/snapshots/thinkpad&lt;span class=&quot;token comment&quot;&gt;# tree -La 2&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;
+└── cos
+    ├── home
+    ├── root
+    ├── varcache
+    └── varlog&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;I copied and pasted the exact same systemd timer (syncoid.timer) from the backup server for use on this machine.&lt;/p&gt;
-&lt;p&gt;I will configure sudo for syncoid and update this post so the timer will work as expected.&lt;/p&gt;
-&lt;p&gt;--update this post after initial replication complete&lt;/p&gt;
+&lt;p&gt;to do:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;create send/recv user, minimum permissions&lt;/li&gt;
+&lt;li&gt;zfs delegation&lt;/li&gt;
+&lt;/ul&gt;
 </content>
 	</entry>
 	

@@ -277,6 +277,16 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/fileserver/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/e-waste/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -293,16 +303,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/ch341a/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/fileserver/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -332,16 +332,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/man/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/mandb/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/qbittorrent/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -363,6 +353,16 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/wireguard/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/man/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/mandb/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
