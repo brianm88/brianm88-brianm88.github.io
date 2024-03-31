@@ -117,26 +117,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/bash/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/config/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rhcsa/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/scripts/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/blog/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -163,6 +143,26 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/article/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/scripts/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/bash/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/config/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rhcsa/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -262,6 +262,16 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/fileserver/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -297,21 +307,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/fileserver/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/shortcuts/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/shell/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -322,27 +317,7 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/qbittorrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/server/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/torrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/vpn/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/wireguard/</loc>
+		<loc>https://stinky.blog/tags/shortcuts/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -368,6 +343,31 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/escaping/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/qbittorrent/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/torrent/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vpn/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/wireguard/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -402,17 +402,17 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/rsync/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/vim/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://stinky.blog/tags/text-editor/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rsync/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
