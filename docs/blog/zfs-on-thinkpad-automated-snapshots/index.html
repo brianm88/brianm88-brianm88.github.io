@@ -516,7 +516,7 @@ zpcachyos/ROOT/cos/varlog     540K   445G   300K  /var/log</code></pre>
         monthly <span class="token operator">=</span> <span class="token number">6</span>
         yearly <span class="token operator">=</span> <span class="token number">0</span>
         autosnap <span class="token operator">=</span> no</code></pre>
-<p>In the fileserver examples, both of those proxmox hosts were logged in as &quot;root&quot;, which meant I needed to use --no-privilege-elevation in the syncoid command.</p>
+<p>In the fileserver examples, both of those proxmox hosts were logged in as root, which meant I needed to use --no-privilege-elevation in the syncoid command.</p>
 <p>The thinkpad is obviously not logged in as root, so it needs to run the syncoid command as sudo, but still needs --no-privilege-elevation or else it will be trying to use &quot;sudo&quot; on the backup server as well.</p>
 <p>Working command:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">sudo</span> syncoid <span class="token parameter variable">-r</span> --no-privilege-elevation zpcachyos/ROOT thinkstation2:bigpool/snapshots/thinkpad</code></pre>
