@@ -659,6 +659,80 @@ Howdy, Skeeter --  I don't know any Python</code></pre>
         <span class="token punctuation">}</span>
         fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Out of guesses! Better luck next time. The number was "</span><span class="token punctuation">,</span> randnum<span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
+<h2 id="simple-math-if-else-practice" tabindex="-1">simple math / if-else practice <a class="header-anchor" href="#simple-math-if-else-practice">#</a></h2>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> main <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment">// get current age</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hey! how old are you?"</span><span class="token punctuation">)</span>
+                <span class="token keyword">var</span> age <span class="token builtin">int</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Scanln</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>age<span class="token punctuation">)</span>
+                        <span class="token comment">// calculate # of years until you can do stuff</span>
+                        <span class="token comment">// if negative, make positive</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Cool!"</span><span class="token punctuation">,</span> age<span class="token punctuation">,</span> <span class="token string">"years old.  Let's see your milestones:"</span><span class="token punctuation">)</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">)</span>
+                <span class="token keyword">var</span> yearstoadult <span class="token builtin">int</span>
+                yearstoadult <span class="token operator">=</span> <span class="token number">18</span> <span class="token operator">-</span> age
+                        <span class="token keyword">if</span> yearstoadult <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You will be an adult in"</span><span class="token punctuation">,</span> yearstoadult<span class="token punctuation">,</span> <span class="token string">"years."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstoadult <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        yearstoadult <span class="token operator">=</span> <span class="token operator">-</span>yearstoadult
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You became an adult"</span><span class="token punctuation">,</span> yearstoadult<span class="token punctuation">,</span> <span class="token string">"years ago."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstoadult <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You became an adult this year!"</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">)</span>
+                <span class="token keyword">var</span> yearstodrink <span class="token builtin">int</span>
+                yearstodrink <span class="token operator">=</span> <span class="token number">21</span> <span class="token operator">-</span> age
+                        <span class="token keyword">if</span> yearstodrink <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You can buy alcoholic beverages in"</span><span class="token punctuation">,</span> yearstodrink<span class="token punctuation">,</span> <span class="token string">"years."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstodrink <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        yearstodrink <span class="token operator">=</span> <span class="token operator">-</span>yearstodrink
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You were able to buy alcoholic beverages"</span><span class="token punctuation">,</span> yearstodrink<span class="token punctuation">,</span> <span class="token string">"years ago."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstodrink <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You can buy alcoholic beverages this year!"</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">)</span>
+                <span class="token keyword">var</span> yearstocar <span class="token builtin">int</span>
+                yearstocar <span class="token operator">=</span> <span class="token number">25</span> <span class="token operator">-</span> age
+                        <span class="token keyword">if</span> yearstocar <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You can rent a car in"</span><span class="token punctuation">,</span> yearstocar<span class="token punctuation">,</span> <span class="token string">"years."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstocar <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        yearstocar <span class="token operator">=</span> <span class="token operator">-</span>yearstocar
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You were able to rent a car"</span><span class="token punctuation">,</span> yearstocar<span class="token punctuation">,</span> <span class="token string">"years ago."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstocar <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You can rent a car this year!"</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">)</span>
+                <span class="token keyword">var</span> yearstoretire <span class="token builtin">int</span>
+                yearstoretire <span class="token operator">=</span> <span class="token number">67</span> <span class="token operator">-</span> age
+                        <span class="token keyword">if</span> yearstoretire <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You can retire in"</span><span class="token punctuation">,</span> yearstoretire<span class="token punctuation">,</span> <span class="token string">"years."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstoretire <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        yearstoretire <span class="token operator">=</span> <span class="token operator">-</span>yearstoretire
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You could have retired"</span><span class="token punctuation">,</span> yearstoretire<span class="token punctuation">,</span> <span class="token string">"years ago."</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> yearstoretire <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You can retire this year!"</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 
 <ul class="links-nextprev"><li>Previous: <a href="/blog/zfs-on-thinkpad-automated-snapshots/">ZFS on Thinkpad: Automated Snapshots</a></li>
 </ul>

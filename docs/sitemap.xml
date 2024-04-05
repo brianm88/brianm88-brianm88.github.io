@@ -262,17 +262,27 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/fileserver/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/snapshots/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/thinkpad/</loc>
+		<loc>https://stinky.blog/tags/backup-server/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/backup-server/</loc>
+		<loc>https://stinky.blog/tags/thinkpad/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -288,16 +298,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/thinkstation/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/fileserver/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -318,6 +318,31 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/ch341a/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/qbittorrent/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/torrent/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vpn/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/wireguard/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -353,31 +378,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/mandb/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/qbittorrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/server/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/torrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/vpn/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/wireguard/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
