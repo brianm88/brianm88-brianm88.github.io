@@ -474,7 +474,7 @@ h2 + .header-anchor {
 	<li><a href="/tags/programming/" class="post-tag">programming</a></li>
 </ul>
 
-<p>Taking notes while following along with a Go tutorial:</p>
+<p>Taking notes while learning some Go</p>
 <h2 id="go-concepts" tabindex="-1">Go concepts <a class="header-anchor" href="#go-concepts">#</a></h2>
 <p>Every Go file is part of a package.</p>
 <p>Packages contain a collection of Go files.</p>
@@ -604,31 +604,54 @@ Howdy, Skeeter --  I don't know any Python</code></pre>
                 fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> <span class="token string">"--"</span><span class="token punctuation">,</span> number<span class="token punctuation">)</span>
         <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h2 id="user-inputs" tabindex="-1">User inputs <a class="header-anchor" href="#user-inputs">#</a></h2>
+<h2 id="user-inputs-nested-if-elif" tabindex="-1">User inputs, nested if/elif <a class="header-anchor" href="#user-inputs-nested-if-elif">#</a></h2>
 <p>fmt.Scanln(desiredinput)</p>
-<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
         <span class="token string">"fmt"</span>
         <span class="token string">"math/rand"</span>
         <span class="token string">"time"</span>
 <span class="token punctuation">)</span>
 
 <span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment">// ask questions</span>
+        <span class="token keyword">var</span> numguesses <span class="token builtin">int</span>
+        <span class="token keyword">var</span> numrange <span class="token builtin">int</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Welcome to the guessing game!\n...\nGuess my number and win the prize!\n...\nHow many guesses would you like? (1-99)"</span><span class="token punctuation">)</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Scanln</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>numguesses<span class="token punctuation">)</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>numguesses<span class="token punctuation">,</span> <span class="token string">" guesses, you got it.\n...\nNow choose the range! Between 1 and __ (max 100):"</span><span class="token punctuation">)</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Scanln</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>numrange<span class="token punctuation">)</span>
                         <span class="token comment">// plant seeds</span>
         rand<span class="token punctuation">.</span><span class="token function">Seed</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">UnixNano</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
                         <span class="token comment">// sprout seed</span>
-        randnum <span class="token operator">:=</span> rand<span class="token punctuation">.</span><span class="token function">Intn</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+        randnum <span class="token operator">:=</span> rand<span class="token punctuation">.</span><span class="token function">Intn</span><span class="token punctuation">(</span>numrange<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
         <span class="token keyword">var</span> guess <span class="token builtin">int</span>
-        attempts <span class="token operator">:=</span> <span class="token number">3</span>
+        attempts <span class="token operator">:=</span> numguesses
                         <span class="token comment">// start game</span>
-        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Guess a number between 1 and 10."</span><span class="token punctuation">)</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Guess a number between 1 and "</span><span class="token punctuation">,</span> numrange<span class="token punctuation">)</span>
         <span class="token keyword">for</span> i <span class="token operator">:=</span>  <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> attempts<span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
                 fmt<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token string">"Enter your guess: "</span><span class="token punctuation">)</span>
                 fmt<span class="token punctuation">.</span><span class="token function">Scanln</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>guess<span class="token punctuation">)</span>
-                        <span class="token comment">// too low</span>
+                        <span class="token comment">// give hints</span>
+                        <span class="token comment">// calculate difference</span>
+                difference <span class="token operator">:=</span> guess <span class="token operator">-</span> randnum
+                        <span class="token comment">// if negative, make positive</span>
+                <span class="token keyword">if</span> difference <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                        difference <span class="token operator">=</span> <span class="token operator">-</span>difference
+                <span class="token punctuation">}</span>
                 <span class="token keyword">if</span> guess <span class="token operator">&lt;</span> randnum <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> difference <span class="token operator">></span> numrange<span class="token operator">/</span><span class="token number">5</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Way too low!"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
                         fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Too low!"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
                 <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> guess <span class="token operator">></span> randnum <span class="token punctuation">{</span>
+                        <span class="token keyword">if</span> difference <span class="token operator">></span> numrange<span class="token operator">/</span><span class="token number">5</span> <span class="token punctuation">{</span>
+                        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Way too high!"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
                         fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Too high!"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
                 <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
                         fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"You got it! The number was "</span><span class="token punctuation">,</span> randnum<span class="token punctuation">)</span>
                         <span class="token keyword">return</span>
