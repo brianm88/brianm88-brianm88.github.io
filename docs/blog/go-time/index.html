@@ -733,6 +733,39 @@ Howdy, Skeeter --  I don't know any Python</code></pre>
                 <span class="token punctuation">}</span>
                 <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<p>chat jippity said I should clean that up a bit and not repeat myself.  Let's try:</p>
+<pre class="language-go" tabindex="0"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span>
+                <span class="token comment">//calculate age until milestones</span>
+<span class="token keyword">func</span> <span class="token function">ageCalc</span><span class="token punctuation">(</span>age<span class="token punctuation">,</span> milestoneAge <span class="token builtin">int</span><span class="token punctuation">,</span> milestoneName <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        years <span class="token operator">:=</span> milestoneAge <span class="token operator">-</span> age
+        <span class="token keyword">if</span> years <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"%s in %d years.\n"</span><span class="token punctuation">,</span> milestoneName<span class="token punctuation">,</span> years<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> years <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"%s %d years ago\n"</span><span class="token punctuation">,</span> milestoneName<span class="token punctuation">,</span> <span class="token operator">-</span>years<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"%s this year!\n"</span><span class="token punctuation">,</span> milestoneName<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">//ask for age</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Hey! How old are you?"</span><span class="token punctuation">)</span>
+        <span class="token keyword">var</span> age <span class="token builtin">int</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Scanln</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>age<span class="token punctuation">)</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Cool!"</span><span class="token punctuation">,</span> age<span class="token punctuation">,</span> <span class="token string">"years old. Let's see your milestones:"</span><span class="token punctuation">)</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">)</span>
+                <span class="token comment">//use ageCalc function to print results</span>
+        <span class="token function">ageCalc</span><span class="token punctuation">(</span>age<span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">,</span> <span class="token string">"Reach adulthood --"</span><span class="token punctuation">)</span>
+        <span class="token function">ageCalc</span><span class="token punctuation">(</span>age<span class="token punctuation">,</span> <span class="token number">21</span><span class="token punctuation">,</span> <span class="token string">"Buy alcoholic beverages --"</span><span class="token punctuation">)</span>
+        <span class="token function">ageCalc</span><span class="token punctuation">(</span>age<span class="token punctuation">,</span> <span class="token number">25</span><span class="token punctuation">,</span> <span class="token string">"Rent a car --"</span><span class="token punctuation">)</span>
+        <span class="token function">ageCalc</span><span class="token punctuation">(</span>age<span class="token punctuation">,</span> <span class="token number">67</span><span class="token punctuation">,</span> <span class="token string">"Retirement age --"</span><span class="token punctuation">)</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>From 74 lines to 29 lines.  Not bad</p>
+<h2 id="compile-for-windows" tabindex="-1">compile for windows <a class="header-anchor" href="#compile-for-windows">#</a></h2>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token assign-left variable">GOOS</span><span class="token operator">=</span>windows <span class="token assign-left variable">GOARCH</span><span class="token operator">=</span>amd64 go build <span class="token parameter variable">-o</span> age-calc-v2.exe age-calc-v2.go</code></pre>
 
 <ul class="links-nextprev"><li>Previous: <a href="/blog/zfs-on-thinkpad-automated-snapshots/">ZFS on Thinkpad: Automated Snapshots</a></li>
 </ul>
