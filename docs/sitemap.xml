@@ -182,6 +182,21 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/nextcloud/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/proxmox/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/go/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -197,17 +212,27 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/nextcloud/</loc>
+		<loc>https://stinky.blog/tags/qbittorrent/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/proxmox/</loc>
+		<loc>https://stinky.blog/tags/torrent/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
+		<loc>https://stinky.blog/tags/vpn/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/wireguard/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/openvpn/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -228,16 +253,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/cluster-quorum/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/power-consumption/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/cpu-governor/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -263,6 +278,36 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/notes/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/power-consumption/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/cpu-governor/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/windows-server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/active-directory/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/dns/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/domain-controller/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -327,17 +372,22 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shortcuts/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/shell/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://stinky.blog/tags/bash-history/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/shortcuts/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -362,31 +412,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/qbittorrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/server/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/torrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/vpn/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/wireguard/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/escaping/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -398,11 +423,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/globbing/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rsync/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -433,6 +453,11 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/text-editor/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rsync/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -479,5 +504,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/go-time/</loc>
 		<lastmod>2024-04-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/openvpn-inside-lxc-container/</loc>
+		<lastmod>2024-05-27</lastmod>
 	</url>
 </urlset>

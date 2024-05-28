@@ -4,12 +4,71 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-04-03T00:00:00Z</updated>
+	<updated>2024-05-27T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>OpenVPN inside LXC container</title>
+		<link href="https://stinky.blog/blog/openvpn-inside-lxc-container/"/>
+		<updated>2024-05-27T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/openvpn-inside-lxc-container/</id>
+		<content type="html">&lt;h2 id=&quot;why-not-wireguard&quot; tabindex=&quot;-1&quot;&gt;Why not Wireguard &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/openvpn-inside-lxc-container/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;My little qbittorrent container has been chugging along for a couple years now, happily connected to its VPN over wireguard.  It has worked great! ...Until now.&lt;/p&gt;
+&lt;p&gt;Recently I noticed that it was suddenly struggling to maintain connections.  Even extremely active torrents were stalling out completely -- 0 peers connected, 0 seeds connected.  Not sure what exactly has changed with how the VPN routes traffic to cause this, but I needed to correct it.  No more passive peering for me, time to set up port forwarding the right way.&lt;/p&gt;
+&lt;p&gt;My VPN provider does offer port forwarding for Wireguard, but only within their little app.  I&#39;m not using the app.  I have purchased a static IP from them and I connect directly.  They only support OpenVPN for port forwarding in this situation.&lt;/p&gt;
+&lt;h2 id=&quot;why-it-doesn-t-work&quot; tabindex=&quot;-1&quot;&gt;Why it doesn&#39;t work &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/openvpn-inside-lxc-container/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Just like with samba/nfs and gpu transcoding, LXC containers need to be privileged in order to access certain kernel modules.  OpenVPN creates a new device in /dev/net/tun using kernel module &amp;quot;tun&amp;quot; -- that ain&#39;t gonna work in a LXC.&lt;/p&gt;
+&lt;p&gt;Googling it brings up various methods involving adding lines to your LXC config file in /etc/pve on the Proxmox host and then doing some user masking similar to samba/nfs.  I didn&#39;t have to do any of that.  All I had to do was add /dev/net/tun as a passthrough device in the &amp;quot;Resources&amp;quot; section of the LXC options.&lt;/p&gt;
+&lt;h2 id=&quot;the-steps&quot; tabindex=&quot;-1&quot;&gt;The steps &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/openvpn-inside-lxc-container/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Install openvpn in the container&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; openvpn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Generate config file or download from VPN provider, place file in:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;/etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Make a credentials file&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/openvpn/creds&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Use this format:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;username
+password&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Save the file and secure it:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;chmod&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;600&lt;/span&gt; /etc/openvpn/creds&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Add the location of your credentials file to your OpenVPN config:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Look for &amp;quot;auth-user-pass&amp;quot; and add the path to the creds file:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;auth-user-pass /etc/openvpn/creds&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Navigate to the container settings in Proxmox and select the &amp;quot;Resources&amp;quot; tab.&lt;/p&gt;
+&lt;p&gt;Click Add --&amp;gt; Device Passthrough&lt;/p&gt;
+&lt;p&gt;Device path: /dev/net/tun  --&amp;gt;  Click Add&lt;/p&gt;
+&lt;p&gt;Reboot the container.  Test the connection:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;openvpn &lt;span class=&quot;token parameter variable&quot;&gt;--config&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token number&quot;&gt;2024&lt;/span&gt;-05-27 &lt;span class=&quot;token number&quot;&gt;23&lt;/span&gt;:48:24 TUN/TAP device tun0 opened&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Tadaaaaaaa!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;connect-automatically&quot; tabindex=&quot;-1&quot;&gt;Connect automatically &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/openvpn-inside-lxc-container/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Make a systemd timer:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/systemd/system/openvpn@yourname.service&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With these contents (edit the filename):&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Unit&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;OpenVPN connection
+&lt;span class=&quot;token assign-left variable&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;network.target
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Service&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;simple
+&lt;span class=&quot;token assign-left variable&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/usr/sbin/openvpn &lt;span class=&quot;token parameter variable&quot;&gt;--config&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourname&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn
+&lt;span class=&quot;token assign-left variable&quot;&gt;Restart&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;on-failure
+
+&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Install&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;multi-user.target&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Enable and start it:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl daemon-reload
+systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; openvpn@yourname
+systemctl start openvpn@yourname&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Enjoy!&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Go time</title>

@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>OpenVPN inside LXC container</title>
+		<meta name="description" content="Notes on how to get a working OpenVPN connection inside a LXC container">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">stinky.blog</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>OpenVPN inside LXC container</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2024-05-27">27 May 2024</time></li>
+	<li><a href="/tags/lxc/" class="post-tag">lxc</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/qbittorrent/" class="post-tag">qbittorrent</a>, </li>
+	<li><a href="/tags/torrent/" class="post-tag">torrent</a>, </li>
+	<li><a href="/tags/vpn/" class="post-tag">vpn</a>, </li>
+	<li><a href="/tags/wireguard/" class="post-tag">wireguard</a>, </li>
+	<li><a href="/tags/openvpn/" class="post-tag">openvpn</a></li>
+</ul>
+
+<h2 id="why-not-wireguard" tabindex="-1">Why not Wireguard <a class="header-anchor" href="#why-not-wireguard">#</a></h2>
+<p>My little qbittorrent container has been chugging along for a couple years now, happily connected to its VPN over wireguard.  It has worked great! ...Until now.</p>
+<p>Recently I noticed that it was suddenly struggling to maintain connections.  Even extremely active torrents were stalling out completely -- 0 peers connected, 0 seeds connected.  Not sure what exactly has changed with how the VPN routes traffic to cause this, but I needed to correct it.  No more passive peering for me, time to set up port forwarding the right way.</p>
+<p>My VPN provider does offer port forwarding for Wireguard, but only within their little app.  I'm not using the app.  I have purchased a static IP from them and I connect directly.  They only support OpenVPN for port forwarding in this situation.</p>
+<h2 id="why-it-doesn-t-work" tabindex="-1">Why it doesn't work <a class="header-anchor" href="#why-it-doesn-t-work">#</a></h2>
+<p>Just like with samba/nfs and gpu transcoding, LXC containers need to be privileged in order to access certain kernel modules.  OpenVPN creates a new device in /dev/net/tun using kernel module &quot;tun&quot; -- that ain't gonna work in a LXC.</p>
+<p>Googling it brings up various methods involving adding lines to your LXC config file in /etc/pve on the Proxmox host and then doing some user masking similar to samba/nfs.  I didn't have to do any of that.  All I had to do was add /dev/net/tun as a passthrough device in the &quot;Resources&quot; section of the LXC options.</p>
+<h2 id="the-steps" tabindex="-1">The steps <a class="header-anchor" href="#the-steps">#</a></h2>
+<p>Install openvpn in the container</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> openvpn</code></pre>
+<p>Generate config file or download from VPN provider, place file in:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">/etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.ovpn</code></pre>
+<p>Make a credentials file</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/creds</code></pre>
+<p>Use this format:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">username
+password</code></pre>
+<p>Save the file and secure it:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">chmod</span> <span class="token number">600</span> /etc/openvpn/creds</code></pre>
+<p>Add the location of your credentials file to your OpenVPN config:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.ovpn</code></pre>
+<p>Look for &quot;auth-user-pass&quot; and add the path to the creds file:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">auth-user-pass /etc/openvpn/creds</code></pre>
+<p>Navigate to the container settings in Proxmox and select the &quot;Resources&quot; tab.</p>
+<p>Click Add --&gt; Device Passthrough</p>
+<p>Device path: /dev/net/tun  --&gt;  Click Add</p>
+<p>Reboot the container.  Test the connection:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.ovpn</code></pre>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token number">2024</span>-05-27 <span class="token number">23</span>:48:24 TUN/TAP device tun0 opened</code></pre>
+<p>Tadaaaaaaa!</p>
+<hr>
+<h2 id="connect-automatically" tabindex="-1">Connect automatically <a class="header-anchor" href="#connect-automatically">#</a></h2>
+<p>Make a systemd timer:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/systemd/system/openvpn@yourname.service</code></pre>
+<p>With these contents (edit the filename):</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token punctuation">[</span>Unit<span class="token punctuation">]</span>
+<span class="token assign-left variable">Description</span><span class="token operator">=</span>OpenVPN connection
+<span class="token assign-left variable">After</span><span class="token operator">=</span>network.target
+
+<span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
+<span class="token assign-left variable">Type</span><span class="token operator">=</span>simple
+<span class="token assign-left variable">ExecStart</span><span class="token operator">=</span>/usr/sbin/openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourname<span class="token punctuation">]</span>.ovpn
+<span class="token assign-left variable">Restart</span><span class="token operator">=</span>on-failure
+
+<span class="token punctuation">[</span>Install<span class="token punctuation">]</span>
+<span class="token assign-left variable">WantedBy</span><span class="token operator">=</span>multi-user.target</code></pre>
+<p>Enable and start it:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">systemctl daemon-reload
+systemctl <span class="token builtin class-name">enable</span> openvpn@yourname
+systemctl start openvpn@yourname</code></pre>
+<p>Enjoy!</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/go-time/">Go time</a></li>
+</ul>
+
+		</main>
+
+		<footer></footer>
+
+		<!-- Current page: /blog/openvpn-inside-lxc-container/ -->
+	</body>
+</html>
