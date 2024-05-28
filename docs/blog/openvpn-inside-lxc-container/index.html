@@ -501,7 +501,10 @@ password</code></pre>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.ovpn</code></pre>
 <p>Look for &quot;auth-user-pass&quot; and add the path to the creds file:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash">auth-user-pass /etc/openvpn/creds</code></pre>
-<p>Navigate to the container settings in Proxmox and select the &quot;Resources&quot; tab.</p>
+<p>Navigate to the container settings in Proxmox.</p>
+<p>Select the &quot;Options&quot; tab.</p>
+<p>Click Features --&gt; Enable Nesting and Create Device Nodes</p>
+<p>Select the &quot;Resources&quot; tab.</p>
 <p>Click Add --&gt; Device Passthrough</p>
 <p>Device path: /dev/net/tun  --&gt;  Click Add</p>
 <p>Reboot the container.  Test the connection:</p>
