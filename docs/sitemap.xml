@@ -117,26 +117,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/bash/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/config/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/rhcsa/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/scripts/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/blog/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -167,6 +147,26 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/scripts/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/bash/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/config/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/rhcsa/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/easyengine/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -182,21 +182,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/nextcloud/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/proxmox/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/lxc/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/go/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -208,6 +193,21 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/programming/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/nextcloud/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/proxmox/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/lxc/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -267,26 +267,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/windows-server/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/active-directory/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/dns/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/domain-controller/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/fuzzy-finder/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -312,7 +292,32 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/windows-server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/active-directory/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/dns/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/domain-controller/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/zfs/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/fileserver/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -322,12 +327,12 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/thinkpad/</loc>
+		<loc>https://stinky.blog/tags/backup-server/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/backup-server/</loc>
+		<loc>https://stinky.blog/tags/thinkpad/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -367,7 +372,7 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/fileserver/</loc>
+		<loc>https://stinky.blog/tags/server/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -397,11 +402,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/server/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/man/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -413,16 +413,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/escaping/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/shell-expansion/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/globbing/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -453,6 +443,16 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/text-editor/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/shell-expansion/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/globbing/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	

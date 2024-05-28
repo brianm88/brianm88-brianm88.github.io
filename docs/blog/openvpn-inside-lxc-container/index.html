@@ -489,7 +489,7 @@ h2 + .header-anchor {
 <p>Install openvpn in the container</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> openvpn</code></pre>
 <p>Generate config file or download from VPN provider, place file in:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">/etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.ovpn</code></pre>
+<pre class="language-bash" tabindex="0"><code class="language-bash">/etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.conf</code></pre>
 <p>Make a credentials file</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/creds</code></pre>
 <p>Use this format:</p>
@@ -498,7 +498,7 @@ password</code></pre>
 <p>Save the file and secure it:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">chmod</span> <span class="token number">600</span> /etc/openvpn/creds</code></pre>
 <p>Add the location of your credentials file to your OpenVPN config:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.ovpn</code></pre>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.conf</code></pre>
 <p>Look for &quot;auth-user-pass&quot; and add the path to the creds file:</p>
 <pre class="language-bash" tabindex="0"><code class="language-bash">auth-user-pass /etc/openvpn/creds</code></pre>
 <p>Navigate to the container settings in Proxmox.</p>
@@ -508,7 +508,7 @@ password</code></pre>
 <p>Click Add --&gt; Device Passthrough</p>
 <p>Device path: /dev/net/tun  --&gt;  Click Add</p>
 <p>Reboot the container.  Test the connection:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.ovpn</code></pre>
+<pre class="language-bash" tabindex="0"><code class="language-bash">openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.conf</code></pre>
 <pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token number">2024</span>-05-27 <span class="token number">23</span>:48:24 TUN/TAP device tun0 opened</code></pre>
 <p>Tadaaaaaaa!</p>
 <hr>
@@ -522,7 +522,7 @@ password</code></pre>
 
 <span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
 <span class="token assign-left variable">Type</span><span class="token operator">=</span>simple
-<span class="token assign-left variable">ExecStart</span><span class="token operator">=</span>/usr/sbin/openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourname<span class="token punctuation">]</span>.ovpn
+<span class="token assign-left variable">ExecStart</span><span class="token operator">=</span>/usr/sbin/openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourname<span class="token punctuation">]</span>.conf
 <span class="token assign-left variable">Restart</span><span class="token operator">=</span>on-failure
 
 <span class="token punctuation">[</span>Install<span class="token punctuation">]</span>

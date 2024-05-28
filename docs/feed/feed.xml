@@ -27,7 +27,7 @@
 &lt;p&gt;Install openvpn in the container&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; openvpn&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Generate config file or download from VPN provider, place file in:&lt;/p&gt;
-&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;/etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;/etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.conf&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Make a credentials file&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/openvpn/creds&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Use this format:&lt;/p&gt;
@@ -36,7 +36,7 @@ password&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Save the file and secure it:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;chmod&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;600&lt;/span&gt; /etc/openvpn/creds&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Add the location of your credentials file to your OpenVPN config:&lt;/p&gt;
-&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;nano&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.conf&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Look for &amp;quot;auth-user-pass&amp;quot; and add the path to the creds file:&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;auth-user-pass /etc/openvpn/creds&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Navigate to the container settings in Proxmox.&lt;/p&gt;
@@ -46,7 +46,7 @@ password&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Click Add --&amp;gt; Device Passthrough&lt;/p&gt;
 &lt;p&gt;Device path: /dev/net/tun  --&amp;gt;  Click Add&lt;/p&gt;
 &lt;p&gt;Reboot the container.  Test the connection:&lt;/p&gt;
-&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;openvpn &lt;span class=&quot;token parameter variable&quot;&gt;--config&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;openvpn &lt;span class=&quot;token parameter variable&quot;&gt;--config&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourfile&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.conf&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token number&quot;&gt;2024&lt;/span&gt;-05-27 &lt;span class=&quot;token number&quot;&gt;23&lt;/span&gt;:48:24 TUN/TAP device tun0 opened&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Tadaaaaaaa!&lt;/p&gt;
 &lt;hr&gt;
@@ -60,7 +60,7 @@ password&lt;/code&gt;&lt;/pre&gt;
 
 &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Service&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;token assign-left variable&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;simple
-&lt;span class=&quot;token assign-left variable&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/usr/sbin/openvpn &lt;span class=&quot;token parameter variable&quot;&gt;--config&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourname&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.ovpn
+&lt;span class=&quot;token assign-left variable&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;/usr/sbin/openvpn &lt;span class=&quot;token parameter variable&quot;&gt;--config&lt;/span&gt; /etc/openvpn/&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;yourname&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;.conf
 &lt;span class=&quot;token assign-left variable&quot;&gt;Restart&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;on-failure
 
 &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Install&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
