@@ -4,12 +4,56 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-05-27T00:00:00Z</updated>
+	<updated>2024-07-03T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Opnsense High(er) Availability</title>
+		<link href="https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/"/>
+		<updated>2024-07-03T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/</id>
+		<content type="html">&lt;h2 id=&quot;why-virtualize-my-router&quot; tabindex=&quot;-1&quot;&gt;Why virtualize my router? &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I ditched my Asus w/merlin router more than a year ago and started using an opnsense VM on one of my Proxmox hosts.  It has been pretty awesome!  It comes packed with an insane amount of features that really come in handy for the homelab.  Mine has been trucking along in a little 4-cpu 4GB VM doing packet inspection with Zenarmor, caching http with squid proxy (linux/windows updates!), taking zfs snapshots of itself after configuration changes, and so much more.  Now I just use the old Asus routers in access point mode for wifi.&lt;/p&gt;
+&lt;h2 id=&quot;the-bad&quot; tabindex=&quot;-1&quot;&gt;The bad &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The only downside to virtualizing the router/firewall is that homelab tinkering can then knock the internet out for everybody else in the house.  Rebooting the proxmox host for updates, moving hardware around, or changing configurations will inconvenience everyone.  It&#39;s all fun and games until the living room TV stops streaming!&lt;/p&gt;
+&lt;p&gt;When I originally created the VM, I was using two physical interfaces on that Proxmox host: a 10gbe nic connected to switch for LAN and a 2.5gbe nic with cable modem plugged into it for WAN.  This setup prevented me from being able to migrate the router VM to a different host if I needed to bring that machine down for any reason.&lt;/p&gt;
+&lt;h2 id=&quot;fixing-the-bad&quot; tabindex=&quot;-1&quot;&gt;Fixing the bad &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;In a router-on-a-stick configuration, the WAN and LAN virtual interfaces are on separate vlans but share the physical port (or linux bridge in Proxmox), making it super easy to migrate the router VM to any other machine in the cluster.  The Proxmox hosts are connected to the switch via 10 gig sfp dac and the opnsense VM gets replicated to the other hosts every 30 mins, so the switchover between them happens nearly instantly.  It&#39;s so quick that our TVs continue streaming without a hiccup.  I was even able to migrate the VM between hosts in the middle of a speedtest.net run!&lt;/p&gt;
+&lt;p&gt;Opnsense has high availability built-in as well, but it is fairly complicated -- requiring multiple VMs with multiple interfaces for each.  Using vlans instead, you can just use the high availability feature built-in to your hypervisor to accomplish this much easier.&lt;/p&gt;
+&lt;h2 id=&quot;basic-steps-for-proxmox&quot; tabindex=&quot;-1&quot;&gt;Basic steps for Proxmox &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Plug the cable modem into a managed switch port&lt;/li&gt;
+&lt;li&gt;Configure that port as untagged and give it a vlan&lt;/li&gt;
+&lt;li&gt;Tag ports used by proxmox hosts with that vlan&lt;/li&gt;
+&lt;li&gt;In proxmox, click node -&amp;gt; network -&amp;gt; interface -&amp;gt; enable vlan aware&lt;/li&gt;
+&lt;li&gt;In proxmox, opnsense VM hardware settings -&amp;gt; tag wan interface with vlan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;details&quot; tabindex=&quot;-1&quot;&gt;Details &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;topology&quot; tabindex=&quot;-1&quot;&gt;Topology &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;This requires a managed switch with vlans.  Plug the cable modem into one of the switch ports, enter the switch admin console, and select a vlan for that port (10, for example) and leave it untagged.  Next, configure the ports that your Proxmox hosts are plugged into as tagged on the vlan you selected and untagged on the default or LAN vlan.&lt;/p&gt;
+&lt;p&gt;In this screenshot, my modem is plugged into port 12 and my Proxmox hosts are plugged into ports 3, 9, and 10:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/Hkmmh5nko6-728.avif 728w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/Hkmmh5nko6-728.webp 728w&quot;&gt;&lt;img alt=&quot;example switch config&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/Hkmmh5nko6-728.jpeg&quot; width=&quot;728&quot; height=&quot;184&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h3 id=&quot;proxmox-config&quot; tabindex=&quot;-1&quot;&gt;Proxmox config &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Under each node&#39;s network settings, select your bridge (vmbr0) and check the &amp;quot;vlan aware&amp;quot; box.  That&#39;s all you have to do here.&lt;/p&gt;
+&lt;h3 id=&quot;opnsense-vm-config&quot; tabindex=&quot;-1&quot;&gt;Opnsense VM Config &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Two virtual network interfaces need to be added to the VM (click the vm -&amp;gt; hardware -&amp;gt; add).  For Bridge, select the your vlan-aware bridge (vmbr0).  The first interface should be untagged (or tagged with your LAN vlan).  The second interface should be tagged with your WAN vlan.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/4GKgCDlw_R-597.avif 597w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/4GKgCDlw_R-597.webp 597w&quot;&gt;&lt;img alt=&quot;opnsense VM interface config&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/4GKgCDlw_R-597.jpeg&quot; width=&quot;597&quot; height=&quot;263&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;In opnsense admin console, go to Interfaces -&amp;gt; add interface for LAN and WAN, select the appropriate virtual adapter for each.&lt;/p&gt;
+&lt;h3 id=&quot;proxmox-migrations&quot; tabindex=&quot;-1&quot;&gt;Proxmox Migrations &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;In order to migrate, the nodes must have a shared storage.  You can also use a local storage, provided it is the same name and type across each node (no mixing local-lvm + local-zfs).  In order to avoid copying the entire VM disk for each migrate, you&#39;ll want to go to the VM settings and set up a replication job on a somewhat frequent basis.  Proxmox can then do a super fast incremental update to the VM disk and then just copy the VM&#39;s memory contents.  If your VM has 4GB ram, for example, the migrate will only need to transfer 4GB if you&#39;ve replicated the disk.&lt;/p&gt;
+&lt;p&gt;Replication example:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/mfgIHzPvhP-644.avif 644w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/mfgIHzPvhP-644.webp 644w&quot;&gt;&lt;img alt=&quot;example replication job&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/mfgIHzPvhP-644.jpeg&quot; width=&quot;644&quot; height=&quot;428&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;High availability can now be configured under Datacenter -&amp;gt; High Availability.  Or, you can enjoy the live-migrate functionality as-needed, without configuring HA.&lt;/p&gt;
+&lt;h3 id=&quot;it-s-really-fast&quot; tabindex=&quot;-1&quot;&gt;it&#39;s really fast! &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/OIOJK9Cuft-896.avif 896w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/OIOJK9Cuft-896.webp 896w&quot;&gt;&lt;img alt=&quot;example migration&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/OIOJK9Cuft-896.jpeg&quot; width=&quot;896&quot; height=&quot;555&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;happy-homelabbing&quot; tabindex=&quot;-1&quot;&gt;Happy homelabbing! &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>OpenVPN inside LXC container</title>

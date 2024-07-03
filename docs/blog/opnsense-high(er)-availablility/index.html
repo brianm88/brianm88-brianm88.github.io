@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>OpenVPN inside LXC container</title>
-		<meta name="description" content="Notes on how to get a working OpenVPN connection inside a LXC container">
+		<title>Opnsense High(er) Availablility</title>
+		<meta name="description" content="How to create a router-on-a-stick opnsense VM with live migration">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
 		
@@ -465,81 +465,42 @@ h2 + .header-anchor {
 
 		<main id="skip">
 			
-<h1>OpenVPN inside LXC container</h1>
+<h1>Opnsense High(er) Availablility</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-05-27">27 May 2024</time></li>
-	<li><a href="/tags/lxc/" class="post-tag">lxc</a>, </li>
+	<li><time datetime="2024-07-03">03 July 2024</time></li>
+	<li><a href="/tags/opnsense/" class="post-tag">opnsense</a>, </li>
+	<li><a href="/tags/high-availability/" class="post-tag">high availability</a>, </li>
 	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
-	<li><a href="/tags/qbittorrent/" class="post-tag">qbittorrent</a>, </li>
-	<li><a href="/tags/torrent/" class="post-tag">torrent</a>, </li>
-	<li><a href="/tags/vpn/" class="post-tag">vpn</a>, </li>
-	<li><a href="/tags/wireguard/" class="post-tag">wireguard</a>, </li>
-	<li><a href="/tags/openvpn/" class="post-tag">openvpn</a></li>
+	<li><a href="/tags/vlan/" class="post-tag">vlan</a></li>
 </ul>
 
-<h2 id="why-not-wireguard" tabindex="-1">Why not Wireguard <a class="header-anchor" href="#why-not-wireguard">#</a></h2>
-<p>My little qbittorrent container has been chugging along for a couple years now, happily connected to its VPN over wireguard.  It has worked great! ...Until now.</p>
-<p>Recently I noticed that it was suddenly struggling to maintain connections.  Even extremely active torrents were stalling out completely -- 0 peers connected, 0 seeds connected.  Not sure what exactly has changed with how the VPN routes traffic to cause this, but I needed to correct it.  No more passive peering for me, time to set up port forwarding the right way.</p>
-<p>My VPN provider does offer port forwarding for Wireguard, but only within their little app.  I'm not using the app.  I have purchased a static IP from them and I connect directly.  They only support OpenVPN for port forwarding in this situation.</p>
-<h2 id="why-it-doesn-t-work" tabindex="-1">Why it doesn't work <a class="header-anchor" href="#why-it-doesn-t-work">#</a></h2>
-<p>Just like with samba/nfs and gpu transcoding, LXC containers need to be privileged in order to access certain kernel modules.  OpenVPN creates a new device in /dev/net/tun using kernel module &quot;tun&quot; -- that ain't gonna work in a LXC.</p>
-<p>Googling it brings up various methods involving adding lines to your LXC config file in /etc/pve on the Proxmox host and then doing some user masking similar to samba/nfs.  I didn't have to do any of that.  All I had to do was add /dev/net/tun as a passthrough device in the &quot;Resources&quot; section of the LXC options.</p>
-<h2 id="the-steps" tabindex="-1">The steps <a class="header-anchor" href="#the-steps">#</a></h2>
-<p>Install openvpn in the container</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> openvpn</code></pre>
-<p>Generate config file or download from VPN provider, place file in:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">/etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.conf</code></pre>
-<p>Make a credentials file</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/creds</code></pre>
-<p>Use this format:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">username
-password</code></pre>
-<p>Save the file and secure it:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">chmod</span> <span class="token number">600</span> /etc/openvpn/creds</code></pre>
-<p>Add the location of your credentials file to your OpenVPN config:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.conf</code></pre>
-<p>Look for &quot;auth-user-pass&quot; and add the path to the creds file:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">auth-user-pass /etc/openvpn/creds</code></pre>
-<p>Navigate to the container settings in Proxmox.</p>
-<p>Select the &quot;Options&quot; tab.</p>
-<p>Click Features --&gt; Enable Nesting and Create Device Nodes</p>
-<p>Select the &quot;Resources&quot; tab.</p>
-<p>Click Add --&gt; Device Passthrough</p>
-<p>Device path: /dev/net/tun  --&gt;  Click Add</p>
-<p>Reboot the container.  Test the connection:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourfile<span class="token punctuation">]</span>.conf</code></pre>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token number">2024</span>-05-27 <span class="token number">23</span>:48:24 TUN/TAP device tun0 opened</code></pre>
-<p>Tadaaaaaaa!</p>
-<hr>
-<h2 id="connect-automatically" tabindex="-1">Connect automatically <a class="header-anchor" href="#connect-automatically">#</a></h2>
-<p>Make a systemd timer:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">nano</span> /etc/systemd/system/openvpn@yourname.service</code></pre>
-<p>With these contents (edit the filename):</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token punctuation">[</span>Unit<span class="token punctuation">]</span>
-<span class="token assign-left variable">Description</span><span class="token operator">=</span>OpenVPN connection
-<span class="token assign-left variable">After</span><span class="token operator">=</span>network.target
+<h2 id="why-virtualize-my-router" tabindex="-1">Why virtualize my router? <a class="header-anchor" href="#why-virtualize-my-router">#</a></h2>
+<p>I ditched my Asus w/merlin router more than a year ago and started using an opnsense VM on one of my Proxmox hosts.  It has been pretty awesome!  It comes packed with an insane amount of features that really come in handy for the homelab.  Mine has been trucking along in a little 4-cpu 4GB VM doing packet inspection with Zenarmor, caching http with squid proxy (linux/windows updates!), taking zfs snapshots of itself after configuration changes, and so much more.  Now I just use the old Asus routers in access point mode for wifi.</p>
+<h2 id="the-bad" tabindex="-1">The bad <a class="header-anchor" href="#the-bad">#</a></h2>
+<p>The only downside to virtualizing the router/firewall is that homelab tinkering can then knock the internet out for everybody else in the house.  Rebooting the proxmox host for updates, moving hardware around, or changing configurations will inconvenience everyone.  It's all fun and games until the living room TV stops streaming!</p>
+<p>When I originally created the VM, I was using two physical interfaces on that Proxmox host: a 10gbe nic connected to switch for LAN and a 2.5gbe nic with cable modem plugged into it for WAN.  This setup prevented me from being able to migrate the router VM to a different host if I needed to bring that machine down for any reason.</p>
+<h2 id="fixing-the-bad" tabindex="-1">Fixing the bad <a class="header-anchor" href="#fixing-the-bad">#</a></h2>
+<p>In a router-on-a-stick configuration, the WAN and LAN virtual interfaces are on separate vlans but share the physical port (or linux bridge in Proxmox), making it super easy to migrate the router VM to any other machine in the cluster.  The Proxmox hosts are connected to the switch via 10 gig sfp dac and the opnsense VM gets replicated to the other hosts every 30 mins, so the switchover between them happens nearly instantly.  It's so quick that our TVs continue streaming without a hiccup.  I was even able to migrate the VM between hosts in the middle of a speedtest.net run!</p>
+<p>Opnsense has high availability built-in as well, but it is fairly complicated -- requiring multiple VMs with multiple interfaces for each.  Using vlans instead, you can just use the high availability feature built-in to your hypervisor to accomplish this much easier.</p>
+<h2 id="basic-steps-for-proxmox" tabindex="-1">Basic steps for Proxmox <a class="header-anchor" href="#basic-steps-for-proxmox">#</a></h2>
+<ul>
+<li>Plug the cable modem into a managed switch port</li>
+<li>Configure that port as untagged and give it a vlan</li>
+<li>Tag ports used by proxmox hosts with that vlan</li>
+<li>In proxmox, click node -&gt; network -&gt; interface -&gt; enable vlan aware</li>
+<li>In proxmox, opnsense VM hardware settings -&gt; tag wan interface with vlan</li>
+</ul>
+<h2 id="details" tabindex="-1">Details <a class="header-anchor" href="#details">#</a></h2>
+<h3 id="opnsense-vm-config" tabindex="-1">Opnsense VM Config <a class="header-anchor" href="#opnsense-vm-config">#</a></h3>
 
-<span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
-<span class="token assign-left variable">Type</span><span class="token operator">=</span>simple
-<span class="token assign-left variable">ExecStart</span><span class="token operator">=</span>/usr/sbin/openvpn <span class="token parameter variable">--config</span> /etc/openvpn/<span class="token punctuation">[</span>yourname<span class="token punctuation">]</span>.conf
-<span class="token assign-left variable">Restart</span><span class="token operator">=</span>on-failure
-
-<span class="token punctuation">[</span>Install<span class="token punctuation">]</span>
-<span class="token assign-left variable">WantedBy</span><span class="token operator">=</span>multi-user.target</code></pre>
-<p>Enable and start it:</p>
-<pre class="language-bash" tabindex="0"><code class="language-bash">systemctl daemon-reload
-systemctl <span class="token builtin class-name">enable</span> openvpn@yourname
-systemctl start openvpn@yourname</code></pre>
-<p>Enjoy!</p>
-
-<ul class="links-nextprev"><li>Previous: <a href="/blog/go-time/">Go time</a></li><li>Next: <a href="/blog/opnsense/opnsense-high(er)-availablility/">Opnsense High(er) Availability</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/blog/openvpn-inside-lxc-container/">OpenVPN inside LXC container</a></li>
 </ul>
 
 		</main>
 
 		<footer></footer>
 
-		<!-- Current page: /blog/openvpn-inside-lxc-container/ -->
+		<!-- Current page: /blog/opnsense-high(er)-availablility/ -->
 	</body>
 </html>

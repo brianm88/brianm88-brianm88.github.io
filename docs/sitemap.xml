@@ -337,21 +337,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/homelab/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/thinkstation/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/e-waste/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -362,12 +347,32 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/homelab/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/laptop/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://stinky.blog/tags/ch341a/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/opnsense/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/high-availability/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vlan/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -417,6 +422,16 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/shell-expansion/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/globbing/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/stdin/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -447,12 +462,12 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/shell-expansion/</loc>
+		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/globbing/</loc>
+		<loc>https://stinky.blog/tags/thinkstation/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -509,5 +524,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/openvpn-inside-lxc-container/</loc>
 		<lastmod>2024-05-27</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/</loc>
+		<lastmod>2024-07-03</lastmod>
 	</url>
 </urlset>
