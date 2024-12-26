@@ -4,12 +4,83 @@
 	<subtitle>brain of brian. notes about fun things i&#39;m learning</subtitle>
 	<link href="https://stinky.blog/feed/feed.xml" rel="self"/>
 	<link href="https://stinky.blog/"/>
-	<updated>2024-07-03T00:00:00Z</updated>
+	<updated>2024-12-26T00:00:00Z</updated>
 	<id>https://stinky.blog/</id>
 	<author>
 		<name>Brian</name>
 		<email>brianm88@gmail.com</email>
 	</author>
+	
+	<entry>
+		<title>Christmas homelab update</title>
+		<link href="https://stinky.blog/blog/christmas-homelab-update/"/>
+		<updated>2024-12-26T00:00:00Z</updated>
+		<id>https://stinky.blog/blog/christmas-homelab-update/</id>
+		<content type="html">&lt;p&gt;Hi blog!  It&#39;s been a minute.  2024 zoomed by, but it was a great year for me.  Landed my dream job, made some progress in the computer science degree, and found some great new friendships.  I wish the same good fortune to anyone reading this.&lt;/p&gt;
+&lt;p&gt;The homelab has been rock solid, chugging away for the past year without any hiccups.  Recovered from a week-long power outage after hurricane Helene with no issues.  My most-used services over the past few months have been jellyfin, satisfactory game server, firefly finance, and a VM I use for practicing databases.  I had fun with a remote gaming VM as well, with GPU passthrough and sunlight/moonlight to my hacked Switch.  I&#39;m also still using my guacamole server a decent amount for remoting into everything via web browser.  I should have written posts about some of that stuff!&lt;/p&gt;
+&lt;p&gt;But alas, the itch to upgrade has come again.  This time, my goals are simpler:  I just want to &#39;downsize&#39; my 3 nodes into one larger, more efficient, more powerful server.  I had enough fun with the little Intel ARC 310 gpu in Proxmox that I want to incorporate a full-size GPU into this build as well, and start dabbling with LLMs.&lt;/p&gt;
+&lt;h2 id=&quot;so-here-s-where-i-was-last-year&quot; tabindex=&quot;-1&quot;&gt;So here&#39;s where I was last year: &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/christmas-homelab-update/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/bthkkEO_Fv-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/bthkkEO_Fv-600.webp 600w&quot;&gt;&lt;img alt=&quot;Old cluster&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/bthkkEO_Fv-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;P330 SFF - i7 8700k, 64gb ddr4, 4tb nvme, 12tb hdd, intel arc 310, 10gbe
+P320 Tower - i7 7700k, 64gb ddr4, 4tb nvme, 4tb sata ssd, 4x 12tb hdd, 10gbe
+Thinkpad x270 - i7 7200u, 16gb ddr4, 512gb nvme, 5gbe&lt;/p&gt;
+&lt;p&gt;The p320 housed the big ZFS pool containing the fileserver and the datastore for Proxmox backup server.  In addition to files and backups, it also ran the satisfactory game server and bittorrent server.&lt;/p&gt;
+&lt;p&gt;The p330 ran all my VMs and did GPU passthrough stuff.  It also synced the fileserver and backup server datasets to that spare 12tb drive.&lt;/p&gt;
+&lt;p&gt;The x270 ran all the containers -- guacamole, caddy, firefly, tailscale, dyndns, and more.&lt;/p&gt;
+&lt;h2 id=&quot;the-upgrade&quot; tabindex=&quot;-1&quot;&gt;The upgrade: &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/christmas-homelab-update/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Downsizing all this stuff requires an upsized chassis, yet my shelf is tiny.  Enter the Racksource 4U shallow depth chassis.  I thought this chassis looked pretty cool, and I was too impatient to wait for the jonsbo n5 to come out.  **I will regret not selecting a chassis with hot swap bays later in this post.&lt;/p&gt;
+&lt;p&gt;I also chose to use lots of desktop parts for this build, as the Black Friday sales were great.  Maybe I will swap to ECC ram later, but these parts will work great for this purpose.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/Cx_F9UG5ZN-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/Cx_F9UG5ZN-800.webp 800w&quot;&gt;&lt;img alt=&quot;Big pile of parts in boxes&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/Cx_F9UG5ZN-800.jpeg&quot; width=&quot;800&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;I went with a 8-core, 16-thread 5700X and 128GB of ddr4 3200mhz.  Grabbed the X570 Taichi for all the nvme slots.&lt;/p&gt;
+&lt;p&gt;Also grabbed some Noctua and beQuiet stuff to help my ears.&lt;/p&gt;
+&lt;h2 id=&quot;let-s-build-it&quot; tabindex=&quot;-1&quot;&gt;Let&#39;s build it: &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/christmas-homelab-update/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Here&#39;s what she looks like empty.  You get 3x 120mm fans up front and 2x 60mm fans out back, with a support bar in the middle that you can mount about 3 drives to the underside of.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/RasNZV5KRV-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/RasNZV5KRV-600.webp 600w&quot;&gt;&lt;img alt=&quot;Empty case with fans&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/RasNZV5KRV-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;I went ahead and ripped all that out and installed the good fans.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/fGkDK7VAZk-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/fGkDK7VAZk-600.webp 600w&quot;&gt;&lt;img alt=&quot;Good fans installed&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/fGkDK7VAZk-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Installing the motherboard, PSU, and heatsink went well.  My wife took over and completed some of this part.&lt;/p&gt;
+&lt;p&gt;My dog also brought us a rock incase we get super mad and need to smash something:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/MHXcf7itr8-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/MHXcf7itr8-800.webp 800w&quot;&gt;&lt;img alt=&quot;Helper brought a rock&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/MHXcf7itr8-800.jpeg&quot; width=&quot;800&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;I removed the metal plate covering up the m.2 slots and southbridge stuff.  I installed both 4tb nvme ssds from the Thinkstations here for the ZFS mirror that will store the VMs.  I also installed a 256gb nvme ssd in the 3rd slot for the boot drive.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/t7kjbYx1Bl-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/t7kjbYx1Bl-800.webp 800w&quot;&gt;&lt;img alt=&quot;Heatsink, board, psu&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/t7kjbYx1Bl-800.jpeg&quot; width=&quot;800&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;installing-drives&quot; tabindex=&quot;-1&quot;&gt;Installing drives: &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/christmas-homelab-update/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Next, I installed the 4x 12tb spinning disks.  **This part sucked.&lt;/p&gt;
+&lt;p&gt;The drives go in this little cage here.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/SINgIToIRh-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/SINgIToIRh-600.webp 600w&quot;&gt;&lt;img alt=&quot;Drives in cage&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/SINgIToIRh-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/kuYKKnYF7n-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/kuYKKnYF7n-600.webp 600w&quot;&gt;&lt;img alt=&quot;Drives in cage 2&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/kuYKKnYF7n-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;**Can you see what&#39;s about to become a huge problem?&lt;/p&gt;
+&lt;p&gt;There is absolutely no room between the drive cage and either the fans in front of it or the PSU connectors behind it.&lt;/p&gt;
+&lt;p&gt;Here&#39;s what it looks like with no fan installed and no PSU cables connected:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/hPMnLDVDDJ-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/hPMnLDVDDJ-600.webp 600w&quot;&gt;&lt;img alt=&quot;No space&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/hPMnLDVDDJ-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/wsZyVW5eV_-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/wsZyVW5eV_-600.webp 600w&quot;&gt;&lt;img alt=&quot;No space 2&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/wsZyVW5eV_-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;You&#39;ll need a super long screwdriver to reach screws at the bottom of the drive cage:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/XW9VnoI2EN-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/XW9VnoI2EN-600.webp 600w&quot;&gt;&lt;img alt=&quot;No space 3&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/XW9VnoI2EN-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;After getting it all installed and working, I had one drive in the ZFS pool showing as dead or dying.&lt;/p&gt;
+&lt;p&gt;Upon ripping it all back apart, I realized that the sata cable &lt;em&gt;&lt;strong&gt;at the bottom of the whole drive stack&lt;/strong&gt;&lt;/em&gt; had been yanked out!&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/P2iFgdZAXD-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/P2iFgdZAXD-600.webp 600w&quot;&gt;&lt;img alt=&quot;Loose cable&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/P2iFgdZAXD-600.jpeg&quot; width=&quot;600&quot; height=&quot;799&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;That was a huge pain the butt to reinstall.  Next time, I will remember to wait for the jonsbo N5 to come out.&lt;/p&gt;
+&lt;p&gt;I went ahead and threw my old Nvidia 1070Ti in here for now.  At this point, I only had to wait on a $1.29 piece of stamped metal to get here from China -- a full height bracket for my 10 gig SFP nic:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/ZsCy601bD1-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/ZsCy601bD1-800.webp 800w&quot;&gt;&lt;img alt=&quot;Finished&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/ZsCy601bD1-800.jpeg&quot; width=&quot;800&quot; height=&quot;570&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Never bolt the chassis cover back on without testing it first!  Feast your eyes on the server RGB:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/ruwmpoYTQA-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/ruwmpoYTQA-600.webp 600w&quot;&gt;&lt;img alt=&quot;RGB&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/ruwmpoYTQA-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;teach-new-server-about-its-ancestors&quot; tabindex=&quot;-1&quot;&gt;Teach new server about its ancestors &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/christmas-homelab-update/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I started learning all of this server stuff on a bunch of e-waste.  I upgraded from pure trash to semi trash, collecting Thinkpads and Thinkstations along the way.  I wanted to keep the Thinkspirit with this build, so I slapped a badge on the new server:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/DmXRFTAG2f-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/DmXRFTAG2f-800.webp 800w&quot;&gt;&lt;img alt=&quot;Stickers and emblems&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/DmXRFTAG2f-800.jpeg&quot; width=&quot;800&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Now it&#39;s finished!&lt;/strong&gt;  I kept the x270 around for periodic backups and other random things --&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/fzRVrOOzwK-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/fzRVrOOzwK-600.webp 600w&quot;&gt;&lt;img alt=&quot;New setup&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/fzRVrOOzwK-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;8c16t AMD 5700X
+128gb ddr4 3200
+256gb nvme boot drive
+2x 4tb nvme ZFS mirror VM storage
+4x 12tb hdd ZFS pool
+4tb sata ssd L2Arc / slog
+nvidia 1070Ti&lt;/p&gt;
+&lt;p&gt;Not a bad build!  I think I will get plenty of learnings out of this machine over the next couple of years.&lt;/p&gt;
+&lt;p&gt;Now I&#39;m off to go try and break it.&lt;/p&gt;
+&lt;p&gt;Happy homelabbing friends!&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/1oJKjK-X0I-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/1oJKjK-X0I-800.webp 800w&quot;&gt;&lt;img alt=&quot;Cosplaying as a Sysadmin&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/1oJKjK-X0I-800.jpeg&quot; width=&quot;800&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title>Opnsense High(er) Availability</title>

@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Christmas homelab update</title>
+		<meta name="description" content="Building a new server and decommissioning the old ones">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="stinky.blog">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="stinky.blog">
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">stinky.blog</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Christmas homelab update</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2024-12-26">26 December 2024</time></li>
+	<li><a href="/tags/homelab/" class="post-tag">homelab</a>, </li>
+	<li><a href="/tags/proxmox/" class="post-tag">proxmox</a>, </li>
+	<li><a href="/tags/server/" class="post-tag">server</a>, </li>
+	<li><a href="/tags/zfs/" class="post-tag">zfs</a></li>
+</ul>
+
+<p>Hi blog!  It's been a minute.  2024 zoomed by, but it was a great year for me.  Landed my dream job, made some progress in the computer science degree, and found some great new friendships.  I wish the same good fortune to anyone reading this.</p>
+<p>The homelab has been rock solid, chugging away for the past year without any hiccups.  Recovered from a week-long power outage after hurricane Helene with no issues.  My most-used services over the past few months have been jellyfin, satisfactory game server, firefly finance, and a VM I use for practicing databases.  I had fun with a remote gaming VM as well, with GPU passthrough and sunlight/moonlight to my hacked Switch.  I'm also still using my guacamole server a decent amount for remoting into everything via web browser.  I should have written posts about some of that stuff!</p>
+<p>But alas, the itch to upgrade has come again.  This time, my goals are simpler:  I just want to 'downsize' my 3 nodes into one larger, more efficient, more powerful server.  I had enough fun with the little Intel ARC 310 gpu in Proxmox that I want to incorporate a full-size GPU into this build as well, and start dabbling with LLMs.</p>
+<h2 id="so-here-s-where-i-was-last-year" tabindex="-1">So here's where I was last year: <a class="header-anchor" href="#so-here-s-where-i-was-last-year">#</a></h2>
+<p><picture><source type="image/avif" srcset="/img/bthkkEO_Fv-600.avif 600w"><source type="image/webp" srcset="/img/bthkkEO_Fv-600.webp 600w"><img alt="Old cluster" loading="lazy" decoding="async" src="/img/bthkkEO_Fv-600.jpeg" width="600" height="800"></picture></p>
+<p>P330 SFF - i7 8700k, 64gb ddr4, 4tb nvme, 12tb hdd, intel arc 310, 10gbe
+P320 Tower - i7 7700k, 64gb ddr4, 4tb nvme, 4tb sata ssd, 4x 12tb hdd, 10gbe
+Thinkpad x270 - i7 7200u, 16gb ddr4, 512gb nvme, 5gbe</p>
+<p>The p320 housed the big ZFS pool containing the fileserver and the datastore for Proxmox backup server.  In addition to files and backups, it also ran the satisfactory game server and bittorrent server.</p>
+<p>The p330 ran all my VMs and did GPU passthrough stuff.  It also synced the fileserver and backup server datasets to that spare 12tb drive.</p>
+<p>The x270 ran all the containers -- guacamole, caddy, firefly, tailscale, dyndns, and more.</p>
+<h2 id="the-upgrade" tabindex="-1">The upgrade: <a class="header-anchor" href="#the-upgrade">#</a></h2>
+<p>Downsizing all this stuff requires an upsized chassis, yet my shelf is tiny.  Enter the Racksource 4U shallow depth chassis.  I thought this chassis looked pretty cool, and I was too impatient to wait for the jonsbo n5 to come out.  **I will regret not selecting a chassis with hot swap bays later in this post.</p>
+<p>I also chose to use lots of desktop parts for this build, as the Black Friday sales were great.  Maybe I will swap to ECC ram later, but these parts will work great for this purpose.</p>
+<p><picture><source type="image/avif" srcset="/img/Cx_F9UG5ZN-800.avif 800w"><source type="image/webp" srcset="/img/Cx_F9UG5ZN-800.webp 800w"><img alt="Big pile of parts in boxes" loading="lazy" decoding="async" src="/img/Cx_F9UG5ZN-800.jpeg" width="800" height="600"></picture></p>
+<p>I went with a 8-core, 16-thread 5700X and 128GB of ddr4 3200mhz.  Grabbed the X570 Taichi for all the nvme slots.</p>
+<p>Also grabbed some Noctua and beQuiet stuff to help my ears.</p>
+<h2 id="let-s-build-it" tabindex="-1">Let's build it: <a class="header-anchor" href="#let-s-build-it">#</a></h2>
+<p>Here's what she looks like empty.  You get 3x 120mm fans up front and 2x 60mm fans out back, with a support bar in the middle that you can mount about 3 drives to the underside of.</p>
+<p><picture><source type="image/avif" srcset="/img/RasNZV5KRV-600.avif 600w"><source type="image/webp" srcset="/img/RasNZV5KRV-600.webp 600w"><img alt="Empty case with fans" loading="lazy" decoding="async" src="/img/RasNZV5KRV-600.jpeg" width="600" height="800"></picture></p>
+<p>I went ahead and ripped all that out and installed the good fans.</p>
+<p><picture><source type="image/avif" srcset="/img/fGkDK7VAZk-600.avif 600w"><source type="image/webp" srcset="/img/fGkDK7VAZk-600.webp 600w"><img alt="Good fans installed" loading="lazy" decoding="async" src="/img/fGkDK7VAZk-600.jpeg" width="600" height="800"></picture></p>
+<p>Installing the motherboard, PSU, and heatsink went well.  My wife took over and completed some of this part.</p>
+<p>My dog also brought us a rock incase we get super mad and need to smash something:</p>
+<p><picture><source type="image/avif" srcset="/img/MHXcf7itr8-800.avif 800w"><source type="image/webp" srcset="/img/MHXcf7itr8-800.webp 800w"><img alt="Helper brought a rock" loading="lazy" decoding="async" src="/img/MHXcf7itr8-800.jpeg" width="800" height="600"></picture></p>
+<p>I removed the metal plate covering up the m.2 slots and southbridge stuff.  I installed both 4tb nvme ssds from the Thinkstations here for the ZFS mirror that will store the VMs.  I also installed a 256gb nvme ssd in the 3rd slot for the boot drive.</p>
+<p><picture><source type="image/avif" srcset="/img/t7kjbYx1Bl-800.avif 800w"><source type="image/webp" srcset="/img/t7kjbYx1Bl-800.webp 800w"><img alt="Heatsink, board, psu" loading="lazy" decoding="async" src="/img/t7kjbYx1Bl-800.jpeg" width="800" height="600"></picture></p>
+<h2 id="installing-drives" tabindex="-1">Installing drives: <a class="header-anchor" href="#installing-drives">#</a></h2>
+<p>Next, I installed the 4x 12tb spinning disks.  **This part sucked.</p>
+<p>The drives go in this little cage here.</p>
+<p><picture><source type="image/avif" srcset="/img/SINgIToIRh-600.avif 600w"><source type="image/webp" srcset="/img/SINgIToIRh-600.webp 600w"><img alt="Drives in cage" loading="lazy" decoding="async" src="/img/SINgIToIRh-600.jpeg" width="600" height="800"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/kuYKKnYF7n-600.avif 600w"><source type="image/webp" srcset="/img/kuYKKnYF7n-600.webp 600w"><img alt="Drives in cage 2" loading="lazy" decoding="async" src="/img/kuYKKnYF7n-600.jpeg" width="600" height="800"></picture></p>
+<p>**Can you see what's about to become a huge problem?</p>
+<p>There is absolutely no room between the drive cage and either the fans in front of it or the PSU connectors behind it.</p>
+<p>Here's what it looks like with no fan installed and no PSU cables connected:</p>
+<p><picture><source type="image/avif" srcset="/img/hPMnLDVDDJ-600.avif 600w"><source type="image/webp" srcset="/img/hPMnLDVDDJ-600.webp 600w"><img alt="No space" loading="lazy" decoding="async" src="/img/hPMnLDVDDJ-600.jpeg" width="600" height="800"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/wsZyVW5eV_-600.avif 600w"><source type="image/webp" srcset="/img/wsZyVW5eV_-600.webp 600w"><img alt="No space 2" loading="lazy" decoding="async" src="/img/wsZyVW5eV_-600.jpeg" width="600" height="800"></picture></p>
+<p>You'll need a super long screwdriver to reach screws at the bottom of the drive cage:</p>
+<p><picture><source type="image/avif" srcset="/img/XW9VnoI2EN-600.avif 600w"><source type="image/webp" srcset="/img/XW9VnoI2EN-600.webp 600w"><img alt="No space 3" loading="lazy" decoding="async" src="/img/XW9VnoI2EN-600.jpeg" width="600" height="800"></picture></p>
+<p>After getting it all installed and working, I had one drive in the ZFS pool showing as dead or dying.</p>
+<p>Upon ripping it all back apart, I realized that the sata cable <em><strong>at the bottom of the whole drive stack</strong></em> had been yanked out!</p>
+<p><picture><source type="image/avif" srcset="/img/P2iFgdZAXD-600.avif 600w"><source type="image/webp" srcset="/img/P2iFgdZAXD-600.webp 600w"><img alt="Loose cable" loading="lazy" decoding="async" src="/img/P2iFgdZAXD-600.jpeg" width="600" height="799"></picture></p>
+<p>That was a huge pain the butt to reinstall.  Next time, I will remember to wait for the jonsbo N5 to come out.</p>
+<p>I went ahead and threw my old Nvidia 1070Ti in here for now.  At this point, I only had to wait on a $1.29 piece of stamped metal to get here from China -- a full height bracket for my 10 gig SFP nic:</p>
+<p><picture><source type="image/avif" srcset="/img/ZsCy601bD1-800.avif 800w"><source type="image/webp" srcset="/img/ZsCy601bD1-800.webp 800w"><img alt="Finished" loading="lazy" decoding="async" src="/img/ZsCy601bD1-800.jpeg" width="800" height="570"></picture></p>
+<p>Never bolt the chassis cover back on without testing it first!  Feast your eyes on the server RGB:</p>
+<p><picture><source type="image/avif" srcset="/img/ruwmpoYTQA-600.avif 600w"><source type="image/webp" srcset="/img/ruwmpoYTQA-600.webp 600w"><img alt="RGB" loading="lazy" decoding="async" src="/img/ruwmpoYTQA-600.jpeg" width="600" height="800"></picture></p>
+<h2 id="teach-new-server-about-its-ancestors" tabindex="-1">Teach new server about its ancestors <a class="header-anchor" href="#teach-new-server-about-its-ancestors">#</a></h2>
+<p>I started learning all of this server stuff on a bunch of e-waste.  I upgraded from pure trash to semi trash, collecting Thinkpads and Thinkstations along the way.  I wanted to keep the Thinkspirit with this build, so I slapped a badge on the new server:</p>
+<p><picture><source type="image/avif" srcset="/img/DmXRFTAG2f-800.avif 800w"><source type="image/webp" srcset="/img/DmXRFTAG2f-800.webp 800w"><img alt="Stickers and emblems" loading="lazy" decoding="async" src="/img/DmXRFTAG2f-800.jpeg" width="800" height="600"></picture></p>
+<p><strong>Now it's finished!</strong>  I kept the x270 around for periodic backups and other random things --</p>
+<p><picture><source type="image/avif" srcset="/img/fzRVrOOzwK-600.avif 600w"><source type="image/webp" srcset="/img/fzRVrOOzwK-600.webp 600w"><img alt="New setup" loading="lazy" decoding="async" src="/img/fzRVrOOzwK-600.jpeg" width="600" height="800"></picture></p>
+<p>8c16t AMD 5700X
+128gb ddr4 3200
+256gb nvme boot drive
+2x 4tb nvme ZFS mirror VM storage
+4x 12tb hdd ZFS pool
+4tb sata ssd L2Arc / slog
+nvidia 1070Ti</p>
+<p>Not a bad build!  I think I will get plenty of learnings out of this machine over the next couple of years.</p>
+<p>Now I'm off to go try and break it.</p>
+<p>Happy homelabbing friends!</p>
+<p><picture><source type="image/avif" srcset="/img/1oJKjK-X0I-800.avif 800w"><source type="image/webp" srcset="/img/1oJKjK-X0I-800.webp 800w"><img alt="Cosplaying as a Sysadmin" loading="lazy" decoding="async" src="/img/1oJKjK-X0I-800.jpeg" width="800" height="600"></picture></p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/blog/opnsense/opnsense-high(er)-availablility/">Opnsense High(er) Availability</a></li>
+</ul>
+
+		</main>
+
+		<footer></footer>
+
+		<!-- Current page: /blog/christmas-homelab-update/ -->
+	</body>
+</html>

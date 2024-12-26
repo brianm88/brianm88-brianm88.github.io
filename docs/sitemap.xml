@@ -182,21 +182,6 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/go/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/golang/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/programming/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/nextcloud/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -208,31 +193,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/lxc/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/qbittorrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/torrent/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/vpn/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/wireguard/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/openvpn/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -253,16 +213,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/cluster-quorum/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/power-consumption/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/cpu-governor/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -292,6 +242,56 @@
 	</url>
 	
 	<url>
+		<loc>https://stinky.blog/tags/go/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/golang/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/programming/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/qbittorrent/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/torrent/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/vpn/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/wireguard/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/openvpn/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/power-consumption/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/cpu-governor/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://stinky.blog/tags/windows-server/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
@@ -312,32 +312,12 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/zfs/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/fileserver/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/snapshots/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/backup-server/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/thinkpad/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://stinky.blog/tags/proxmox-backup-server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/zfs/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -348,6 +328,31 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/thinkstation/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/snapshots/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/thinkpad/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/backup-server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/server/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/fileserver/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -387,7 +392,12 @@
 	</url>
 	
 	<url>
-		<loc>https://stinky.blog/tags/server/</loc>
+		<loc>https://stinky.blog/tags/find/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/linux/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -403,26 +413,6 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/shortcuts/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/find/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/linux/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/man/</loc>
-		<lastmod>2024-03-28</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://stinky.blog/tags/mandb/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -458,6 +448,16 @@
 	
 	<url>
 		<loc>https://stinky.blog/tags/pipe/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/man/</loc>
+		<lastmod>2024-03-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/tags/mandb/</loc>
 		<lastmod>2024-03-28</lastmod>
 	</url>
 	
@@ -529,5 +529,10 @@
 	<url>
 		<loc>https://stinky.blog/blog/opnsense/opnsense-high(er)-availablility/</loc>
 		<lastmod>2024-07-03</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://stinky.blog/blog/christmas-homelab-update/</loc>
+		<lastmod>2024-12-26</lastmod>
 	</url>
 </urlset>
