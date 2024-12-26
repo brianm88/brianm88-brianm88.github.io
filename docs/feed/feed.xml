@@ -21,8 +21,8 @@
 &lt;p&gt;But alas, the itch to upgrade has come again.  This time, my goals are simpler:  I just want to &#39;downsize&#39; my 3 nodes into one larger, more efficient, more powerful server.  I had enough fun with the little Intel ARC 310 gpu in Proxmox that I want to incorporate a full-size GPU into this build as well, and start dabbling with LLMs.&lt;/p&gt;
 &lt;h2 id=&quot;so-here-s-where-i-was-last-year&quot; tabindex=&quot;-1&quot;&gt;So here&#39;s where I was last year: &lt;a class=&quot;header-anchor&quot; href=&quot;https://stinky.blog/blog/christmas-homelab-update/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://stinky.blog/img/bthkkEO_Fv-600.avif 600w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://stinky.blog/img/bthkkEO_Fv-600.webp 600w&quot;&gt;&lt;img alt=&quot;Old cluster&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://stinky.blog/img/bthkkEO_Fv-600.jpeg&quot; width=&quot;600&quot; height=&quot;800&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
-&lt;p&gt;P330 SFF - i7 8700k, 64gb ddr4, 4tb nvme, 12tb hdd, intel arc 310, 10gbe
-P320 Tower - i7 7700k, 64gb ddr4, 4tb nvme, 4tb sata ssd, 4x 12tb hdd, 10gbe
+&lt;p&gt;P330 SFF - i7 8700k, 64gb ddr4, 4tb nvme, 12tb hdd, intel arc 310, 10gbe&lt;br&gt;
+P320 Tower - i7 7700k, 64gb ddr4, 4tb nvme, 4tb sata ssd, 4x 12tb hdd, 10gbe&lt;br&gt;
 Thinkpad x270 - i7 7200u, 16gb ddr4, 512gb nvme, 5gbe&lt;/p&gt;
 &lt;p&gt;The p320 housed the big ZFS pool containing the fileserver and the datastore for Proxmox backup server.  In addition to files and backups, it also ran the satisfactory game server and bittorrent server.&lt;/p&gt;
 &lt;p&gt;The p330 ran all my VMs and did GPU passthrough stuff.  It also synced the fileserver and backup server datasets to that spare 12tb drive.&lt;/p&gt;
